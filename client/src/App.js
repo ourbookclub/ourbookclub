@@ -12,9 +12,9 @@ class App extends Component {
 
   componentDidMount() {
     console.log("Mounted")
-    axios.get("/api/test", (result) => {
-      this.setState({ "result": result })
-    })
+    axios.get("/api/test").then(result => {
+      this.setState({ "result": result.data.correct })
+    });
   }
 
   render() {
