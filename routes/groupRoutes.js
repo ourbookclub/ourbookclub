@@ -19,7 +19,7 @@ module.exports = app => {
         const { addedUserID, groupID } = req.body;
         const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
         if (isMod) {
-            const added = await groupHandler.addUser(addedUserID, zgroupID);
+            const added = await groupHandler.addUser(addedUserID, groupID);
             res.json(added)
         } else {
             //TODO Need to have some sort of display on the front end 
@@ -43,5 +43,9 @@ module.exports = app => {
         //Should take a book chosen from google books and add it to the database
         //After the group is created the mod can add a book to the group
         //This route should also move a book to past books and put a new book in current book
+    });
+
+    app.post(`/api/addpost`, userHandler.isLoggedIn, async (req, res) => {
+
     });
 }
