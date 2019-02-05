@@ -10,7 +10,7 @@ const validateZip = (zipToCheck) => {
         return false;
     } else {
         return true;
-    }
+    };
 };
 
 //This is for updating the user profile once created
@@ -69,4 +69,4 @@ module.exports = {
         // if they aren't redirect them to the home page
         res.redirect(`/`);
     }
-}
+};

@@ -38,6 +38,7 @@ app.get(`/api/test`, (req, res) => {
 
 require(`./routes/apiRoutes`)(app);
 require(`./routes/groupRoutes`)(app);
+require(`./routes/postRoutes`)(app);
 require("./routes/passportRoutes")(app, passport);
 
 // Send every other request to the React app
