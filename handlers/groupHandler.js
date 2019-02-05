@@ -1,20 +1,25 @@
 const db = require(`../models`);
 
-const checkDuplicate = async (checkedField, valueToCheck) => {
-    let checkedValue;
+const checkDuplicate = async (checkedField, groupToSearch, userID) => {
+    let result = false;
+    let searchedGroup;
     switch (checkedField) {
         case `group`:
-            checkedValue = await db.Group.findOne({ name: valueToCheck });
+            searchedGroup = await db.Group.findOne({ name: groupToSearch });
+            //If there is a group with that name return true
+            if (searchedGroup !== null) {
+                result = true;
+            };
         case `userlist`:
-            checkedValue = await db.Group.find({ userlist: { "$in": { _id: valueToCheck } } }); //If the user already exists in the group blank array is returned
+            //Grabs the group that the user is looking to add the user to    
+            searchedGroup = await db.Group.findById(groupToSearch);
+            const isInGroup = await searchedGroup.userlist.filter(user => user._id === userID);
+            if (isInGroup.length > 0) {
+                result = true;
+            };
             break;
     }
-    console.log(checkedValue)
-    if (checkedValue !== null || checkedValue == []) {
-        return true
-    } else {
-        return false
-    }
+    return result;
 }
 
 module.exports = {
@@ -22,6 +27,7 @@ module.exports = {
         //Checks if there is already a group by that name
         //If there is return a bad status code which then can be used to display data to the user
         const isDuplicate = await checkDuplicate(`group`, groupName);
+        //Is true if there is a duplicate
         if (isDuplicate) {
             return 500;
         };
@@ -46,7 +52,7 @@ module.exports = {
     addUser: async (addedUserID, groupID) => {
         //Checks if the user is already added to the group and returns 500 if they are
         //TODO update this so it returns an error message
-        const isDuplicate = await checkDuplicate(`userlist`, addedUserID);
+        const isDuplicate = await checkDuplicate(`userlist`, groupID, addedUserID);
         if (isDuplicate) {
             return 500;
         };
