@@ -3,19 +3,33 @@ const db = require(`../models`);
 const checkDuplicate = async (checkedField, groupToSearch, userID) => {
     let result = false;
     let searchedGroup;
+    //TODO Do something other than log these errors
     switch (checkedField) {
         case `group`:
-            searchedGroup = await db.Group.findOne({ name: groupToSearch });
-            //If there is a group with that name return true
-            if (searchedGroup !== null) {
-                result = true;
+            try {
+                searchedGroup = await db.Group.findOne({ name: groupToSearch });
+                //If there is a group with that name return true
+                if (searchedGroup !== null) {
+                    result = true;
+                };
+            } catch (err) {
+                console.log(err);
             };
+            break;
         case `userlist`:
-            //Grabs the group that the user is looking to add the user to    
-            searchedGroup = await db.Group.findById(groupToSearch);
-            const isInGroup = await searchedGroup.userlist.filter(user => user._id === userID);
-            if (isInGroup.length > 0) {
-                result = true;
+            //Grabs the group that the user is looking to add the user to 
+            try {
+                searchedGroup = await db.Group.findById(groupToSearch);
+            } catch (err) {
+                console.log(err);
+            };
+            try {
+                const isInGroup = await searchedGroup.userlist.filter(user => user._id === userID);
+                if (isInGroup.length > 0) {
+                    result = true;
+                };
+            } catch (err) {
+                console.log(err);
             };
             break;
     }
