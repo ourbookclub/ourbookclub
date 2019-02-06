@@ -1,5 +1,7 @@
 const userHandler = require(`../handlers/userHandler`);
 const groupHandler = require(`../handlers/groupHandler`);
+const bookHandler = require(`../handlers/bookHandler`);
+
 
 module.exports = app => {
     //User adds a new group, fills out a form on the book name & description
@@ -25,6 +27,14 @@ module.exports = app => {
             //TODO Need to have some sort of display on the front end 
             return "You need to be a moderator to add users to the group"
         }
+    });
+
+    app.get(`/api/searchbook/:book`, async (req, res) => {
+        const searchedBook = req.params.book;
+
+        const response = await bookHandler.searchGoogleBook(searchedBook);
+        console.log(response)
+        res.json(response);
     });
 
     app.post(`/api/addbooktodb`, userHandler.isLoggedIn, async (req, res) => {
