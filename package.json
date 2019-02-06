@@ -23,6 +23,16 @@
   },
   "dependencies": {
     "express": "^4.16.3",
-    "if-env": "^1.0.4"
+    "if-env": "^1.0.4",
+    "bcrypt-nodejs": "0.0.3",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^6.2.0",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.6",
+    "passport": "^0.4.0",
+    "passport-facebook": "^3.0.0",
+    "passport-local": "^1.0.0",
+    "passport-twitter": "^1.0.4",
+    "zipcodes": "^8.0.0"
   }
 }
