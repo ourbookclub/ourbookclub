@@ -11,9 +11,13 @@ module.exports = app => {
         const newPost = await postHandler.createPost(req.user._id, groupID, userPost);
         res.json(newPost);
     });
-    app.post(`api/addcomment`, userHandler.isLoggedIn, async (req, res) => {
 
+    app.post(`/api/newcomment`, userHandler.isLoggedIn, async (req, res) => {
+        const { postID, comment } = req.body;
+        const newComment = await postHandler.createComment(req.user._id, postID, comment);
+        res.json(newComment)
     });
+
     //Everything is singular on the backend
     app.get(`/api/getgrouppost/:group`, userHandler.isLoggedIn, async (req, res) => {
         const groupID = req.params.group;
