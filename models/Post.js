@@ -10,11 +10,11 @@ const PostSchema = new Schema({
     title: String,
     text: String,
     isSpoiler: Boolean, //Determines if the post is a spoiler, something the user or admin can check when making it to hide by default
-    comment: {
+    comment: [{
         user: String,
         text: String,
         date: Date,
-    } //Any comments that are attached to the post
+    }] //Any comments that are attached to the post
 })
 
 module.exports = mongoose.model(`Post`, PostSchema);
