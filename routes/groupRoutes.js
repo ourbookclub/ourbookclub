@@ -34,7 +34,6 @@ module.exports = app => {
         const searchedBook = req.params.book;
 
         const response = await bookHandler.searchGoogleBook(searchedBook);
-        console.log(response)
         res.json(response);
     });
 
@@ -70,6 +69,9 @@ module.exports = app => {
         //User adds a book to the group
         //      This splits into two steps, the user searches a book and adds it to the DB
         //      The user adds the book chosen to the DB
+        const { chosenBook } = req.body;
+
+        const savedBook = await bookHandler.saveBookToDB(chosenBook);
     })
 
     app.put(`/api/addbooktogroup`, userHandler.isLoggedIn, async (req, res) => {
