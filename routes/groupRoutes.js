@@ -59,26 +59,28 @@ module.exports = app => {
         res.json(sortedPosts);
     });
 
-    app.post(`/api/addbooktodb`, userHandler.isLoggedIn, async (req, res) => {
+    //TODO CHECK IF USER IS MOD
+    app.post(`/api/addbook`, userHandler.isLoggedIn, async (req, res) => {
         //When the user picks a book from google books, this takes the data and saves it down
+        const { chosenBook, groupID } = req.body;
 
-        //The way it flows
-        //User creates a group
+        const bookForGroup = await bookHandler.queryAndSaveToDB(chosenBook);
 
-        //User adds users to the group
-        //User adds a book to the group
-        //      This splits into two steps, the user searches a book and adds it to the DB
-        //      The user adds the book chosen to the DB
-        const { chosenBook } = req.body;
 
-        const savedBook = await bookHandler.saveBookToDB(chosenBook);
+        //TODO ADD BOOK TO GROUP
+        //First check if the user is a mod
+        //Take their current book and add it to the array of past books
+        //Take the bookForGroup and push it onto the group's current book
+        const updatedGroup = await bookHandler.updateCurrentBook(bookForGroup._id, groupID)
 
-        res.json(savedBook);
+        res.json(updatedGroup);
     })
 
     app.put(`/api/addbooktogroup`, userHandler.isLoggedIn, async (req, res) => {
         //Should take a book chosen from google books and add it to the database
         //After the group is created the mod can add a book to the group
         //This route should also move a book to past books and put a new book in current book
+        const { bookForGroup } = req.body;
+        res.json(bookForGroup);
     });
 }
