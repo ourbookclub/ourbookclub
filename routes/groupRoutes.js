@@ -72,6 +72,8 @@ module.exports = app => {
         const { chosenBook } = req.body;
 
         const savedBook = await bookHandler.saveBookToDB(chosenBook);
+
+        res.json(savedBook);
     })
 
     app.put(`/api/addbooktogroup`, userHandler.isLoggedIn, async (req, res) => {

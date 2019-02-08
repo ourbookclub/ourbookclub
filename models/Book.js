@@ -6,7 +6,6 @@ const Schema = mongoose.Schema;
 const BookSchema = new Schema({
     title: String,
     author: [String],
-    chapter: Number, //All DB items are singular
     pageCount: Number,
     image: String,
     description: String,
