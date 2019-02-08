@@ -1,5 +1,8 @@
 const userHandler = require(`../handlers/userHandler`);
 const groupHandler = require(`../handlers/groupHandler`);
+const bookHandler = require(`../handlers/bookHandler`);
+const postHandler = require(`../handlers/postHandler`);
+
 
 module.exports = app => {
     //User adds a new group, fills out a form on the book name & description
@@ -27,6 +30,35 @@ module.exports = app => {
         }
     });
 
+    app.get(`/api/searchbook/:book`, async (req, res) => {
+        const searchedBook = req.params.book;
+
+        const response = await bookHandler.searchGoogleBook(searchedBook);
+        res.json(response);
+    });
+
+    //Before post gets to here validate that there isn't a blank field
+    app.post(`/api/newpost`, userHandler.isLoggedIn, async (req, res) => {
+        const { groupID, userPost } = req.body;
+
+        const newPost = await postHandler.createPost(req.user._id, groupID, userPost);
+        res.json(newPost);
+    });
+
+    app.post(`/api/newcomment`, userHandler.isLoggedIn, async (req, res) => {
+        const { postID, comment } = req.body;
+        const newComment = await postHandler.createComment(req.user._id, postID, comment);
+        res.json(newComment)
+    });
+
+    //Everything is singular on the backend
+    app.get(`/api/getgrouppost/:group`, userHandler.isLoggedIn, async (req, res) => {
+        const groupID = req.params.group;
+        const groupPosts = await postHandler.getGroupPost(groupID);
+        const sortedPosts = await postHandler.sortPostByDate(groupPosts)
+        res.json(sortedPosts);
+    });
+
     app.post(`/api/addbooktodb`, userHandler.isLoggedIn, async (req, res) => {
         //When the user picks a book from google books, this takes the data and saves it down
 
@@ -37,6 +69,11 @@ module.exports = app => {
         //User adds a book to the group
         //      This splits into two steps, the user searches a book and adds it to the DB
         //      The user adds the book chosen to the DB
+        const { chosenBook } = req.body;
+
+        const savedBook = await bookHandler.saveBookToDB(chosenBook);
+
+        res.json(savedBook);
     })
 
     app.put(`/api/addbooktogroup`, userHandler.isLoggedIn, async (req, res) => {

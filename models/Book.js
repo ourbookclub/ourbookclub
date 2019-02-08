@@ -5,10 +5,11 @@ const Schema = mongoose.Schema;
 //Everything is to be singular
 const BookSchema = new Schema({
     title: String,
-    author: String,
-    pages: Number,
+    author: [String],
+    pageCount: Number,
     image: String,
-    description: String
+    description: String,
+    preview: String
 });
 
 

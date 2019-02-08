@@ -25,15 +25,10 @@ module.exports = {
         return sortedPosts;
     },
     createComment: async (userID, postID, comment) => {
-        console.log(userID, postID, comment);
 
-        const newComment = {
-            user: userID,
-            text: comment,
-            date: Date.now()
-        };
-
-        const postedComment = await db.Post.updateOne({ _id: postID }, { $push: { comment: newComment } });
+        const postedComment = await db.Post.updateOne({ _id: postID }, {
+            $push: { comment: { 'user': userID, 'text': comment, 'date': Date.now() } }
+        });
 
         return postedComment
     }
