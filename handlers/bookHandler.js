@@ -15,21 +15,33 @@ const checkForISBN = (industryIdentifiers) => {
     }
 };
 
-const checkDuplicate = async (fieldToCheck, bookTitle) => {
+const checkDuplicate = async (fieldToCheck, valueToCheck, groupID) => {
     let isDuplicate = false;
     switch (fieldToCheck) {
         case `book`:
             try {
-                const searchedBook = await db.Book.findOne({ title: bookTitle });
+                const searchedBook = await db.Book.findOne({ title: valueToCheck });
                 //If there is a book with that name return true
                 if (searchedBook !== null) {
                     isDuplicate = true;
                 };
             } catch (err) {
                 //TODO Something to show the error
-                console.log(err);
+                console.log(err, `Line 30 Book Handler`);
             };
-        case ``:
+            break;
+        case `currentBook`: //Checks the current book to make sure they aren't adding the same book twice
+            try {
+                const searchedGroup = await db.Group.findById([groupID]);
+                //If there is a book with that name return true
+                if (searchedGroup.currentBook === valueToCheck) {
+                    isDuplicate = true;
+                };
+            } catch (err) {
+                //TODO Something to show the error
+                console.log(err, `Line 41 Book Handler`);
+            }
+            break;
     }
     return await isDuplicate;
 };
@@ -90,14 +102,13 @@ module.exports = {
         };
     },
     updateCurrentBook: async (bookID, groupID) => {
+        console.log(bookID)
         //First grab the current book the group is going through
         const currentGroup = await db.Group.findById({ _id: groupID });
-        console.log(currentGroup);
-
         //If there is no book in there just put the current book they selected into the app
         if (!currentGroup.currentBook) {
             try {
-                const updatedGroup = await db.Group.findByIdAndUpdate({ _id: groupID }, { $set: { currentBook: bookID } }, { new: true })
+                const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { currentBook: bookID } }, { new: true })
                 return updatedGroup;
             } catch (err) {
                 //TODO Add an error message
@@ -106,12 +117,15 @@ module.exports = {
         } else {
             try {
                 //TODO START HERE
-                const isDuplicate = checkDuplicate(`currentBook`, bookID);
+                const isDuplicate = await checkDuplicate(`currentBook`, bookID, groupID);
                 //If current book is not currently a duplicate
+                //Go and update the current book
                 if (!isDuplicate) {
-                    await db.Group.findByIdAndUpdate({ _id: groupID }, { $push: { pastBook: currentGroup.currentBook } });
+                    await db.Group.findByIdAndUpdate([groupID], { $push: { pastBook: currentGroup.currentBook } });
                     const updatedGroup = await db.Group.findByIdAndUpdate({ _id: groupID }, { $set: { currentBook: bookID } }, { new: true });
                     return updatedGroup;
+                } else {
+                    return currentGroup;
                 }
             } catch (err) {
                 //TODO Add an error message

@@ -37,7 +37,7 @@ const checkDuplicate = async (checkedField, groupToSearch, userID) => {
 }
 
 module.exports = {
-    createGroup: async (userID, groupName, groupDescription, currentBook) => {
+    createGroup: async (userID, groupName, groupDescription) => {
         //Checks if there is already a group by that name
         //If there is return a bad status code which then can be used to display data to the user
         const isDuplicate = await checkDuplicate(`group`, groupName);
@@ -53,8 +53,7 @@ module.exports = {
                 isAdmin: true,
                 isMod: true,
                 isBanned: false
-            },
-            currentBook
+            }
         };
         const addedGroup = await db.Group.create(newGroup);
 
@@ -87,10 +86,5 @@ module.exports = {
         //Checks if that user is a mod and returns a boolean
         const isModerator = currentUser.isMod;
         return isModerator;
-    },
-    addNewBook: async (groupID, book) => {
-    },
-    searchForBook: async (book) => {
-        //Searches the database if the book has been saved before by ISBN
     }
 }
