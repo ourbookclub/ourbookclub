@@ -10,6 +10,7 @@ const PostSchema = new Schema({
     title: String,
     text: String,
     isSpoiler: Boolean, //Determines if the post is a spoiler, something the user or admin can check when making it to hide by default
+    benchmark: String,
     comment: [{
         user: String,
         text: String,

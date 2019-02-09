@@ -9,6 +9,7 @@ const GroupSchema = new Schema({
         unique: true
     },
     description: String,
+    genre: [String],
     userlist: [
         {
             _id: String,
@@ -28,7 +29,9 @@ const GroupSchema = new Schema({
     ],
     speed: String,
     currentBook: String, //This is going to be the id of the book which they searched
-    chapterForBook: Number,
+    pageOrChapter: String,
+    totalPageOrChapter: Number,
+    currentBenchmark: Number,
     // Everything is singular
     //Array of books that this group has read in the past
     pastBook: [String]
