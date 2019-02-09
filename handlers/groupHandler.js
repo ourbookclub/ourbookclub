@@ -86,5 +86,23 @@ module.exports = {
         //Checks if that user is a mod and returns a boolean
         const isModerator = currentUser.isMod;
         return isModerator;
+    },
+    setPageOrChapter: async (groupID, pageOrChapter, totalCount) => {
+        //This is hit after they check if the current user trying to make these changes is a mod
+        //Also, should only be hit one time unless they go into the settings and change it
+        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { pageOrChapter: pageOrChapter, totalPageOrChapter: totalCount } }, { new: true })
+        return updatedGroup;
+    },
+    updateBenchmark: async (groupID, nextBenchmark) => {
+        //Checks if the user is trying to set the benchmark higher than the total benchmarks
+        const currentGroup = await db.Group.findById([groupID]);
+
+        if (+nextBenchmark <= +currentGroup.totalPageOrChapter) {
+            const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { currentBenchmark: +nextBenchmark } }, { new: true });
+            return updatedGroup;
+        } else {
+            //TODO Proper error message
+            return { 'error': `Cannot set a benchmark higher than the total benchmarks` };
+        }
     }
 }

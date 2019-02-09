@@ -73,25 +73,40 @@ module.exports = app => {
             res.json(updatedGroup);
         } else {
             //TODO Add something to show if they tried to update a group they weren't a mod for
-            res.json(`Moderator needed to update book`);
+            res.json({ 'error': `Moderator needed to update book` });
             return;
         }
     });
 
     //Adds the amount of pages or chapters to the Club
-    app.put(`/api/addpage/`, userHandler.isLoggedIn, async (req, res) => {
-        const { bookID, pageOrChapter, groupID } = req.body;
+    app.put(`/api/updatepagesetup/`, userHandler.isLoggedIn, async (req, res) => {
+        const { totalCount, pageOrChapter, groupID } = req.body;
 
         //Checks if the user is a mod of the group they're currently trying to update
         const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
         if (isMod) {
-            const updatedGroup = await bookHandler.setPageOrChapter(bookID, pageOrChapter)
+            const updatedGroup = await groupHandler.setPageOrChapter(groupID, pageOrChapter, totalCount)
             res.json(updatedGroup)
         } else {
             //TODO Add something to show if they tried to update a group they weren't a mod for
-            res.json(`Moderator needed to update book`);
-            return;
-        }
+            res.json({ 'error': `Moderator needed to update book` });
+        };
+    });
+
+    app.put(`/api/updatebenchmark`, userHandler.isLoggedIn, async (req, res) => {
+        const { nextBenchmark, groupID } = req.body;
+
+        //TODO Check if the nextBenchmark is submitted as a number either here or before the route is hit
+
+        //Checks if the user is a mod of the group they're currently trying to update
+        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
+        if (isMod) {
+            const updatedGroup = await groupHandler.updateBenchmark(groupID, nextBenchmark)
+            res.json(updatedGroup)
+        } else {
+            //TODO Add something to show if they tried to update a group they weren't a mod for
+            res.json({ 'error': `Moderator needed to update book` });
+        };
 
     });
 }
