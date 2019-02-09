@@ -121,7 +121,7 @@ module.exports = {
                 //Go and update the current book
                 if (!isDuplicate) {
                     await db.Group.findByIdAndUpdate([groupID], { $push: { pastBook: currentGroup.currentBook } });
-                    const updatedGroup = await db.Group.findByIdAndUpdate({ _id: groupID }, { $set: { currentBook: bookID } }, { new: true });
+                    const updatedGroup = await db.Group.findByIdAndUpdate({ _id: groupID }, { $set: { currentBook: bookID, pageCount: 0 } }, { new: true });
                     return updatedGroup;
                 } else {
                     return currentGroup;
@@ -131,5 +131,9 @@ module.exports = {
                 return err;
             };
         };
+    },
+    setPageOrChapter: async (bookID, pageOrChapter) => {
+        console.log(bookID, pageOrChapter)
+        return { 'success': `success` };
     }//Next method goes here
 };
