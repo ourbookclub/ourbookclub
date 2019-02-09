@@ -32,6 +32,13 @@ const checkDuplicate = async (checkedField, groupToSearch, userID) => {
                 console.log(err);
             };
             break;
+        case `benchmark`:
+            //Group to search here is the whole group
+            const benchmarkAlreadyCompleted = await groupToSearch.previousBenchmark.filter(benchmark => benchmark === checkedField);
+            if (benchmarkAlreadyCompleted > 0) {
+                result = true;
+            };
+            break;
     }
     return result;
 }
@@ -97,12 +104,16 @@ module.exports = {
         //Checks if the user is trying to set the benchmark higher than the total benchmarks
         const currentGroup = await db.Group.findById([groupID]);
 
+        const isDuplicate = await checkDuplicate(`benchmark`, currentGroup);
+
         if (+nextBenchmark <= +currentGroup.totalPageOrChapter) {
-            const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { currentBenchmark: +nextBenchmark } }, { new: true });
-            return updatedGroup;
+            await db.Group.findByIdAndUpdate([groupID], { $set: { currentBenchmark: +nextBenchmark } }, { new: true });
+            if (isDuplicate) {
+
+            }
         } else {
             //TODO Proper error message
             return { 'error': `Cannot set a benchmark higher than the total benchmarks` };
-        }
+        };
     }
 }

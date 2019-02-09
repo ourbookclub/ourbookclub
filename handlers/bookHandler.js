@@ -123,7 +123,7 @@ module.exports = {
                 if (!isDuplicate) {
                     await db.Group.findByIdAndUpdate([groupID], { $push: { pastBook: currentGroup.currentBook } });
                     const updatedGroup = await db.Group.findByIdAndUpdate({ _id: groupID },
-                        { $set: { currentBook: bookID, currentBenchmark: 0, pageOrChapter: ``, totalPageOrChapter: 0 } },
+                        { $set: { currentBook: bookID, currentBenchmark: 0, pageOrChapter: ``, totalPageOrChapter: 0, previousBenchmark: [0] } },
                         { new: true });
                     return updatedGroup;
                 } else {
