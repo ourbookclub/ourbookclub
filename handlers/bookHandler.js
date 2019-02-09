@@ -34,7 +34,7 @@ const checkDuplicate = async (fieldToCheck, valueToCheck, groupID) => {
             try {
                 const searchedGroup = await db.Group.findById([groupID]);
                 //If there is a book with that name return true
-                if (searchedGroup.currentBook === valueToCheck) {
+                if (searchedGroup.currentBook == valueToCheck) {
                     isDuplicate = true;
                 };
             } catch (err) {
@@ -102,7 +102,6 @@ module.exports = {
         };
     },
     updateCurrentBook: async (bookID, groupID) => {
-        console.log(bookID)
         //First grab the current book the group is going through
         const currentGroup = await db.Group.findById({ _id: groupID });
         //If there is no book in there just put the current book they selected into the app

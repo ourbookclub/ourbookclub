@@ -66,14 +66,15 @@ module.exports = app => {
 
         const bookForGroup = await bookHandler.queryAndSaveToDB(chosenBook);
 
-
-        //TODO ADD BOOK TO GROUP
-        //First check if the user is a mod
-        //Take their current book and add it to the array of past books
-        //Take the bookForGroup and push it onto the group's current book
-        const updatedGroup = await bookHandler.updateCurrentBook(bookForGroup._id, groupID)
-
-        res.json(updatedGroup);
+        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
+        if (isMod) {
+            const updatedGroup = await bookHandler.updateCurrentBook(bookForGroup._id, groupID);
+            res.json(updatedGroup);
+        } else {
+            //TODO Add something to show if they tried to add a book they weren't a mod for
+            res.json(`Moderator needed to update book`)
+            return
+        }
     })
 
     app.put(`/api/addbooktogroup`, userHandler.isLoggedIn, async (req, res) => {
