@@ -32,6 +32,7 @@ const GroupSchema = new Schema({
     pageOrChapter: String,
     totalPageOrChapter: Number,
     currentBenchmark: Number,
+    previousBenchmark: [Number],
     // Everything is singular
     //Array of books that this group has read in the past
     pastBook: [String]

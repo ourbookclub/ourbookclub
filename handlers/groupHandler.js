@@ -1,6 +1,6 @@
 const db = require(`../models`);
 
-const checkDuplicate = async (checkedField, groupToSearch, userID) => {
+const checkDuplicate = async (checkedField, groupToSearch, userID, nextBenchmark) => {
     let result = false;
     let searchedGroup;
     //TODO Do something other than log these errors
@@ -30,6 +30,14 @@ const checkDuplicate = async (checkedField, groupToSearch, userID) => {
                 };
             } catch (err) {
                 console.log(err);
+            };
+            break;
+        case `benchmark`:
+            //Group to search here is the whole group
+            const benchmarkAlreadyCompleted = await groupToSearch.previousBenchmark.filter(benchmark => benchmark == nextBenchmark);
+            console.log(benchmarkAlreadyCompleted)
+            if (benchmarkAlreadyCompleted.length !== 0) {
+                result = true;
             };
             break;
     }
@@ -74,7 +82,7 @@ module.exports = {
 
         };
         //get the user ID, add them to the array userlist within the group
-        const updatedGroup = await db.Group.update({ _id: groupID }, { $push: { userlist: newUser } }) //Must be an object as we store if they their permissions
+        const updatedGroup = await db.Group.update({ _id: groupID }, { $push: { userlist: newUser } }, { new: true }) //Must be an object as we store if they their permissions
         return updatedGroup;
     },
     checkGroupMod: async (userID, groupID) => {
@@ -97,12 +105,18 @@ module.exports = {
         //Checks if the user is trying to set the benchmark higher than the total benchmarks
         const currentGroup = await db.Group.findById([groupID]);
 
+        const isDuplicate = await checkDuplicate(`benchmark`, currentGroup, ``, currentGroup.currentBenchmark);
         if (+nextBenchmark <= +currentGroup.totalPageOrChapter) {
+            //If this benchmark hasn't been assigned before
+            //We keep track of this have posts associated to it
+            if (!isDuplicate) {
+                await db.Group.findByIdAndUpdate([groupID], { $push: { previousBenchmark: currentGroup.currentBenchmark } });
+            }
             const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { currentBenchmark: +nextBenchmark } }, { new: true });
             return updatedGroup;
         } else {
             //TODO Proper error message
             return { 'error': `Cannot set a benchmark higher than the total benchmarks` };
-        }
+        };
     }
 }
