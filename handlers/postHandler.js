@@ -7,6 +7,7 @@ module.exports = {
             user: userID,
             group: groupID,
             date: Date.now(),
+            benchmark: userPost.benchmark,
             title: userPost.title,
             text: userPost.text,
             isSpoiler: userPost.isSpoiler
