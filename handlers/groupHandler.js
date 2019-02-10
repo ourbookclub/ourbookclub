@@ -82,7 +82,7 @@ module.exports = {
 
         };
         //get the user ID, add them to the array userlist within the group
-        const updatedGroup = await db.Group.update({ _id: groupID }, { $push: { userlist: newUser } }) //Must be an object as we store if they their permissions
+        const updatedGroup = await db.Group.update({ _id: groupID }, { $push: { userlist: newUser } }, { new: true }) //Must be an object as we store if they their permissions
         return updatedGroup;
     },
     checkGroupMod: async (userID, groupID) => {
