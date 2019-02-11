@@ -6,8 +6,8 @@ import axios from "axios";
 class App extends Component {
 
   state = {
-    "test": "is a test",
-    "result": ""
+    // "test": "is a test",
+    // "result": ""
   }
 
   componentDidMount() {
@@ -17,19 +17,21 @@ class App extends Component {
     });
   }
 
+
   render() {
     return (
+
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          {/* <img src={logo} className="App-logo" alt="logo" />
+          <h2>Welcome to React</h2> */}
         </div>
         <p className="App-intro">
           Test value {this.state.test} <br />
           {this.state.result}
         </p>
       </div>
-    );
+    )
   }
 }
 
