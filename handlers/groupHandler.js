@@ -65,28 +65,29 @@ module.exports = {
         };
         const addedGroup = await db.Group.create(newGroup);
 
-        db.Group.update({ name: groupName }, {})
+        //Add the new group to the user who created it
+        await db.User.findByIdAndUpdate([userID], { $push: { grouplist: addedGroup._id } }) //Also saved the group that the user just added to their profile
 
         return addedGroup;
     },
     // Invite other users to the group
     addUser: async (addedUserID, groupID) => {
         //Checks if the user is already added to the group and returns 500 if they are
-        //TODO update this so it returns an error message
         const isDuplicate = await checkDuplicate(`userlist`, groupID, addedUserID);
         if (isDuplicate) {
+            //TODO update this so it returns an error message
             return 500;
         };
         const newUser = {
             _id: addedUserID,
-
         };
         //get the user ID, add them to the array userlist within the group
-        const updatedGroup = await db.Group.update({ _id: groupID }, { $push: { userlist: newUser } }, { new: true }) //Must be an object as we store if they their permissions
+        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $push: { userlist: newUser } }, { new: true }) //Must be an object as we store if they their permissions
+        await db.User.findByIdAndUpdate([addedUserID], { $push: { grouplist: groupID } }) //Also saved the group that the user just added to their profile
+
         return updatedGroup;
     },
     checkGroupMod: async (userID, groupID) => {
-
         //Looks up the group in the database
         const foundGroup = await db.Group.findById([groupID], err => { if (err) { console.log(err) } });
         //Finds the current user
