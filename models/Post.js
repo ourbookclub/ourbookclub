@@ -15,6 +15,7 @@ const PostSchema = new Schema({
         user: String,
         text: String,
         date: Date,
+        _id: String
     }] //Any comments that are attached to the post
 })
 
