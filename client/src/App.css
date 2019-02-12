@@ -22,3 +22,33 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/*-------------------------------------------------------------------
+
+                        1. Preloader
+
+-------------------------------------------------------------------*/
+
+.preloader {
+  background: linear-gradient(145deg, rgb(221, 224, 228), rgb(113, 127, 150));
+  position: absolute;
+  z-index: 9999;
+  height: 100%;
+  width: 100%;
+}
+
+.preloader-circle {
+  text-align: center;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  width: 24px;
+  border: 2px solid rgba(255, 255, 255, .7);
+  border-top: 2px solid rgba(0, 0, 0, .5);
+  border-radius: 50%;
+  animation: rotate 1s infinite linear;
+}
