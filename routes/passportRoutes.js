@@ -9,14 +9,12 @@ module.exports = function (app, passport) {
     //Local Signin / Signup
     app.post(`/signin`, passport.authenticate(`local-signin`, {
         successRedirect: `/`,
-        failureRedirect: `/signin`,
-        failureFlash: true
+        failureRedirect: `/signin`
     }));
 
     app.post(`/signup`, passport.authenticate(`local-signup`, {
         successRedirect: `/`,
-        failureRedirect: `/signup`,
-        failureFlash: true
+        failureRedirect: `/signup`
     }
     ));
 
