@@ -36,8 +36,9 @@ app.get(`/api/test`, (req, res) => {
   res.json({ "correct": "response" });
 });
 
-require(`./routes/apiRoutes`)(app);
 require(`./routes/groupRoutes`)(app);
+require(`./routes/bookRoutes`)(app);
+require(`./routes/userRoutes`)(app);
 require("./routes/passportRoutes")(app, passport);
 
 // Send every other request to the React app

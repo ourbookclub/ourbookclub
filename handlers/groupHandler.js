@@ -110,8 +110,9 @@ module.exports = {
         if (+nextBenchmark <= +currentGroup.totalPageOrChapter) {
             //If this benchmark hasn't been assigned before
             //We keep track of this have posts associated to it
+            const lastBenchmark = currentGroup.currentBenchmark || 0;
             if (!isDuplicate) {
-                await db.Group.findByIdAndUpdate([groupID], { $push: { previousBenchmark: currentGroup.currentBenchmark } });
+                await db.Group.findByIdAndUpdate([groupID], { $push: { previousBenchmark: lastBenchmark } });
             }
             const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { currentBenchmark: +nextBenchmark } }, { new: true });
             return updatedGroup;

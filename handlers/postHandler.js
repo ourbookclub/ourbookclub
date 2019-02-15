@@ -1,4 +1,5 @@
 const db = require(`../models`);
+const uuidv4 = require(`uuid/v4`)
 
 module.exports = {
     createPost: async (userID, groupID, userPost) => {
@@ -26,9 +27,9 @@ module.exports = {
         return sortedPosts;
     },
     createComment: async (userID, postID, comment) => {
-
-        const postedComment = await db.Post.updateOne({ _id: postID }, {
-            $push: { comment: { 'user': userID, 'text': comment, 'date': Date.now() } }
+        const commentID = uuidv4();
+        const postedComment = await db.Post.findByIdAndUpdate([postID], {
+            $push: { comment: { 'user': userID, 'text': comment, 'date': Date.now(), '_id': commentID } }
         });
 
         return postedComment
