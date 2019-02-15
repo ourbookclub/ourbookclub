@@ -4,6 +4,12 @@ const postHandler = require(`../handlers/postHandler`);
 
 
 module.exports = app => {
+    app.get(`/api/getuser/`, userHandler.isLoggedIn, async (req, res) => {
+        const userProfile = await userHandler.getProfile(req.user._id);
+
+        res.json(userProfile);
+    });
+
     //User adds a new group, fills out a form on the book name & description
     //Then adds the current book they're reading
     //THEN hits this route to complete the group
