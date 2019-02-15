@@ -53,9 +53,13 @@ module.exports = {
             return 500;
         };
     },
-    deleteComment: async (commentArray, postID, commentID) => {
-        const arrayAfterDelete = commentArray.filter(comment => comment._id !== commentID);
-        const newPost = await db.Post.findByIdAndUpdate([postID], { $set: { comment: arrayAfterDelete } }, { new: true })
-        return newPost;
+    deleteComment: async (commentArray, postID, commentID, isMod) => {
+        if (isMod || userID === userPost.user) {
+            const arrayAfterDelete = commentArray.filter(comment => comment._id !== commentID);
+            const newPost = await db.Post.findByIdAndUpdate([postID], { $set: { comment: arrayAfterDelete } }, { new: true })
+            return newPost;
+        } else {
+            return 500;
+        }
     }
 }
