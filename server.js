@@ -32,6 +32,13 @@ if (process.env.NODE_ENV === `production`) {
 require('./handlers/passport.js')(passport);
 
 // Define API routes here
+//testing the login, need to configure this for passpost
+app.post("/api/login" , (req, res) => {
+  console.log(req.body) 
+  res.json(true)
+});
+
+
 app.get(`/api/test`, (req, res) => {
   res.json({ "correct": "response" });
 });

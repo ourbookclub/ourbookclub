@@ -1,7 +1,10 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
+// import logo from "./logo.svg";
 import "./App.css";
 import axios from "axios";
+import Landing from "./pages/Landing";
+import Home from "./pages/Home";
+import {BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends Component {
 
@@ -23,8 +26,14 @@ class App extends Component {
 
       <div className="App">
         <div className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2> */}
+          {/* <Header /> */}
+          <Router>
+          <div className= "content">
+          <Route path ="/" component= {Landing} />
+          <Route exact path ="/Home" component={Home} />
+            </div>
+
+          </Router>
         </div>
         <p className="App-intro">
           Test value {this.state.test} <br />
