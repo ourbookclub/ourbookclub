@@ -39,10 +39,10 @@ module.exports = {
         const foundPost = await db.Post.findById([postID]);
         return foundPost;
     },
-    getPostByComment: async (commentID) => {
+    getCommentForPost: async (commentID) => {
         console.log(commentID)
-        const foundComment = await db.Post.find({ 'comment._id': commentID });
-        return foundComment;
+        const foundPost = await db.Post.findOne({ 'comment._id': commentID });
+        return foundPost;
     },
     deletePost: async (userID, userPost, isMod) => {
         if (isMod || userID === userPost.user) {
@@ -53,7 +53,9 @@ module.exports = {
             return 500;
         };
     },
-    deleteComment: async (commentID) => {
-
+    deleteComment: async (commentArray, postID, commentID) => {
+        const arrayAfterDelete = commentArray.filter(comment => comment._id !== commentID);
+        const newPost = await db.Post.findByIdAndUpdate([postID], { $set: { comment: arrayAfterDelete } }, { new: true })
+        return newPost;
     }
 }

@@ -103,14 +103,11 @@ module.exports = app => {
         const { commentID } = req.body;
 
         //Gets the full post data so we can check if the user is either a moderator of the group or the owner of the post
-        const userPost = await postHandler.getPostByComment(commentID);
+        const foundPost = await postHandler.getCommentForPost(commentID);
 
-        res.json(userPost);
-        // const isMod = await groupHandler.checkGroupMod(req.user._id, userPost.group);
+        //Comment ID is the ID of the comment that is to be deleted
+        const newPost = await postHandler.deleteComment(foundPost.comment, foundPost._id, commentID)
 
-        // await postHandler.deletePost(req.user._id, userPost, isMod)
-        // const groupPosts = await postHandler.getAllGroupPost(userPost.group);
-
-        // res.json(groupPosts);
+        res.json(newPost);
     });
 }
