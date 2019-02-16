@@ -49,7 +49,7 @@ class App extends Component {
     };
 
     const response = await axios.get('/getuser/', {
-      params: { username: this.state.email },
+      params: { email: this.state.email },
       headers: { Authorization: `JWT ${accessString}` }
     });
     this.setState({
@@ -99,44 +99,3 @@ class App extends Component {
 }
 
 export default App;
-
-
-// class App extends Component {
-
-//   state = {
-//     // "test": "is a test",
-//     // "result": ""
-//   }
-
-//   componentDidMount() {
-//     console.log("Mounted")
-//     axios.get("/api/test").then(result => {
-//       this.setState({ "result": result.data.correct })
-//     });
-//   }
-
-
-//   render() {
-//     return (
-
-//       <div className="App">
-//         <div className="App-header">
-//           {/* <Header /> */}
-//           <Router>
-//           <div className= "content">
-//           <Route path ="/" component= {Landing} />
-//           <Route exact path ="/Home" component={Home} />
-//             </div>
-
-//           </Router>
-//         </div>
-//         <p className="App-intro">
-//           Test value {this.state.test} <br />
-//           {this.state.result}
-//         </p>
-//       </div>
-//     )
-//   }
-// }
-
-
