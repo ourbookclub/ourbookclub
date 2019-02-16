@@ -8,7 +8,7 @@ module.exports = function (app, passport) {
 
     app.get(`/signout`, function (req, res) {
         req.logout();
-        res.redirect(`/`);
+        res.status(200);
     });
 
     //Local Signin / Signup
