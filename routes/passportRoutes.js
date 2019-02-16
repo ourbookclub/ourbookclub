@@ -16,11 +16,12 @@ module.exports = function (app, passport) {
         passport.authenticate(`local-signup`, (err, user, info) => {
             if (err) {
                 console.log(err);
+                res.status(500)
             };
             //If there was no message defined
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.status(500).send(info.message);
             } else {
                 //TODO Break this out into its own file
                 req.logIn(user, async  err => {
@@ -52,10 +53,11 @@ module.exports = function (app, passport) {
             if (err) {
                 //TODO Better error handing
                 console.log(err);
+                res.status(500);
             }
             if (info != undefined) {
                 console.log(info.message);
-                res.send(info.message);
+                res.status(500).send(info.message);
             } else {
                 console.log(user)
                 req.logIn(user, async err => {
