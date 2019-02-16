@@ -3,6 +3,9 @@ import {Redirect} from "react-router-dom"
 import "./style.css";
 // import Home from "../Home"
 import axios from "axios";
+import 'spectre.css/dist/spectre.min.css';
+import 'spectre.css/dist/spectre-icons.css';
+import './index.css';
 
 export default class Landing extends Component {
 state= {
