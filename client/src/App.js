@@ -1,17 +1,17 @@
 import React, { Component } from "react";
 // import logo from "./logo.svg";
-import "./App.css";
+import "./App";
 import axios from "axios";
 // import Landing from "./pages/Landing";
 // import Home from "./pages/Home";
 // import {BrowserRouter as Router, Route } from "react-router-dom";
 // components
 import { Route, Link } from 'react-router-dom'
-import Signup from './components/sign-up'
-import LoginForm from './components/login-form'
-import Navbar from './components/navbar'
+import Signup from './componenets/sign-up'
+import LoginForm from './componenets/login-form'
+import Navbar from './componenets/navbar'
 import Home from './componenets/home'
-
+//adding a comment hoping it will help merge on github
 class App extends Component {
   constructor() {
     super()
@@ -85,7 +85,7 @@ class App extends Component {
   }
 }
 
-
+export default App;
 
 
 // class App extends Component {
@@ -126,4 +126,4 @@ class App extends Component {
 //   }
 // }
 
-export default App;
+
