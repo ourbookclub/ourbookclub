@@ -1,3 +1,8 @@
+const db = require(`../models`);
+require(`dotenv`).config();
+const jwtSecret = process.env.JWT_SECRET;
+const jwt = require('jsonwebtoken')
+
 //This file is for the post routes to hold the passport login and signin functionality
 module.exports = function (app, passport) {
 
@@ -7,16 +12,91 @@ module.exports = function (app, passport) {
     });
 
     //Local Signin / Signup
-    app.post(`/signin`, passport.authenticate(`local-signin`, {
-        successRedirect: `/`,
-        failureRedirect: `/signin`
-    }));
+    app.post(`/signup`, (req, res, next) => {
+        passport.authenticate(`local-signup`, (err, user, info) => {
+            if (err) {
+                console.log(err);
+            };
+            //If there was no message defined
+            if (info != undefined) {
+                console.log(info.message);
+                res.send(info.message);
+            } else {
+                //TODO Break this out into its own file
+                req.logIn(user, async  err => {
+                    const profileField = {
+                        firstname: req.body.firstname,
+                        lastname: req.body.lastname,
+                        username: req.body.username,
+                        email: req.body.email,
+                        zip: req.body.zip
+                    };
 
-    app.post(`/signup`, passport.authenticate(`local-signup`, {
-        successRedirect: `/`,
-        failureRedirect: `/signup`
-    }
-    ));
+                    //Save the rest of the user profile outside of the auth
+                    await db.User.findOneAndUpdate({ 'local.email': profileField.email },
+                        { $set: { 'local.firstname': profileField.firstname, 'local.lastname': profileField.lastname, 'local.username': profileField.username, 'local.zip': profileField.zip } },
+                        { new: true });
+                    const token = jwt.sign({ id: user.email }, jwtSecret);
+                    res.status(200).send({
+                        auth: true,
+                        token: token,
+                        message: 'Signup Successful'
+                    });
+                })
+            };
+        })(req, res, next);
+    });
+
+    app.post(`/signin`, (req, res, next) => {
+        passport.authenticate(`local-signin`, (err, user, info) => {
+            if (err) {
+                //TODO Better error handing
+                console.log(err);
+            }
+            if (info != undefined) {
+                console.log(info.message);
+                res.send(info.message);
+            } else {
+                console.log(user)
+                req.logIn(user, async err => {
+                    console.log(user)
+                    const foundUser = await db.User.findOne({ 'local.email': user.email });
+                    const token = jwt.sign({ id: user.email }, jwtSecret);
+                    res.status(200).send({
+                        auth: true,
+                        token: token,
+                        message: 'Signin Successful',
+                        username: foundUser.local.username,
+                        email: foundUser.local.email,
+                        firstname: foundUser.local.firstname,
+                        lastname: foundUser.local.lastname,
+                    });
+                });
+            };
+        })(req, res, next);
+    });
+
+    app.get(`/getuser`, (req, res, next) => {
+        passport.authenticate(`jwt`, { session: false }, (err, user, info) => {
+            if (err) {
+                console.log(err);
+            };
+            if (info != undefined) {
+                console.log(info.message);
+                res.send(info.message);
+            } else {
+                console.log('User found');
+                res.status(200).send({
+                    auth: true,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    username: user.username,
+                    message: 'User found successfully'
+                });
+            };
+        })(req, res, next);
+    });
 
     //Facebook
     app.get(`/auth/facebook`, passport.authenticate(`facebook`, {

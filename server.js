@@ -7,15 +7,18 @@ require(`dotenv`).config();
 //Setting up passport
 const passport = require(`passport`);
 const session = require(`express-session`);
-const cookieParser = require('cookie-parser');
+const cookieParser = require(`cookie-parser`);
+const bodyParser = require(`body-parser`);
+const Cors = require(`cors`);
 
 //Setting up mongoose
 const mongoose = require(`mongoose`);
 const MONGODB_URI = process.env.MONGODB_URI || `mongodb://localhost/bookClub`;
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(Cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(cookieParser());
 
 //Setting up passport with express
@@ -33,8 +36,8 @@ require('./handlers/passport.js')(passport);
 
 // Define API routes here
 //testing the login, need to configure this for passpost
-app.post("/api/login" , (req, res) => {
-  console.log(req.body) 
+app.post("/api/login", (req, res) => {
+  console.log(req.body)
   res.json(true)
 });
 

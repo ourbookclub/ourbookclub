@@ -2,17 +2,17 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom'
 import axios from 'axios'
 
-class LoginForm extends Component {
+class SigninForm extends Component {
     constructor() {
         super()
         this.state = {
-            username: '',
+            email: '',
             password: '',
             redirectTo: null
         }
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
-  
+
     }
 
     handleChange(event) {
@@ -26,8 +26,8 @@ class LoginForm extends Component {
         console.log('handleSubmit')
 
         axios
-            .post('/user/login', {
-                username: this.state.username,
+            .post('/signin', {
+                email: this.state.email,
                 password: this.state.password
             })
             .then(response => {
@@ -37,7 +37,12 @@ class LoginForm extends Component {
                     // update App.js state
                     this.props.updateUser({
                         loggedIn: true,
-                        username: response.data.username
+                        username: response.data.username,
+                        firstname: response.data.firstname,
+                        lastname: response.data.lastname,
+                        email: response.data.email,
+                        isLoading: false,
+                        error: false,
                     })
                     // update the state to redirect to home
                     this.setState({
@@ -47,7 +52,7 @@ class LoginForm extends Component {
             }).catch(error => {
                 console.log('login error: ')
                 console.log(error);
-                
+
             })
     }
 
@@ -61,15 +66,15 @@ class LoginForm extends Component {
                     <form className="form-horizontal">
                         <div className="form-group">
                             <div className="col-1 col-ml-auto">
-                                <label className="form-label" htmlFor="username">Username</label>
+                                <label className="form-label" htmlFor="email">Email:</label>
                             </div>
                             <div className="col-3 col-mr-auto">
                                 <input className="form-input"
                                     type="text"
-                                    id="username"
-                                    name="username"
-                                    placeholder="Username"
-                                    value={this.state.username}
+                                    id="email"
+                                    name="email"
+                                    placeholder="email"
+                                    value={this.state.email}
                                     onChange={this.handleChange}
                                 />
                             </div>
@@ -92,7 +97,7 @@ class LoginForm extends Component {
                             <div className="col-7"></div>
                             <button
                                 className="btn btn-primary col-1 col-mr-auto"
-                               
+
                                 onClick={this.handleSubmit}
                                 type="submit">Login</button>
                         </div>
@@ -103,4 +108,4 @@ class LoginForm extends Component {
     }
 }
 
-export default LoginForm
+export default SigninForm

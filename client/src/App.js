@@ -8,7 +8,7 @@ import axios from "axios";
 // components
 import { Route, Link } from 'react-router-dom'
 import Signup from './componenets/sign-up'
-import LoginForm from './componenets/login-form'
+import SigninForm from './componenets/signin-form'
 import Navbar from './componenets/navbar'
 import Home from './componenets/home'
 //adding a comment hoping it will help merge on github
@@ -17,7 +17,13 @@ class App extends Component {
     super()
     this.state = {
       loggedIn: false,
-      username: null
+      email: '',
+      firstname: '',
+      lastname: '',
+      username: '',
+      isLoading: false,
+      error: false,
+      zip: ''
     }
 
     this.getUser = this.getUser.bind(this)
@@ -29,35 +35,40 @@ class App extends Component {
     this.getUser()
   }
 
-  updateUser (userObject) {
+  updateUser(userObject) {
     this.setState(userObject)
   }
 
-  getUser() {
-    axios.get('/user/').then(response => {
-      console.log('Get user response: ')
-      console.log(response.data)
-      if (response.data.user) {
-        console.log('Get User: There is a user saved in the server session: ')
+  async getUser() {
+    let accessString = localStorage.getItem('JWT');
+    if (accessString === null) {
+      this.setState({
+        isLoading: false,
+        error: true
+      });
+    };
 
-        this.setState({
-          loggedIn: true,
-          username: response.data.user.username
-        })
-      } else {
-        console.log('Get user: no user');
-        this.setState({
-          loggedIn: false,
-          username: null
-        })
-      }
+    const response = await axios.get('/getuser/', {
+      params: { username: this.state.email },
+      headers: { Authorization: `JWT ${accessString}` }
+    });
+    this.setState({
+      firstname: response.data.firstname,
+      lastname: response.data.lastname,
+      email: response.data.email,
+      username: response.data.username,
+      password: response.data.password,
+      zip: response.data.zip,
+      isLoading: false,
+      error: false,
     })
+
   }
 
   render() {
     return (
       <div className="App">
-   
+
         <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
         {/* greet user if logged in: */}
         {this.state.loggedIn &&
@@ -68,16 +79,16 @@ class App extends Component {
           exact path="/"
           component={Home} />
         <Route
-          path="/login"
+          path="/signin"
           render={() =>
-            <LoginForm
+            <SigninForm
               updateUser={this.updateUser}
             />}
         />
         <Route
           path="/signup"
           render={() =>
-            <Signup/>}
+            <Signup />}
         />
 
       </div>
