@@ -52,6 +52,7 @@ class App extends Component {
       params: { email: this.state.email },
       headers: { Authorization: `JWT ${accessString}` }
     });
+    console.log(response)
     this.setState({
       firstname: response.data.firstname,
       lastname: response.data.lastname,

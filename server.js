@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //Setting up passport with express
-app.use(session({ secret: `First Blood` })); // Session Secret
+app.use(session({ secret: `ATLUS` })); // Session Secret
 app.use(passport.initialize());
 app.use(passport.session()); // Persistent Login Sessions
 
