@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { withFirebase } from '../Firebase';
-import * as Routes from '../../constants/routes';
+import { withFirebase } from './Firebase';
+import * as Routes from '../constants/routes';
 import { compose } from 'recompose';
 
 const inputStyle = {
@@ -35,67 +35,25 @@ class SignUpFormBase extends Component {
     constructor(props) {
         super(props);
         this.state = { ...initialState };
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
 
     handleSubmit = event => {
         event.preventDefault();
 
-        const { username, email, password, firstname, lastname, error } = this.state;
+        const { username, email, password, firstname, lastname } = this.state;
 
-        this.props.firebase
+        return this.props.firebase
             .doCreateUserWithEmailAndPassword(email, password)
             .then(authUser => {
                 //The User has been successfully authenticated, clear this component state and redirect them to the home page
+                console.log(authUser)
                 this.setState({ ...initialState });
-                this.props.history.push(Routes.home)
+                this.props.history.push('/')
             })
             .catch(error => {
+                console.log(error)
                 this.setState({ error });
             });
-
-        event.preventDefault();
-
-        //request to server to add a new username/password
-        // axios.post('/signup/', {
-        //     email: this.state.email,
-        //     password: this.state.password,
-        //     username: this.state.username,
-        //     firstname: this.state.firstname,
-        //     lastname: this.state.lastname,
-        //     zip: this.state.zip
-        // })
-        //     .then(response => {
-        //         console.log(response)
-        //         if (!response.data.err) {
-        //             this.props.updateUser({
-        //                 loggedIn: true,
-        //                 email: this.state.email,
-        //                 username: this.state.username,
-        //                 firstname: this.state.firstname,
-        //                 lastname: this.state.lastname,
-        //                 isLoading: false,
-        //                 error: false,
-        //             });
-        //             // update the state to redirect to home
-        //             this.setState({
-        //                 redirectTo: '/'
-        //             });
-
-        //             console.log('successful signup');
-        //             this.setState({ //redirect to signin page
-        //                 redirectTo: '/'
-        //             });
-        //         } else {
-        //             console.log('email already taken');
-        //         };
-        //     }).catch(error => {
-        //         console.log('signup error: ');
-        //         console.log(error);
-
-        //     });
     };
 
     handleChange = event => {
@@ -117,8 +75,10 @@ class SignUpFormBase extends Component {
         return (
             <div className="SignupForm">
                 <br />
+                {/* If there's an error with signup then display the error */}
                 {error && <p>{error.message}</p>}
-                <form className="form-horizontal">
+
+                <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
                             <label className="form-label" htmlFor="email" style={labelStyle}>Email: </label>
@@ -221,7 +181,6 @@ class SignUpFormBase extends Component {
                         <button
                             disabled={isInvalid}
                             className="btn btn-primary col-1 col-mr-auto"
-                            onClick={this.handleSubmit}
                             type="submit"
                         >Sign up</button>
                     </div>
@@ -236,7 +195,7 @@ const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
 
 const SignUpLink = () => (
     <p>
-        Don't have an account? <Link to='/signup'>Sign Up</Link>
+        Don't have an account? <Link to={Routes.signup}>Sign Up</Link>
     </p>
 );
 

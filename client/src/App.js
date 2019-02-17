@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import "./App";
-import axios from "axios";
+import * as Routes from './constants/routes';
 // components
 import { Route, BrowserRouter } from 'react-router-dom'
 import SignUpPage from './componenets/signup'
-import Signin from './componenets/signin'
+import SignInPage from './componenets/signin'
 import Navbar from './componenets/navbar'
 import Home from './componenets/home'
 //adding a comment hoping it will help merge on github
@@ -45,14 +45,14 @@ class App extends Component {
             exact path="/"
             component={Home} />
           <Route
-            path="/signin"
+            path={Routes.signin}
             render={() =>
-              <Signin
+              <SignInPage
                 updateUser={this.updateUser}
               />}
           />
           <Route
-            path="/signup"
+            path={Routes.signup}
             render={() =>
               <SignUpPage
                 updateUser={this.updateUser}

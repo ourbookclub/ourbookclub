@@ -1,119 +1,113 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'recompose';
 
-class Signin extends Component {
-    constructor() {
-        super()
-        this.state = {
-            email: '',
-            password: '',
-            redirectTo: null
-        }
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+import { SignUpLink } from './signup';
+import { withFirebase } from './Firebase';
+import * as Routes from '../constants/routes';
 
+const SignInPage = () => (
+    < div >
+        <h3>SignIn</h3>
+        <SignInForm />
+        <SignUpLink />
+    </div >
+);
+
+const initialState = {
+    email: '',
+    password: '',
+    error: null
+};
+
+class SignInFormBase extends Component {
+    constructor(props) {
+        super(props)
+        this.state = { ...initialState }
     }
 
-    handleChange(event) {
+    handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
         })
     }
 
-    handleSubmit(event) {
+    handleSubmit = event => {
         event.preventDefault()
-        console.log('handleSubmit')
 
-        axios
-            .post('/signin', {
-                email: this.state.email,
-                password: this.state.password
-            })
-            .then(response => {
-                console.log('signin response: ')
-                console.log(response)
-                if (response.status === 200) {
-                    // update App.js state
-                    this.props.updateUser({
-                        loggedIn: true,
-                        username: response.data.username,
-                        firstname: response.data.firstname,
-                        lastname: response.data.lastname,
-                        email: response.data.email,
-                        isLoading: false,
-                        error: false,
-                    })
-                    // update the state to redirect to home
-                    this.setState({
-                        redirectTo: '/'
-                    })
-                }
-            }).catch(error => {
-                console.log('login error: ')
-                console.log(error);
+        const { email, password } = this.state;
 
+        this.props.firebase
+            .doSignInWithEmailAndPassword(email, password)
+            .then(() => {
+                this.setState({ ...initialState });
+                this.props.history.push(Routes.home);
             })
+            .catch(error => {
+                this.setState({ error });
+            });
+
+        event.preventDefault();
     }
 
     render() {
-        if (this.state.redirectTo) {
-            return <Redirect to={{ pathname: this.state.redirectTo }} />
-        } else {
-            return (
-                <div>
-                    <h3>Sign In</h3>
-                    <br />
-                    <form className="form-horizontal">
-                        <div className="form-group">
-                            <div className="col-1 col-ml-auto">
-                                <label className="form-label" htmlFor="email">Email:</label>
-                            </div>
-                            <div className="col-3 col-mr-auto">
-                                <input className="form-input"
-                                    type="text"
-                                    id="email"
-                                    name="email"
-                                    placeholder="email"
-                                    value={this.state.email}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="col-1 col-ml-auto">
-                                <label className="form-label" htmlFor="password">Password: </label>
-                            </div>
-                            <div className="col-3 col-mr-auto">
-                                <input className="form-input"
-                                    placeholder="password"
-                                    type="password"
-                                    name="password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className="form-group ">
-                            <div className="col-7"></div>
-                            <button
-                                className="btn btn-primary col-1 col-mr-auto"
+        const { email, password, error } = this.state;
 
-                                onClick={this.handleSubmit}
-                                type="submit">Login</button>
+        const isInvalid = password === '' || email === '';
+
+        return (
+            <div>
+                <h3>Sign In</h3>
+                <br />
+                {/* If there's an error with sign in then display the error */}
+                {error && <p>{error.message}</p>}
+
+                <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                    <div className="form-group">
+                        <div className="col-1 col-ml-auto">
+                            <label className="form-label" htmlFor="email">Email:</label>
                         </div>
-                    </form>
-                    <div>
-                        Don't have an account?
-                        <Link to="/signup" className="btn btn-link text-secondary">
-                            <button className="btn btn-primary col-1 col-mr-auto">Sign Up</button>
-                        </Link>
+                        <div className="col-3 col-mr-auto">
+                            <input className="form-input"
+                                type="text"
+                                id="email"
+                                name="email"
+                                placeholder="email"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                            />
+                        </div>
                     </div>
-                </div>
-            )
-        }
-    }
-}
+                    <div className="form-group">
+                        <div className="col-1 col-ml-auto">
+                            <label className="form-label" htmlFor="password">Password: </label>
+                        </div>
+                        <div className="col-3 col-mr-auto">
+                            <input className="form-input"
+                                placeholder="password"
+                                type="password"
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                    </div>
+                    <div className="form-group ">
+                        <div className="col-7"></div>
+                        <button
+                            className="btn btn-primary col-1 col-mr-auto"
+                            disabled={isInvalid}
+                            type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
+        );
+    };
+};
 
-export default Signin;
+const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
+
+
+export default SignInPage;
+
+export { SignInForm };
