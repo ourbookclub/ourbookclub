@@ -3,6 +3,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from './Firebase';
 import * as Routes from '../constants/routes';
 import { compose } from 'recompose';
+import { SignInLink } from './signin';
+
 
 const inputStyle = {
     width: '50%',
@@ -27,6 +29,7 @@ const SignUpPage = () => (
     <div>
         <h3>SignUp</h3>
         <SignUpForm />
+        <SignInLink />
     </div>
 );
 
@@ -183,7 +186,7 @@ class SignUpFormBase extends Component {
                             disabled={isInvalid}
                             className="btn btn-primary col-1 col-mr-auto"
                             type="submit"
-                        >Sign up</button>
+                        >Sign Up</button>
                     </div>
                 </form>
             </div>
@@ -196,7 +199,7 @@ const SignUpForm = compose(withRouter, withFirebase)(SignUpFormBase);
 
 const SignUpLink = () => (
     <p>
-        Don't have an account? <Link to={Routes.signup}>Sign Up</Link>
+        Don't have an account? <Link to={Routes.signup}><button className="btn btn-success">Sign Up</button></Link>
     </p>
 );
 

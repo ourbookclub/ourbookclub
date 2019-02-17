@@ -7,6 +7,7 @@ import SignUpPage from './componenets/signup'
 import SignInPage from './componenets/signin'
 import Navbar from './componenets/navbar'
 import Home from './componenets/home'
+
 //adding a comment hoping it will help merge on github
 class App extends Component {
   constructor() {

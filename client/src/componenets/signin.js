@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { SignUpLink } from './signup';
 import { withFirebase } from './Firebase';
 import * as Routes from '../constants/routes';
+
+const inputStyle = {
+    width: '50%',
+    height: '40px'
+}
+const labelStyle = {
+    marginBottom: '0px'
+}
 
 const SignInPage = () => (
     < div >
@@ -57,7 +65,6 @@ class SignInFormBase extends Component {
 
         return (
             <div>
-                <h3>Sign In</h3>
                 <br />
                 {/* If there's an error with sign in then display the error */}
                 {error && <p>{error.message}</p>}
@@ -65,12 +72,12 @@ class SignInFormBase extends Component {
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="email">Email:</label>
+                            <label className="form-label" style={labelStyle} htmlFor="email">Email:</label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
+                                style={inputStyle}
                                 type="text"
-                                id="email"
                                 name="email"
                                 placeholder="email"
                                 value={this.state.email}
@@ -80,10 +87,11 @@ class SignInFormBase extends Component {
                     </div>
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="password">Password: </label>
+                            <label className="form-label" style={labelStyle} htmlFor="password">Password: </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
+                                style={inputStyle}
                                 placeholder="password"
                                 type="password"
                                 name="password"
@@ -107,7 +115,12 @@ class SignInFormBase extends Component {
 
 const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
 
+const SignInLink = () => (
+    <p>
+        Already have an account? <Link to={Routes.signin}><button className="btn btn-success">Sign In</button></Link>
+    </p>
+);
 
 export default SignInPage;
 
-export { SignInForm };
+export { SignInForm, SignInLink };
