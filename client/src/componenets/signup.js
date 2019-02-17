@@ -45,6 +45,7 @@ class SignUpFormBase extends Component {
         return this.props.firebase
             .doCreateUserWithEmailAndPassword(email, password)
             .then(authUser => {
+                //TODO Send to database to make local user
                 //The User has been successfully authenticated, clear this component state and redirect them to the home page
                 console.log(authUser)
                 this.setState({ ...initialState });
