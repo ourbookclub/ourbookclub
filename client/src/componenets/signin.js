@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
-class SigninForm extends Component {
+class Signin extends Component {
     constructor() {
         super()
         this.state = {
@@ -31,7 +32,7 @@ class SigninForm extends Component {
                 password: this.state.password
             })
             .then(response => {
-                console.log('login response: ')
+                console.log('signin response: ')
                 console.log(response)
                 if (response.status === 200) {
                     // update App.js state
@@ -62,7 +63,8 @@ class SigninForm extends Component {
         } else {
             return (
                 <div>
-                    <h4>Login</h4>
+                    <h3>Sign In</h3>
+                    <br />
                     <form className="form-horizontal">
                         <div className="form-group">
                             <div className="col-1 col-ml-auto">
@@ -102,10 +104,16 @@ class SigninForm extends Component {
                                 type="submit">Login</button>
                         </div>
                     </form>
+                    <div>
+                        Don't have an account?
+                        <Link to="/signup" className="btn btn-link text-secondary">
+                            <button className="btn btn-primary col-1 col-mr-auto">Sign Up</button>
+                        </Link>
+                    </div>
                 </div>
             )
         }
     }
 }
 
-export default SigninForm
+export default Signin;

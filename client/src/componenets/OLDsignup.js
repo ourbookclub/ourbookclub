@@ -1,35 +1,45 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import axios from 'axios'
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+
+const inputStyle = {
+	width: '50%',
+	height: '40px'
+}
+const labelStyle = {
+	marginBottom: '0px'
+}
+
+const initialState = {
+	username: '',
+	password: '',
+	confirmPassword: '',
+	email: '',
+	firstname: '',
+	lastname: '',
+	redirectTo: null,
+	error: null
+}
 
 class Signup extends Component {
-	constructor() {
-		super()
-		this.state = {
-			username: '',
-			password: '',
-			confirmPassword: '',
-			email: '',
-			zip: '',
-			firstname: '',
-			lastname: '',
-			redirectTo: null
-		}
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleChange = this.handleChange.bind(this)
+	constructor(props) {
+		super(props)
+		this.state = { ...initialState };
+
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 	}
 
 	handleChange(event) {
-		this.setState({
-			[event.target.name]: event.target.value
-		})
+		this.setState({ [event.target.name]: event.target.value });
 	};
 
 
 	handleSubmit(event) {
-		console.log('sign-up handleSubmit, email: ')
-		console.log(this.state.username)
-		event.preventDefault()
+		event.preventDefault();
+
+		const { username, email, passwordOne, passwordTwo, firstname, lastname, error } = this.state;
 
 		//request to server to add a new username/password
 		axios.post('/signup/', {
@@ -51,41 +61,54 @@ class Signup extends Component {
 						lastname: this.state.lastname,
 						isLoading: false,
 						error: false,
-					})
+					});
 					// update the state to redirect to home
 					this.setState({
 						redirectTo: '/'
-					})
+					});
 
-					console.log('successful signup')
+					console.log('successful signup');
 					this.setState({ //redirect to signin page
 						redirectTo: '/'
-					})
+					});
 				} else {
-					console.log('email already taken')
-				}
+					console.log('email already taken');
+				};
 			}).catch(error => {
-				console.log('signup error: ')
-				console.log(error)
+				console.log('signup error: ');
+				console.log(error);
 
-			})
-	}
+			});
+	};
 
 
 	render() {
+		const { username, email, passwordOne, passwordTwo, firstname, lastname, error } = this.state;
+
+		const isInvalid =
+			passwordOne !== passwordTwo ||
+			passwordOne === '' ||
+			email === '' ||
+			username === '' ||
+			firstname === '' ||
+			lastname === '';
+
 		if (this.state.redirectTo) {
 			return <Redirect to={{ pathname: this.state.redirectTo }} />
 		} else {
 			return (
 				<div className="SignupForm">
-					<h4>Sign up</h4>
+					<h3>Sign up</h3>
+					<br />
+					{error && <p>{error.message}</p>}
 					<form className="form-horizontal">
 						<div className="form-group">
 							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="email">Email: </label>
+								<label className="form-label" htmlFor="email" style={labelStyle}>Email: </label>
 							</div>
 							<div className="col-3 col-mr-auto">
 								<input className="form-input"
+									style={inputStyle}
 									type="text"
 									id="email"
 									name="email"
@@ -98,10 +121,11 @@ class Signup extends Component {
 
 						<div className="form-group">
 							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="password">Password: </label>
+								<label className="form-label" htmlFor="password" style={labelStyle}>Password: </label>
 							</div>
 							<div className="col-3 col-mr-auto">
 								<input className="form-input"
+									style={inputStyle}
 									placeholder="password"
 									type="password"
 									name="password"
@@ -113,10 +137,27 @@ class Signup extends Component {
 
 						<div className="form-group">
 							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="username">Username: </label>
+								<label className="form-label" htmlFor="confirmPassword" style={labelStyle}>Confirm Password: </label>
 							</div>
 							<div className="col-3 col-mr-auto">
 								<input className="form-input"
+									style={inputStyle}
+									placeholder="Confirm Password"
+									type="password"
+									name="confirmPassword"
+									value={this.state.confirmPassword}
+									onChange={this.handleChange}
+								/>
+							</div>
+						</div>
+
+						<div className="form-group">
+							<div className="col-1 col-ml-auto">
+								<label className="form-label" htmlFor="username" style={labelStyle}>Username: </label>
+							</div>
+							<div className="col-3 col-mr-auto">
+								<input className="form-input"
+									style={inputStyle}
 									placeholder="username"
 									type="username"
 									name="username"
@@ -128,10 +169,11 @@ class Signup extends Component {
 
 						<div className="form-group">
 							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="firstname">First Name: </label>
+								<label className="form-label" htmlFor="firstname" style={labelStyle}>First Name: </label>
 							</div>
 							<div className="col-3 col-mr-auto">
 								<input className="form-input"
+									style={inputStyle}
 									placeholder="firstname"
 									type="firstname"
 									name="firstname"
@@ -143,10 +185,11 @@ class Signup extends Component {
 
 						<div className="form-group">
 							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="lastname">Last Name: </label>
+								<label className="form-label" htmlFor="lastname" style={labelStyle}>Last Name: </label>
 							</div>
 							<div className="col-3 col-mr-auto">
 								<input className="form-input"
+									style={inputStyle}
 									placeholder="lastname"
 									type="lastname"
 									name="lastname"
@@ -156,34 +199,28 @@ class Signup extends Component {
 							</div>
 						</div>
 
-						<div className="form-group">
-							<div className="col-1 col-ml-auto">
-								<label className="form-label" htmlFor="zip">Zip: </label>
-							</div>
-							<div className="col-3 col-mr-auto">
-								<input className="form-input"
-									placeholder="zip"
-									type="zip"
-									name="zip"
-									value={this.state.zip}
-									onChange={this.handleChange}
-								/>
-							</div>
-						</div>
 						<div className="form-group ">
 							<div className="col-7"></div>
 							<button
+								disabled={isInvalid}
 								className="btn btn-primary col-1 col-mr-auto"
 								onClick={this.handleSubmit}
 								type="submit"
 							>Sign up</button>
 						</div>
 					</form>
+
+					<div>
+						Have an account?
+                        <Link to="/signin" className="btn btn-link text-secondary">
+							<button className="btn btn-primary col-1 col-mr-auto">Sign In</button>
+						</Link>
+					</div>
 				</div>
 
-			)
-		}
-	}
-}
+			);
+		};
+	};
+};
 
-export default Signup
+export default Signup;

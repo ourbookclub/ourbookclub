@@ -4,9 +4,6 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 require(`dotenv`).config();
 
-//Setting up passport
-const passport = require(`passport`);
-const session = require(`express-session`);
 const cookieParser = require(`cookie-parser`);
 const bodyParser = require(`body-parser`);
 const Cors = require(`cors`);
@@ -21,35 +18,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-//Setting up passport with express
-app.use(session({ secret: `ATLUS` })); // Session Secret
-app.use(passport.initialize());
-app.use(passport.session()); // Persistent Login Sessions
-
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === `production`) {
   app.use(express.static(`client/build`));
 };
 
-//Load Passport Strategies
-require('./handlers/passport.js')(passport);
-
-// Define API routes here
-//testing the login, need to configure this for passpost
-app.post("/api/login", (req, res) => {
-  console.log(req.body)
-  res.json(true)
-});
-
-
-app.get(`/api/test`, (req, res) => {
-  res.json({ "correct": "response" });
-});
-
 require(`./routes/groupRoutes`)(app);
 require(`./routes/bookRoutes`)(app);
 require(`./routes/userRoutes`)(app);
-require("./routes/passportRoutes")(app, passport);
 
 // Send every other request to the React app
 // Define any API routes before this runs
