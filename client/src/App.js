@@ -1,34 +1,34 @@
 import React, { Component } from "react";
-import "./App";
 import * as Routes from './constants/routes';
-// components
-import { Route, BrowserRouter } from 'react-router-dom'
-import SignUpPage from './componenets/signup'
-import SignInPage from './componenets/signin'
-import Navbar from './componenets/navbar'
-import Home from './componenets/home'
+import { Route, BrowserRouter } from 'react-router-dom';
+import SignUpPage from './componenets/SignUp';
+import SignInPage from './componenets/SignIn';
+import NavBar from './componenets/NavBar';
+import Home from './componenets/Home';
+import { withFirebase } from './componenets/Firebase';
+import { AuthUserContext } from './componenets/Session';
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
-  constructor() {
-    super()
-    this.state = {
-      loggedIn: false,
-      email: '',
-      firstname: '',
-      lastname: '',
-      username: '',
-      isLoading: false,
-      error: false,
-      zip: ''
-    }
+  constructor(props) {
+    super(props);
 
-    this.componentDidMount = this.componentDidMount.bind(this)
-  }
+    this.state = {
+      authUser: null
+    };
+  };
 
   componentDidMount() {
+    this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
+      authUser
+        ? this.setState({ authUser })
+        : this.setState({ authUser: null });
+    });
+  }
 
-  };
+  componentWillUnmount() {
+    this.listener();
+  }
 
   render() {
     return (
@@ -36,10 +36,10 @@ class App extends Component {
 
         <div className="App">
 
-          <Navbar updateUser={this.updateUser} loggedIn={this.state.loggedIn} />
+          <NavBar authUser={this.state.authUser} />
           {/* greet user if logged in: */}
-          {this.state.loggedIn &&
-            <p>Join the party, {this.state.username}!</p>
+          {this.state.authUser &&
+            <p>Join the party, {this.state.authUser.email}!</p>
           }
           {/* Routes to different components */}
           <Route
@@ -66,4 +66,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withFirebase(App);

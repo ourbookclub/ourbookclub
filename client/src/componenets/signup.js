@@ -3,7 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from './Firebase';
 import * as Routes from '../constants/routes';
 import { compose } from 'recompose';
-import { SignInLink } from './signin';
+import { SignInLink } from './SignIn';
 
 
 const inputStyle = {
