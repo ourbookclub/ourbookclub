@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from './Firebase';
-import * as Routes from '../constants/routes';
 import { compose } from 'recompose';
+import axios from 'axios';
+
+import * as Routes from '../constants/routes';
 import { SignInLink } from './SignIn';
 
 
@@ -40,24 +42,27 @@ class SignUpFormBase extends Component {
         this.state = { ...initialState };
     }
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
 
         const { username, email, password, firstname, lastname } = this.state;
 
-        return this.props.firebase
-            .doCreateUserWithEmailAndPassword(email, password)
-            .then(authUser => {
-                //TODO Send to database to make local user
-                //The User has been successfully authenticated, clear this component state and redirect them to the home page
-                console.log(authUser)
-                this.setState({ ...initialState });
-                this.props.history.push('/')
-            })
-            .catch(error => {
-                console.log(error)
-                this.setState({ error });
-            });
+        const dbResponse = await axios.post('/api/newuser', { username, email, firstname, lastname });
+
+        if (dbResponse.status === 200) {
+            return this.props.firebase
+                .doCreateUserWithEmailAndPassword(email, password)
+                .then(authUser => {
+                    //TODO Send to database to make local user
+                    //The User has been successfully authenticated, clear this component state and redirect them to the home page
+                    this.setState({ ...initialState });
+                    this.props.history.push('/')
+                })
+                .catch(error => {
+                    console.log(error)
+                    this.setState({ error });
+                });
+        }
     };
 
     handleChange = event => {

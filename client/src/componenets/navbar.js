@@ -5,10 +5,6 @@ import * as Routes from '../constants/routes';
 import SignOutButton from './SignOutButton';
 
 class NavBar extends Component {
-    constructor(props) {
-        super(props);
-
-    };
 
     render() {
         return (

@@ -51,5 +51,9 @@ module.exports = {
     getProfile: async (userID) => {
         const userProfile = await db.User.findById([userID]);
         return userProfile;
+    },
+    saveNewUser: async (newUser) => {
+        const newUserInDB = await db.User.create(newUser);
+        return newUserInDB;
     }
 };
