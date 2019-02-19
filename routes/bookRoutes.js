@@ -29,7 +29,7 @@ module.exports = app => {
         if (isMod) {
             //This function will move the current book into the past book and add the book in chosenBook to the current book
             const updatedGroup = await bookHandler.updateCurrentBook(bookForGroup._id, groupID);
-            res.json(updatedGroup);
+            res.status(200).send(updatedGroup);
         } else {
             //TODO Add something to show if they tried to update a group they weren't a mod for
             res.json({ 'error': `Moderator needed to update book` });

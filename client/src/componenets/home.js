@@ -1,10 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { withAuthorization } from './Session';
 
 class Home extends Component {
-    constructor() {
-        super()
-    }
-
 
     render() {
         const imageStyle = {
@@ -13,11 +10,12 @@ class Home extends Component {
         return (
             <div>
                 <p>It's good to be home</p>
-                <img style={imageStyle} src="../img/1550080499329.png" />
+                <img style={imageStyle} alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
-
     }
 }
 
-export default Home
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(Home);
