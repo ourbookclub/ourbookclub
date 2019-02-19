@@ -1,12 +1,16 @@
 import React, { Component } from "react";
 import * as Routes from './constants/routes';
 import { Route, BrowserRouter } from 'react-router-dom';
+import { withFirebase } from './componenets/Firebase';
+
+// Components
 import SignUpPage from './componenets/SignUp';
 import SignInPage from './componenets/SignIn';
 import NavBar from './componenets/NavBar';
 import Home from './componenets/Home';
-import { withFirebase } from './componenets/Firebase';
-import { AuthUserContext } from './componenets/Session';
+import PasswordReset from './componenets/PasswordReset';
+import PasswordChange from './componenets/PasswordChange';
+import UserProfile from './componenets/UserProfile'
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -48,16 +52,27 @@ class App extends Component {
           <Route
             path={Routes.signin}
             render={() =>
-              <SignInPage
-                updateUser={this.updateUser}
-              />}
+              <SignInPage />}
           />
           <Route
             path={Routes.signup}
             render={() =>
-              <SignUpPage
-                updateUser={this.updateUser}
-              />}
+              <SignUpPage />}
+          />
+          <Route
+            path={Routes.passwordReset}
+            render={() =>
+              <PasswordReset />}
+          />
+          <Route
+            path={Routes.passwordChange}
+            render={() =>
+              <PasswordChange />}
+          />
+          <Route
+            path={Routes.userProfile}
+            render={() =>
+              <UserProfile />}
           />
 
         </div>

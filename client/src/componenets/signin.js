@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 
 import { SignUpLink } from './SignUp';
+import { PasswordResetLink } from './PasswordReset'
 import { withFirebase } from './Firebase';
 import * as Routes from '../constants/routes';
 
@@ -108,6 +109,7 @@ class SignInFormBase extends Component {
                             type="submit">Login</button>
                     </div>
                 </form>
+                <PasswordResetLink />
             </div>
         );
     };
