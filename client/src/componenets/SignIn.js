@@ -32,7 +32,7 @@ const initialState = {
 class SignInFormBase extends Component {
     constructor(props) {
         super(props)
-        this.state = { ...initialState }
+        this.state = { ...initialState };
     }
 
     handleChange = event => {
@@ -48,7 +48,7 @@ class SignInFormBase extends Component {
 
         this.props.firebase
             .doSignInWithEmailAndPassword(email, password)
-            .then(() => {
+            .then(async () => {
                 this.setState({ ...initialState });
                 this.props.history.push(Routes.home);
             })
@@ -70,43 +70,43 @@ class SignInFormBase extends Component {
                 {/* If there's an error with sign in then display the error */}
                 {error && <p>{error.message}</p>}
 
-                <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                    <div className="form-group">
-                        <div className="col-1 col-ml-auto">
-                            <label className="form-label" style={labelStyle} htmlFor="email">Email:</label>
+                <form className='form-horizontal' onSubmit={this.handleSubmit}>
+                    <div className='form-group'>
+                        <div className='col-1 col-ml-auto'>
+                            <label className='form-label' style={labelStyle} htmlFor='email'>Email:</label>
                         </div>
-                        <div className="col-3 col-mr-auto">
-                            <input className="form-input"
+                        <div className='col-3 col-mr-auto'>
+                            <input className='form-input'
                                 style={inputStyle}
-                                type="text"
-                                name="email"
-                                placeholder="email"
+                                type='text'
+                                name='email'
+                                placeholder='email'
                                 value={this.state.email}
                                 onChange={this.handleChange}
                             />
                         </div>
                     </div>
-                    <div className="form-group">
-                        <div className="col-1 col-ml-auto">
-                            <label className="form-label" style={labelStyle} htmlFor="password">Password: </label>
+                    <div className='form-group'>
+                        <div className='col-1 col-ml-auto'>
+                            <label className='form-label' style={labelStyle} htmlFor='password'>Password: </label>
                         </div>
-                        <div className="col-3 col-mr-auto">
-                            <input className="form-input"
+                        <div className='col-3 col-mr-auto'>
+                            <input className='form-input'
                                 style={inputStyle}
-                                placeholder="password"
-                                type="password"
-                                name="password"
+                                placeholder='password'
+                                type='password'
+                                name='password'
                                 value={this.state.password}
                                 onChange={this.handleChange}
                             />
                         </div>
                     </div>
-                    <div className="form-group ">
-                        <div className="col-7"></div>
+                    <div className='form-group '>
+                        <div className='col-7'></div>
                         <button
-                            className="btn btn-primary col-1 col-mr-auto"
+                            className='btn btn-primary col-1 col-mr-auto'
                             disabled={isInvalid}
-                            type="submit">Login</button>
+                            type='submit'>Login</button>
                     </div>
                 </form>
                 <PasswordResetLink />
@@ -119,7 +119,7 @@ const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
 
 const SignInLink = () => (
     <p>
-        Already have an account? <Link to={Routes.signin}><button className="btn btn-success">Sign In</button></Link>
+        Already have an account? <Link to={Routes.signin}><button className='btn btn-success'>Sign In</button></Link>
     </p>
 );
 

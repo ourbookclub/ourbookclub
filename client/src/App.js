@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import * as Routes from './constants/routes';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
+import axios from 'axios';
 
 // Components
 import SignUpPage from './componenets/SignUp';
@@ -18,20 +19,34 @@ class App extends Component {
     super(props);
 
     this.state = {
-      authUser: null
-    };
+      authUser: null,
+      currentUser: null
+    }
   };
 
   componentDidMount() {
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
-      authUser
-        ? this.setState({ authUser })
-        : this.setState({ authUser: null });
+      if (authUser) {
+        this.setState({ authUser });
+        this.isSignedIn(authUser.email);
+      } else {
+        this.setState({ authUser: null, currentUser: null });
+      }
     });
   }
 
   componentWillUnmount() {
     this.listener();
+  };
+
+  isSignedIn = async (email) => {
+    console.log(`working ${email}`)
+    const dbResponse = await axios.get(`/api/getuser/${email}`);
+    const currentUser = {
+      username: dbResponse.data.local.username,
+      _id: dbResponse.data._id
+    }
+    this.setState({ currentUser })
   }
 
   render() {
@@ -42,8 +57,8 @@ class App extends Component {
 
           <NavBar authUser={this.state.authUser} />
           {/* greet user if logged in: */}
-          {this.state.authUser &&
-            <p>Join the party, {this.state.authUser.email}!</p>
+          {this.state.currentUser &&
+            <p>Join the party, {this.state.currentUser.username}!</p>
           }
           {/* Routes to different components */}
           <Route
