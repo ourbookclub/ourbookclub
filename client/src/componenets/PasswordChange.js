@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import { withAuthorization } from './Session';
 
 import { withFirebase } from './Firebase';
 import * as Routes from '../constants/routes';
@@ -95,4 +96,6 @@ class PasswordChangeForm extends Component {
     }
 }
 
-export default compose(withRouter, withFirebase)(PasswordChangeForm);
+const condition = authUser => !!authUser;
+
+export default withAuthorization(condition)(compose(withRouter, withFirebase)(PasswordChangeForm));

@@ -20,4 +20,10 @@ module.exports = app => {
         const newUserInDB = await userHandler.saveNewUser(newUser)
         res.json(newUserInDB)
     });
+
+    app.get(`/api/getuser/:email`, async (req, res) => {
+        const email = req.params.email;
+        const foundUser = await userHandler.getSingleUser(email);
+        res.status(200).send(foundUser);
+    });
 }
