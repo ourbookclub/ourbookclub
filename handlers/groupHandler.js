@@ -126,6 +126,7 @@ module.exports = {
     },
     getGroupData: async (groupID) => {
         const groupData = await db.Group.findById([groupID]);
+        console.log(groupData)
         return groupData;
     },
 }
