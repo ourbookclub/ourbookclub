@@ -12,6 +12,9 @@ import Home from './componenets/Home';
 import PasswordReset from './componenets/PasswordReset';
 import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
+import CreateGroup from './componenets/CreateGroup';
+import GroupPage from './componenets/GroupPage';
+
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -20,7 +23,7 @@ class App extends Component {
 
     this.state = {
       authUser: null,
-      currentUser: null
+      currentUser: {}
     }
   };
 
@@ -40,16 +43,16 @@ class App extends Component {
   };
 
   isSignedIn = async (email) => {
-    console.log(`working ${email}`)
     const dbResponse = await axios.get(`/api/getuser/${email}`);
     const currentUser = {
       username: dbResponse.data.local.username,
-      _id: dbResponse.data._id
+      userID: dbResponse.data._id
     }
     this.setState({ currentUser })
   }
 
   render() {
+
     return (
       <BrowserRouter>
 
@@ -58,12 +61,13 @@ class App extends Component {
           <NavBar authUser={this.state.authUser} />
           {/* greet user if logged in: */}
           {this.state.currentUser &&
-            <p>Join the party, {this.state.currentUser.username}!</p>
+            <p>Join the party, {this.state.currentUser.userID}!</p>
           }
           {/* Routes to different components */}
           <Route
-            exact path="/"
-            component={Home} />
+            exact path={Routes.home}
+            render={() =>
+              <Home userID={this.state.currentUser.userID} />} />
           <Route
             path={Routes.signin}
             render={() =>
@@ -88,6 +92,16 @@ class App extends Component {
             path={Routes.userProfile}
             render={() =>
               <UserProfile />}
+          />
+          <Route
+            path={Routes.createGroup}
+            render={() =>
+              <CreateGroup userID={this.state.currentUser.userID} />}
+          />
+          <Route
+            path={`/group`}
+            render={() =>
+              <GroupPage />}
           />
 
         </div>

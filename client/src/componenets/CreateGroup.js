@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { compose } from 'recompose';
-
-import { SignUpLink } from './SignUp';
-import { PasswordResetLink } from './PasswordReset'
-import { withFirebase } from './Firebase';
+import { withAuthorization } from './Session';
+import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
+import axios from 'axios';
 
 const inputStyle = {
     width: '50%',
@@ -15,21 +12,13 @@ const labelStyle = {
     marginBottom: '0px'
 }
 
-const SignInPage = () => (
-    < div >
-        <h3>SignIn</h3>
-        <SignInForm />
-        <SignUpLink />
-    </div >
-);
-
 const initialState = {
-    email: '',
-    password: '',
+    groupName: '',
+    groupDescription: '',
     error: null
 };
 
-class SignInFormBase extends Component {
+class CreateGroup extends Component {
     constructor(props) {
         super(props)
         this.state = { ...initialState };
@@ -41,60 +30,55 @@ class SignInFormBase extends Component {
         })
     }
 
-    handleSubmit = event => {
-        event.preventDefault()
+    handleSubmit = async event => {
+        event.preventDefault();
 
-        const { email, password } = this.state;
+        const currentUserID = this.props.currentUserID;
 
-        this.props.firebase
-            .doSignInWithEmailAndPassword(email, password)
-            .then(async () => {
-                this.setState({ ...initialState });
-                this.props.history.push(Routes.home);
-            })
-            .catch(error => {
-                this.setState({ error });
-            });
+        const { groupName, groupDescription } = this.state
+
+        const dbResponse = await axios.post('/api/creategroup', { currentUserID, groupName, groupDescription });
+        console.log(dbResponse)
+        this.props.history.push(`/group/${dbResponse.data._id}`)
+
     }
 
     render() {
-        const { email, password, error } = this.state;
+        const { groupName, groupDescription, error } = this.state;
 
-        const isInvalid = password === '' || email === '';
+        const isInvalid = groupName === '' || groupDescription === '';
 
         return (
             <div>
                 <br />
                 {/* If there's an error with sign in then display the error */}
                 {error && <p>{error.message}</p>}
-
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='email'>Email:</label>
+                            <label className='form-label' style={labelStyle} htmlFor='groupName'>Group Name:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
                                 type='text'
-                                name='email'
-                                placeholder='email'
-                                value={this.state.email}
+                                name='groupName'
+                                placeholder='Group Name'
+                                value={this.state.groupName}
                                 onChange={this.handleChange}
                             />
                         </div>
                     </div>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='password'>Password: </label>
+                            <label className='form-label' style={labelStyle} htmlFor='groupDescription'>Group Descripton: </label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
-                                placeholder='password'
-                                type='password'
-                                name='password'
-                                value={this.state.password}
+                                placeholder='Description'
+                                name='groupDescription'
+                                value={this.state.groupDescription}
                                 onChange={this.handleChange}
                             />
                         </div>
@@ -104,23 +88,22 @@ class SignInFormBase extends Component {
                         <button
                             className='btn btn-primary col-1 col-mr-auto'
                             disabled={isInvalid}
-                            type='submit'>Login</button>
+                            type='submit'>Create New Group</button>
                     </div>
                 </form>
-                <PasswordResetLink />
             </div>
         );
     };
 };
 
-const SignInForm = compose(withRouter, withFirebase)(SignInFormBase);
-
-const SignInLink = () => (
-    <p>
-        Already have an account? <Link to={Routes.signin}><button className='btn btn-success'>Sign In</button></Link>
-    </p>
+const CreateGroupLink = () => (
+    <Link to={Routes.createGroup}>
+        <button className='btn btn-link'>Create Group</button>
+    </Link>
 );
 
-export default SignInPage;
+const condition = authUser => !!authUser;
 
-export { SignInForm, SignInLink };
+export default withAuthorization(condition)(CreateGroup);
+
+export { CreateGroupLink };

@@ -123,5 +123,9 @@ module.exports = {
             //TODO Proper error message
             return { 'error': `Cannot set a benchmark higher than the total benchmarks` };
         };
-    }
+    },
+    getGroupData: async (groupID) => {
+        const groupData = await db.Group.findById([groupID]);
+        return groupData;
+    },
 }

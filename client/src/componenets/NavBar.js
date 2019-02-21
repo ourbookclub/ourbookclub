@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import * as Routes from '../constants/routes';
 import SignOutButton from './SignOutButton';
+import { HomeLink } from './Home';
+
 
 class NavBar extends Component {
 
@@ -13,6 +15,7 @@ class NavBar extends Component {
                     <div className="col-4" >
                         {this.props.authUser ? (
                             <section className="navbar-section">
+                                <HomeLink />
                                 <SignOutButton />
                                 <Link to={Routes.passwordChange} className="btn btn-link">
                                     <span className="text-secondary">Update Password</span>

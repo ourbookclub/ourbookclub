@@ -13,12 +13,12 @@ module.exports = app => {
     //User adds a new group, fills out a form on the book name & description
     //Then adds the current book they're reading
     //THEN hits this route to complete the group
-    app.post(`/api/creategroup`, userHandler.isLoggedIn, async (req, res) => {
-        const { groupName, groupDescription } = req.body;
+    app.post(`/api/creategroup`, async (req, res) => {
+        const { groupName, groupDescription, currentUserID } = req.body;
         //If 500 is returned a group with that name already exists
         //Else it returns the new group
-        const response = await groupHandler.createGroup(req.user._id, groupName, groupDescription);
-        res.json(response);
+        const response = await groupHandler.createGroup(currentUserID, groupName, groupDescription);
+        res.status(200).send(response);
 
     });
 
@@ -47,6 +47,13 @@ module.exports = app => {
         const { postID, comment } = req.body;
         const newComment = await postHandler.createComment(req.user._id, postID, comment);
         res.json(newComment);
+    });
+
+    //Everything is singular on the backend
+    app.get(`/api/getgroupdata/:groupID`, userHandler.isLoggedIn, async (req, res) => {
+        const groupID = req.params.groupID;
+        const groupData = await groupHandler.getallGroupData(groupID);
+        res.status(200).send(groupData);
     });
 
     //Everything is singular on the backend

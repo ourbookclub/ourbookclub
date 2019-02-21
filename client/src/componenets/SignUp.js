@@ -55,7 +55,7 @@ class SignUpFormBase extends Component {
                 .then(authUser => {
                     //The User has been successfully authenticated, clear this component state and redirect them to the home page
                     this.setState({ ...initialState });
-                    this.props.history.push('/')
+                    this.props.history.push(Routes.home);
                 })
                 .catch(error => {
                     console.log(error)
