@@ -33,7 +33,7 @@ class CreateGroup extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const currentUserID = this.props.currentUserID;
+        const currentUserID = this.props.userID;
 
         const { groupName, groupDescription } = this.state
 

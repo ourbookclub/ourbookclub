@@ -33,7 +33,7 @@ class App extends Component {
         this.setState({ authUser });
         this.isSignedIn(authUser.email);
       } else {
-        this.setState({ authUser: null, currentUser: null });
+        this.setState({ authUser: null, currentUser: {} });
       }
     });
   }
@@ -48,6 +48,7 @@ class App extends Component {
       username: dbResponse.data.local.username,
       userID: dbResponse.data._id
     }
+    sessionStorage.setItem('userID', currentUser.userID)
     this.setState({ currentUser })
   }
 
@@ -101,7 +102,7 @@ class App extends Component {
           <Route
             path={`/group`}
             render={() =>
-              <GroupPage />}
+              <GroupPage userID={this.state.currentUser.userID} />}
           />
 
         </div>

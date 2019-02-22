@@ -100,7 +100,7 @@ module.exports = {
     setPageOrChapter: async (groupID, pageOrChapter, totalCount) => {
         //This is hit after they check if the current user trying to make these changes is a mod
         //Also, should only be hit one time unless they go into the settings and change it
-        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { pageOrChapter: pageOrChapter, totalPageOrChapter: totalCount } },
+        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { pageOrChapter: pageOrChapter, totalBenchmark: totalCount } },
             { new: true })
         return updatedGroup;
     },
@@ -126,7 +126,7 @@ module.exports = {
     },
     getGroupData: async (groupID) => {
         const groupData = await db.Group.findById([groupID]);
-        console.log(groupData)
+
         return groupData;
     },
 }

@@ -54,8 +54,11 @@ module.exports = app => {
         try {
             const groupID = req.params.groupID;
             const groupData = await groupHandler.getGroupData(groupID);
-            console.log(groupData)
-            res.status(200).send(groupData);
+            if (groupData) {
+                res.status(200).send(groupData);
+            } else {
+                res.status(500).send({ 'error': `No Group Found` })
+            }
         } catch (err) {
             res.status(500).send(err);
         }
