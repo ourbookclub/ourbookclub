@@ -82,7 +82,7 @@ class AddBookPage extends Component {
                         </div>
                     </div>
                 </form>
-                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} addBookToGroup={this.addBookToGroup} isAdmin={this.state.isAdmin} />)}
+                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} addBookToGroup={this.addBookToGroup} />)}
             </div>
         )
     }
@@ -91,6 +91,7 @@ class AddBookPage extends Component {
 export default AddBookPage;
 
 //TODO Make something here to show all authors
+//TODO START HERE. How do I submit props.book to the back end and add it to a group?
 const SingleBook = (props) => {
     // Taking out the book object to make displaying it easier
     const { title, authors, description, image, pageCount, publishedDate } = props.book

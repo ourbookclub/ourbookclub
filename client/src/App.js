@@ -47,7 +47,8 @@ class App extends Component {
     const dbResponse = await axios.get(`/api/getuser/${email}`);
     const currentUser = {
       username: dbResponse.data.local.username,
-      userID: dbResponse.data._id
+      userID: dbResponse.data._id,
+      grouplist: dbResponse.data.grouplist
     }
     sessionStorage.setItem('userID', currentUser.userID)
     this.setState({ currentUser })
@@ -60,7 +61,7 @@ class App extends Component {
 
         <div className="App">
 
-          <NavBar authUser={this.state.authUser} />
+          <NavBar authUser={this.state.authUser} grouplist={this.state.grouplist} />
           {/* Routes to different components */}
           <Route
             exact path={Routes.home}
