@@ -12,7 +12,6 @@ module.exports = app => {
 
     app.get(`/api/searchbook/:book`, async (req, res) => {
         const searchedBook = req.params.book;
-
         const response = await bookHandler.searchGoogleBook(searchedBook);
         if (response) {
             res.status(200).send(response);

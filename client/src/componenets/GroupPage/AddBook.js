@@ -9,14 +9,19 @@ const labelStyle = {
     marginBottom: '0px'
 }
 
-class AddBook extends Component {
+class AddBookPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             bookSearch: '',
-            error: null
+            error: null,
+            bookArray: []
         }
     };
+
+    addBookToGroup = event => {
+        console.log(`working`)
+    }
 
     handleChange = event => {
         this.setState({
@@ -32,10 +37,12 @@ class AddBook extends Component {
         const searchableBook = bookSearch.trim().split(' ').join('+');
         console.log(searchableBook);
         const dbResponse = await axios.get(`/api/searchbook/${searchableBook}`);
-        console.log(dbResponse)
-        if (dbResponse === 200) {
+
+        if (dbResponse.status === 200) {
             //returns an array of 1 - 20 books and maps over them
-            console.log(dbResponse.data)
+            console.log(dbResponse)
+            this.setState({ bookArray: dbResponse.data });
+            console.log(this.state)
         } else {
             this.setState({ error: dbResponse.data.error })
         }
@@ -43,13 +50,13 @@ class AddBook extends Component {
     }
 
     render() {
-        const { bookSearch } = this.state;
+        const { bookSearch, error, bookArray } = this.state;
         const isInvalid = bookSearch === '';
 
         return (
-            <div className='bookSearch'>
-                <p>Enter Book to Search: {this.props.groupID}</p>
 
+            <div className='bookSearch'>
+                {error && <p>{error}</p>}
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
@@ -71,47 +78,32 @@ class AddBook extends Component {
                                 disabled={isInvalid}
                                 className="btn btn-primary col-1 col-mr-auto"
                                 type="submit"
-                            >Sign Up</button>
+                            >Search Book</button>
                         </div>
                     </div>
                 </form>
+                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} addBookToGroup={this.addBookToGroup} isAdmin={this.state.isAdmin} />)}
             </div>
         )
     }
 }
 
-export default AddBook;
+export default AddBookPage;
 
+//TODO Make something here to show all authors
+const SingleBook = (props) => {
+    // Taking out the book object to make displaying it easier
+    const { title, authors, description, image, pageCount, publishedDate } = props.book
 
-// export default class BookSearch extends React.Component {
-//     render() {
-//         return (
-//             <div>
-//                 {
-//                     <h1>testing booksearch</h1>
-                    // this.props.items.map((item , i) => {
-                    //     let {title, imageLinks , infoLink, authors, pageCount, preview, description} = item.volumeInfo
-                    //     return (
-                    //         <a href ={infoLink}
-                    //         target = "_blank"
-                    //         key={i} className = "book">
-                    //         <img 
-                    //         src ={imageLinks !== undefined? imageLinks.thumbnail : ''} 
-                    //         alt = "book image"
-                    //         className = "bookImage"
-                    //         />
-                    //         <div className = "titleText">{title }</div>
-                    //         <div className = "titleText">{authors }</div>
-                    //         <div className = "titleText">{pageCount }</div>
-                    //         <div className = "Text">{preview }</div>
-                    //         <div className = "Text">{description }</div>
-
-                    //         </a>
-
-                    //     );
-                    // })
-//                 }</div>
-
-//         );
-//     }
-// }
+    return (
+        <div className="bookCard">
+            <div>{title}</div>
+            <div>{authors[0]}</div>
+            <div>{description}</div>
+            <img src={image} alt={`${title} Image`} />
+            <div>{pageCount}</div>
+            <div>{publishedDate}</div>
+            <button className="btn btn-primary col-1 col-mr-auto" onClick={props.addBookToGroup}>Add Book To Group</button>
+        </div>
+    )
+}
