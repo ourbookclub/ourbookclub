@@ -14,7 +14,7 @@ import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
-
+import GroupNav from './componenets/GroupNav'
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -56,13 +56,16 @@ class App extends Component {
 
   render() {
 
+    const { grouplist } = this.state.currentUser;
+
     return (
       <BrowserRouter>
 
         <div className="App">
 
-          <NavBar authUser={this.state.authUser} grouplist={this.state.grouplist} />
+          <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}
+          {grouplist && <GroupNav grouplist={grouplist} />}
           <Route
             exact path={Routes.home}
             render={() =>
