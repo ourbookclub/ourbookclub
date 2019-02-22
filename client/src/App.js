@@ -61,10 +61,6 @@ class App extends Component {
         <div className="App">
 
           <NavBar authUser={this.state.authUser} />
-          {/* greet user if logged in: */}
-          {this.state.currentUser &&
-            <p>Join the party, {this.state.currentUser.userID}!</p>
-          }
           {/* Routes to different components */}
           <Route
             exact path={Routes.home}

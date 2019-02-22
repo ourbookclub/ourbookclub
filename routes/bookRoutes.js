@@ -14,7 +14,12 @@ module.exports = app => {
         const searchedBook = req.params.book;
 
         const response = await bookHandler.searchGoogleBook(searchedBook);
-        res.json(response);
+        if (response) {
+            res.status(200).send(response);
+        } else {
+            res.status(500).send({ 'error': 'No Books Found' })
+        }
+
     });
 
     //While this is adding a book to a group, this is more relating to books
