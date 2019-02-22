@@ -12,13 +12,17 @@ module.exports = app => {
 
     app.get(`/api/searchbook/:book`, async (req, res) => {
         const searchedBook = req.params.book;
-
         const response = await bookHandler.searchGoogleBook(searchedBook);
-        res.json(response);
+        if (response) {
+            res.status(200).send(response);
+        } else {
+            res.status(500).send({ 'error': 'No Books Found' })
+        }
+
     });
 
     //While this is adding a book to a group, this is more relating to books
-    app.post(`/api/addbook`, userHandler.isLoggedIn, async (req, res) => {
+    app.post(`/api/addbook`, async (req, res) => {
         //When the user picks a book from google books, this takes the data and saves it down
         const { chosenBook, groupID } = req.body;
 

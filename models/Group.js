@@ -29,8 +29,11 @@ const GroupSchema = new Schema({
     ],
     speed: String,
     currentBook: String, //This is going to be the id of the book which they searched
-    pageOrChapter: String,
-    totalPageOrChapter: Number,
+    pageOrChapter: {
+        type: String,
+        default: "Chapter"
+    },
+    totalBenchmark: Number,
     currentBenchmark: Number,
     previousBenchmark: [Number],
     // Everything is singular
