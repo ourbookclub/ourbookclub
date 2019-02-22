@@ -34,6 +34,7 @@ class App extends Component {
         this.isSignedIn(authUser.email);
       } else {
         this.setState({ authUser: null, currentUser: {} });
+        sessionStorage.clear()
       }
     });
   }

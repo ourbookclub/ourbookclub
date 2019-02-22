@@ -20,7 +20,7 @@ import axios from 'axios';
 const CurrentBook = (params) => {
     return (
         <Fragment>
-            <p>ID: {params.currentBook}</p>
+            <p>Book ID: {params.currentBook}</p>
             <p>Current Benchmark: {params.currentBenchmark}</p>
             <p>Total Benchmark: {params.totalBenchmark}</p>
         </Fragment>

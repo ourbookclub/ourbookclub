@@ -3,6 +3,8 @@ import { withAuthorization } from '../Session';
 import axios from 'axios';
 import queryString from 'query-string';
 import CurrentBook from './CurrentBook';
+import AddBook from './AddBook';
+
 
 const initialState = {
     groupID: 0,
@@ -70,8 +72,8 @@ class GroupPage extends Component {
         return (
             <div>
                 {error && <p>{error.message}</p>}
-                {/* <p>Current User ID: {this.props.userID}</p> */}
 
+                <AddBook groupID={groupID} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
