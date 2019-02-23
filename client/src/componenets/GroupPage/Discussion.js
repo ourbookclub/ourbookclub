@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { withAuthorization } from './Session';
+import { withAuthorization } from '../Session';
 import { Link } from 'react-router-dom';
-import * as Routes from '../constants/routes';
+import * as Routes from '../../constants/routes';
 import axios from 'axios';
 
 const inputStyle = {
@@ -13,7 +13,7 @@ const labelStyle = {
 }
 
 const initialState = {
-    userPost: '',
+    text: '',
     error: null
 };
 
@@ -32,20 +32,20 @@ class AddPost extends Component {
     handleSubmit = async event => {
         
 
-        const currentUserID = this.props.userID;
+        const {userID, groupID } = this.props
 
-        const { userID, groupID, userPost } = this.state
+        const userPost = {text: this.state.text}
 
         const dbResponse = await axios.post('/api/newpost', { userID, groupID, userPost });
         console.log(dbResponse)
-        this.props.history.push(`/group/?id=${dbResponse.data._id}`)
+        this.props.history.push(`/group/${dbResponse.data._id}`)
 
     }
 
     render() {
-        const { userPost, error } = this.state;
+        const { text, error } = this.state;
 
-        const isInvalid = userPost === '';
+        const isInvalid = text === '';
 
         return (
             <div>
@@ -55,15 +55,15 @@ class AddPost extends Component {
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='userPost'>Post:</label>
+                            <label className='form-label' style={labelStyle} htmlFor='text'>Post:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
                                 type='text'
-                                name='userPost'
+                                name='text'
                                 placeholder='Write your Post'
-                                value={this.state.userPost}
+                                value={this.state.text}
                                 onChange={this.handleChange}
                             />
                         </div>

@@ -15,7 +15,7 @@ import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
 import GroupNav from './componenets/GroupNav'
-import AddPost from './componenets/Discussion';
+
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -108,12 +108,7 @@ class App extends Component {
             render={() =>
               <GroupPage userID={this.state.currentUser.userID} />}
           />
-          <Route
-            path={Routes.discussion}
-            render={() =>
-              <AddPost />}
-          />
-
+     
         </div>
       </BrowserRouter>
     );
