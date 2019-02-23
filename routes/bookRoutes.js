@@ -1,5 +1,4 @@
 const userHandler = require(`../handlers/userHandler`);
-const groupHandler = require(`../handlers/groupHandler`);
 const bookHandler = require(`../handlers/bookHandler`);
 
 
@@ -37,6 +36,16 @@ module.exports = app => {
             //TODO Add something to show if they tried to update a group they weren't a mod for
             res.json({ 'error': `Moderator needed to update book` });
             return;
+        }
+    });
+
+    app.get(`/api/getbookdata/:bookID`, async (req, res) => {
+        const { bookID } = req.params;
+        const response = await bookHandler.getBookData(bookID);
+        if (response) {
+            res.status(200).send(response);
+        } else {
+            res.status(500).send({ 'error': 'No Books Found' })
         }
     });
 }
