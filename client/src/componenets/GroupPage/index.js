@@ -26,8 +26,8 @@ class GroupPage extends Component {
     };
 
     componentDidMount() {
-        const urlString = this.props.math.params;
-        this.getGroupData(urlString)
+        const groupIDFromURL = this.props.match.params.group;
+        this.getGroupData(groupIDFromURL)
     }
 
     getGroupData = async (groupID) => {
