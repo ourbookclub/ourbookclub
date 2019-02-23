@@ -129,5 +129,14 @@ module.exports = {
                 return err;
             };
         };
-    }//Next method goes here
+    },
+    getBookData: async (bookID) => {
+        try {
+            const response = await db.Book.findById([bookID]);
+            return response;
+        } catch (err) {
+            //TODO Add an error message
+            return err;
+        }
+    }
 };

@@ -7,7 +7,7 @@ import AddPost from './Discussion';
 
 
 const initialState = {
-    
+
     groupID: 0,
     groupName: '',
     groupDescription: '',
@@ -67,16 +67,16 @@ class GroupPage extends Component {
     }
 
     render() {
-        const {  groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
+        const { groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
 
         return (
             <div>
                 {error && <p>{error.message}</p>}
 
                 <AddBook groupID={groupID} isAdmin={isAdmin} />
+                {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
-                <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
-                <AddPost  userID={this.props.userID} groupID={groupID} />
+                <AddPost userID={this.props.userID} groupID={groupID} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
