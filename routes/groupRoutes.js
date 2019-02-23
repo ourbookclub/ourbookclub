@@ -37,9 +37,9 @@ module.exports = app => {
 
     //Before post gets to here validate that there isn't a blank field
     app.post(`/api/newpost`, async (req, res) => {
-        const { groupID, userPost } = req.body;
+        const {userID, groupID, userPost } = req.body;
 
-        const newPost = await postHandler.createPost(req.user._id, groupID, userPost);
+        const newPost = await postHandler.createPost(userID, groupID, userPost);
         res.json(newPost);
     });
 
