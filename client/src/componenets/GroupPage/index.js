@@ -53,7 +53,6 @@ class GroupPage extends Component {
     }
 
     checkAdmin = () => {
-        //TODO NOT WORKING
         const { userlist } = this.state;
         const currentUserID = sessionStorage.getItem('userID');
 
@@ -66,13 +65,13 @@ class GroupPage extends Component {
     }
 
     render() {
-        const { groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error } = this.state;
+        const { groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
 
         return (
             <div>
                 {error && <p>{error.message}</p>}
 
-                <AddBook groupID={groupID} />
+                <AddBook groupID={groupID} isAdmin={isAdmin} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
