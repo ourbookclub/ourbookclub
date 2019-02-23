@@ -19,10 +19,6 @@ class AddBookPage extends Component {
         }
     };
 
-    addBookToGroup = event => {
-        console.log(`working`)
-    }
-
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -82,29 +78,42 @@ class AddBookPage extends Component {
                         </div>
                     </div>
                 </form>
-                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} addBookToGroup={this.addBookToGroup} />)}
+                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} />)}
+            </div>
+        )
+    }
+}
+
+//This component is going to have state to wrap the book in the submit and send it to the database
+class SingleBook extends Component {
+    constructor(props) {
+        super(props);
+
+    };
+
+    addBookToGroup = async (event) => {
+        const chosenBook = { ...this.props.book };
+        const { groupID, isAdmin } = this.props;
+
+        const dbResponse = await axios.post(`/api/addbook`, { groupID, isAdmin, chosenBook });
+        console.log(dbResponse)
+    }
+
+    // Taking out the book object to make displaying it easier
+    render() {
+        const { title, authors, description, image, pageCount, publishedDate } = this.props.book
+        return (
+            <div className="bookCard">
+                <div>{title}</div>
+                <div>{authors[0]}</div>
+                <div>{description}</div>
+                <img src={image} alt={`${title}`} />
+                <div>{pageCount}</div>
+                <div>{publishedDate}</div>
+                <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addBookToGroup}>Add Book To Group</button>
             </div>
         )
     }
 }
 
 export default AddBookPage;
-
-//TODO Make something here to show all authors
-//TODO START HERE. How do I submit props.book to the back end and add it to a group?
-const SingleBook = (props) => {
-    // Taking out the book object to make displaying it easier
-    const { title, authors, description, image, pageCount, publishedDate } = props.book
-
-    return (
-        <div className="bookCard">
-            <div>{title}</div>
-            <div>{authors[0]}</div>
-            <div>{description}</div>
-            <img src={image} alt={`${title} Image`} />
-            <div>{pageCount}</div>
-            <div>{publishedDate}</div>
-            <button className="btn btn-primary col-1 col-mr-auto" onClick={props.addBookToGroup}>Add Book To Group</button>
-        </div>
-    )
-}
