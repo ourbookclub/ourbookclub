@@ -92,10 +92,11 @@ class SingleBook extends Component {
     };
 
     addBookToGroup = async (event) => {
-        const chosenBook = { ...this.props.book }
+        const chosenBook = { ...this.props.book };
+        const { groupID, isAdmin } = this.props;
 
-        console.log({ chosenBook })
-        const dbResponse = await axios.post(`/api/addbook`, {})
+        const dbResponse = await axios.post(`/api/addbook`, { groupID, isAdmin, chosenBook });
+        console.log(dbResponse)
     }
 
     // Taking out the book object to make displaying it easier
@@ -106,7 +107,7 @@ class SingleBook extends Component {
                 <div>{title}</div>
                 <div>{authors[0]}</div>
                 <div>{description}</div>
-                <img src={image} alt={`${title} Image`} />
+                <img src={image} alt={`${title}`} />
                 <div>{pageCount}</div>
                 <div>{publishedDate}</div>
                 <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addBookToGroup}>Add Book To Group</button>

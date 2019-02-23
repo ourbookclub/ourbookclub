@@ -24,13 +24,12 @@ module.exports = app => {
     //While this is adding a book to a group, this is more relating to books
     app.post(`/api/addbook`, async (req, res) => {
         //When the user picks a book from google books, this takes the data and saves it down
-        const { chosenBook, groupID } = req.body;
+        const { chosenBook, groupID, isAdmin } = req.body;
 
         const bookForGroup = await bookHandler.queryAndSaveToDB(chosenBook);
 
         //Checks if the user is a mod of the group they're currently trying to update
-        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
-        if (isMod) {
+        if (isAdmin) {
             //This function will move the current book into the past book and add the book in chosenBook to the current book
             const updatedGroup = await bookHandler.updateCurrentBook(bookForGroup._id, groupID);
             res.status(200).send(updatedGroup);
