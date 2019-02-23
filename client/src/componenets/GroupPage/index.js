@@ -32,6 +32,13 @@ class GroupPage extends Component {
         this.getGroupData(groupIDFromURL)
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.group !== prevProps.match.params.group) {
+            const groupID = this.props.match.params.group;
+            this.getGroupData(groupID)
+        }
+    }
+
     getGroupData = async (groupID) => {
         const dbResponse = await axios.get(`/api/getgroupdata/${groupID}`);
         if (dbResponse.status === 200) {
