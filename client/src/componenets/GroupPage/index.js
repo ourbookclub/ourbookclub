@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import queryString from 'query-string';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
 
@@ -27,8 +26,8 @@ class GroupPage extends Component {
     };
 
     componentDidMount() {
-        const urlString = queryString.parse(this.props.location.search);
-        this.getGroupData(urlString.id)
+        const urlString = this.props.math.params;
+        this.getGroupData(urlString)
     }
 
     getGroupData = async (groupID) => {

@@ -5,7 +5,7 @@ import axios from 'axios';
 const GroupNav = (props) => {
     return (
         <div>
-            {props.grouplist.map(groupID => <Link to={`/group?id=${groupID}`}><SingleGroup groupID={groupID} /></Link>)}
+            {props.grouplist.map(groupID => <Link to={`/group?id=${groupID}`} key={groupID}><SingleGroup groupID={groupID} key={groupID} /></Link>)}
         </div>
     )
 }
