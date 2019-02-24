@@ -97,10 +97,10 @@ module.exports = {
         const isModerator = currentUser.isMod;
         return isModerator;
     },
-    setPageOrChapter: async (groupID, pageOrChapter, totalCount) => {
+    setPageOrChapter: async (groupID, totalCount) => {
         //This is hit after they check if the current user trying to make these changes is a mod
         //Also, should only be hit one time unless they go into the settings and change it
-        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { pageOrChapter: pageOrChapter, totalBenchmark: totalCount } },
+        const updatedGroup = await db.Group.findByIdAndUpdate([groupID], { $set: { totalBenchmark: totalCount } },
             { new: true })
         return updatedGroup;
     },
@@ -109,7 +109,8 @@ module.exports = {
         const currentGroup = await db.Group.findById([groupID]);
 
         const isDuplicate = await checkDuplicate(`benchmark`, currentGroup, ``, currentGroup.currentBenchmark);
-        if (+nextBenchmark <= +currentGroup.totalPageOrChapter) {
+
+        if (nextBenchmark <= currentGroup.totalBenchmark) {
             //If this benchmark hasn't been assigned before
             //We keep track of this have posts associated to it
             const lastBenchmark = currentGroup.currentBenchmark || 0;

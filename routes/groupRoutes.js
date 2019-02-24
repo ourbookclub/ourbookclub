@@ -37,7 +37,7 @@ module.exports = app => {
 
     //Before post gets to here validate that there isn't a blank field
     app.post(`/api/newpost`, async (req, res) => {
-        const {userID, groupID, userPost } = req.body;
+        const { userID, groupID, userPost } = req.body;
 
         const newPost = await postHandler.createPost(userID, groupID, userPost);
         res.json(newPost);
@@ -74,12 +74,10 @@ module.exports = app => {
 
     //Adds the amount of pages or chapters to the Club
     app.put(`/api/updatepagesetup/`, async (req, res) => {
-        const { totalCount, pageOrChapter, groupID } = req.body;
+        const { totalCount, groupID, isAdmin } = req.body;
 
-        //Checks if the user is a mod of the group they're currently trying to update
-        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
-        if (isMod) {
-            const updatedGroup = await groupHandler.setPageOrChapter(groupID, pageOrChapter, totalCount);
+        if (isAdmin) {
+            const updatedGroup = await groupHandler.setPageOrChapter(groupID, totalCount);
             res.json(updatedGroup);
         } else {
             //TODO Add something to show if they tried to update a group they weren't a mod for
@@ -88,18 +86,20 @@ module.exports = app => {
     });
 
     app.put(`/api/updatebenchmark`, async (req, res) => {
-        const { nextBenchmark, groupID } = req.body;
-
-        //TODO Check if the nextBenchmark is submitted as a number either here or before the route is hit
+        const { nextBenchmark, groupID, isAdmin } = req.body;
 
         //Checks if the user is a mod of the group they're currently trying to update
-        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
-        if (isMod) {
+        if (isAdmin) {
+            //TODO if error returned show
             const updatedGroup = await groupHandler.updateBenchmark(groupID, nextBenchmark);
-            res.json(updatedGroup);
+            if (updatedGroup.error) {
+                res.status(501).send(updatedGroup)
+            } else {
+                res.status(200).send(updatedGroup);
+            }
         } else {
             //TODO Add something to show if they tried to update a group they weren't a mod for
-            res.json({ 'error': `Moderator needed to update book` });
+            res.json({ 'error': `Moderator needed to update benchmark` });
         };
 
     });
