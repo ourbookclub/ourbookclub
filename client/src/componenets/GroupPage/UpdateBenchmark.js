@@ -11,8 +11,8 @@ const labelStyle = {
 }
 
 const initialState = {
-    currentBenchmark: null,
-    totalBenchmark: null,
+    nextBenchmark: '',
+    totalBenchmark: '',
     error: null
 };
 
@@ -28,46 +28,81 @@ class UpdateBenchmark extends Component {
         })
     }
 
-    handleSubmit = async event => {
-        console.log(`working`);
+    handleCurrentSubmit = async event => {
+        event.preventDefault();
+
+        const nextBenchmark = +this.state.nextBenchmark;
+        const { groupID, isAdmin } = this.props;
+
+        try {
+            const dbResponse = await axios.put(`/api/updatebenchmark`, { nextBenchmark, groupID, isAdmin });
+        } catch (error) {
+            this.setState({ error: { message: `Moderator needed to update benchmark` } })
+        }
+    }
+
+    handleTotalSubmit = async event => {
+        event.preventDefault();
+
+        const totalCount = +this.state.totalBenchmark;
+        const { groupID, isAdmin } = this.props;
+
+        try {
+            const dbResponse = await axios.put(`/api/updatepagesetup`, { totalCount, groupID, isAdmin })
+        } catch (error) {
+            this.setState({ error: { message: `Moderator needed to update benchmark` } })
+        }
     }
 
     render() {
-        const { text, error } = this.state;
+        const { nextBenchmark, totalBenchmark, error } = this.state;
 
-        const isInvalid = text === '';
+        const currentIsInvalid = nextBenchmark === '' || nextBenchmark < 0;
+        const totalIsInvalid = totalBenchmark === '' || totalBenchmark < 0;
 
         return (
             <div>
                 <br />
                 {error && <p>{error.message}</p>}
-                <form className='form-horizontal' onSubmit={this.handleSubmit}>
+                <form className='form-horizontal' onSubmit={this.handleCurrentSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='currentBenchmark'>Next Goal for Group:</label>
+                            <label className='form-label' style={labelStyle} htmlFor='nextBenchmark'>Next Goal for Group:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
                                 type='number'
-                                name='currentBenchmark'
+                                name='nextBenchmark'
                                 placeholder='What is the next goal for the group?'
-                                value={this.state.currentBenchmark}
+                                value={this.state.nextBenchmark}
                                 onChange={this.handleChange}
                             />
                         </div>
                     </div>
 
+                    <div className='form-group '>
+                        <div className='col-7'></div>
+                        <button
+                            className='btn btn-primary col-1 col-mr-auto'
+                            disabled={currentIsInvalid}
+                            type='submit'>Set New Goal</button>
+                    </div>
+                </form>
+
+                <br />
+
+                <form className='form-horizontal' onSubmit={this.handleTotalSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='totalBenchmark'>Total Chapters:</label>
+                            <label className='form-label' style={labelStyle} htmlFor='totalBenchmark'>Update Total Benchmarks / Chapters:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
-                                type='totalBenchmark'
-                                name='number'
-                                placeholder='How Many Chapters for Your Book?'
+                                type='number'
+                                name='totalBenchmark'
+                                placeholder='What is the total benchmarks or chapters of this book?'
                                 value={this.state.totalBenchmark}
                                 onChange={this.handleChange}
                             />
@@ -78,8 +113,8 @@ class UpdateBenchmark extends Component {
                         <div className='col-7'></div>
                         <button
                             className='btn btn-primary col-1 col-mr-auto'
-                            disabled={isInvalid}
-                            type='submit'>Submit Post</button>
+                            disabled={totalIsInvalid}
+                            type='submit'>Update Total</button>
                     </div>
                 </form>
             </div>

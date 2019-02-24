@@ -83,7 +83,7 @@ class GroupPage extends Component {
 
                 <AddBook groupID={groupID} isAdmin={isAdmin} />
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
-                {!totalBenchmark && <UpdateBenchmark />}
+                <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
@@ -92,11 +92,11 @@ class GroupPage extends Component {
     }
 }
 
-const GroupInfo = (params) => {
+const GroupInfo = (props) => {
     return (
         <Fragment>
-            <h3>Name: {params.groupName}</h3>
-            <p><strong>Description: </strong>{params.groupDescription}</p>
+            <h3>Name: {props.groupName}</h3>
+            <p><strong>Description: </strong>{props.groupDescription}</p>
         </Fragment>
     )
 }
