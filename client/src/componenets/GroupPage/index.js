@@ -7,6 +7,7 @@ import AddPost from './Discussion';
 import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
 import UserSearch from '../UserSearch';
+import UserList from './UserList';
 
 
 const initialState = {
@@ -83,10 +84,11 @@ class GroupPage extends Component {
             <div>
                 {error && <p>{error.message}</p>}
 
+                <GroupInfo groupName={groupName} groupDescription={groupDescription} />
+                <UserList userlist={userlist} />
                 <AddBook groupID={groupID} isAdmin={isAdmin} />
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
-                <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
                 <UserSearch groupID={groupID} isAdmin={isAdmin} />
