@@ -26,4 +26,12 @@ module.exports = app => {
         const foundUser = await userHandler.getSingleUser(email);
         res.status(200).send(foundUser);
     });
+
+    app.get(`/api/usersearch/:search/:searchParam`, async (req, res) => {
+        const { email, searchParam } = req.params;
+
+        console.log(email, searchParam)
+        // const foundUser = await userHandler.getSingleUser(email);
+        // res.status(200).send(foundUser);
+    });
 }

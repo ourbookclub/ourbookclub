@@ -26,7 +26,7 @@ class App extends Component {
       authUser: null,
       currentUser: {}
     }
-    
+
   };
 
   componentDidMount() {
@@ -47,6 +47,7 @@ class App extends Component {
 
   isSignedIn = async (email) => {
     const dbResponse = await axios.get(`/api/getuser/${email}`);
+    console.log(dbResponse)
     const currentUser = {
       username: dbResponse.data.local.username,
       userID: dbResponse.data._id,
@@ -55,7 +56,7 @@ class App extends Component {
     sessionStorage.setItem('userID', currentUser.userID)
     this.setState({ currentUser })
   }
-  
+
 
   render() {
 
@@ -108,7 +109,7 @@ class App extends Component {
             render={() =>
               <GroupPage userID={this.state.currentUser.userID} />}
           />
-     
+
         </div>
       </BrowserRouter>
     );
