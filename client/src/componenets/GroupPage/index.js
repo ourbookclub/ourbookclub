@@ -4,6 +4,7 @@ import axios from 'axios';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
 import AddPost from './Discussion';
+import ShowAllPosts from './ShowAllPosts';
 
 
 const initialState = {
@@ -77,6 +78,7 @@ class GroupPage extends Component {
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost  userID={this.props.userID} groupID={groupID} />
+                <ShowAllPosts groupID={groupID} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
