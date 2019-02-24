@@ -4,6 +4,7 @@ import axios from 'axios';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
 import AddPost from './Discussion';
+import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
 import UserSearch from '../UserSearch';
 
@@ -86,8 +87,10 @@ class GroupPage extends Component {
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
+                <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
                 <UserSearch />
+                <ShowAllPosts groupID={groupID} />
             </div>
         )
     }

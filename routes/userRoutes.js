@@ -24,7 +24,7 @@ module.exports = app => {
     //This is email specific for pulling users who are logged in
     app.get(`/api/getuser/:email`, async (req, res) => {
         const email = req.params.email;
-        const foundUser = await userHandler.getSingleUser(email);
+        const foundUser = await userHandler.getUserByEmail(email);
         res.status(200).send(foundUser);
     });
 
@@ -35,4 +35,9 @@ module.exports = app => {
         const foundUser = await userHandler.userSearch(query, searchParam);
         res.status(200).send(foundUser);
     });
+    app.get(`/api/getuserbyid/:userid`, async (req, res) => {
+        const userID = req.params.userid;
+        const foundUser = await userHandler.getUserByID(userID);
+        res.status(200).send(foundUser);
+    })
 }
