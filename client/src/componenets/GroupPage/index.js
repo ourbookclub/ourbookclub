@@ -4,11 +4,8 @@ import axios from 'axios';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
 import AddPost from './Discussion';
-<<<<<<< HEAD
 import ShowAllPosts from './ShowAllPosts';
-=======
 import UpdateBenchmark from './UpdateBenchmark';
->>>>>>> master
 
 
 const initialState = {
@@ -89,13 +86,9 @@ class GroupPage extends Component {
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
-<<<<<<< HEAD
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
-                <AddPost  userID={this.props.userID} groupID={groupID} />
-                <ShowAllPosts groupID={groupID} />
-=======
                 <AddPost userID={this.props.userID} groupID={groupID} />
->>>>>>> master
+                <ShowAllPosts groupID={groupID} />
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
