@@ -35,7 +35,6 @@ const checkDuplicate = async (checkedField, groupToSearch, userID, nextBenchmark
         case `benchmark`:
             //Group to search here is the whole group
             const benchmarkAlreadyCompleted = await groupToSearch.previousBenchmark.filter(benchmark => benchmark == nextBenchmark);
-            console.log(benchmarkAlreadyCompleted)
             if (benchmarkAlreadyCompleted.length !== 0) {
                 result = true;
             };

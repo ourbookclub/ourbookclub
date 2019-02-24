@@ -6,6 +6,7 @@ import AddBook from './AddBook';
 import AddPost from './Discussion';
 import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
+import UserSearch from '../UserSearch';
 
 
 const initialState = {
@@ -88,8 +89,8 @@ class GroupPage extends Component {
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
+                <UserSearch groupID={groupID} isAdmin={isAdmin} />
                 <ShowAllPosts groupID={groupID} />
-                <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
     }
