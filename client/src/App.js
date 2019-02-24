@@ -47,7 +47,6 @@ class App extends Component {
 
   isSignedIn = async (email) => {
     const dbResponse = await axios.get(`/api/getuser/${email}`);
-    console.log(dbResponse)
     const currentUser = {
       username: dbResponse.data.local.username,
       userID: dbResponse.data._id,

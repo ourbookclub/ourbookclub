@@ -31,8 +31,8 @@ class UserSearch extends Component {
 
         const { userSearch, searchSelect } = this.state;
 
-        const dbResponse = await axios.get(`/api/getuser/${userSearch}/${searchSelect}}`)
-        console.log(dbResponse)
+        const dbResponse = await axios.get(`/api/usersearch/${userSearch}/${searchSelect}`);
+        this.setState({ userArray: dbResponse.data });
     }
 
     render() {
@@ -99,12 +99,12 @@ class SingleUser extends Component {
 
     // Taking out the book object to make displaying it easier
     render() {
-        const { } = this.props.user;
+        const { isAdmin, groupID } = this.props;
         return (
             <div className="userCard">
-                <div>{}</div>
+                <div>Showin</div>
 
-                <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addUserToGroup}>Add User To Group</button>
+                {isAdmin && <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addUserToGroup}>Add User To Group</button>}
             </div>
         )
     }
