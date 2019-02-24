@@ -89,7 +89,7 @@ class GroupPage extends Component {
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
-                <UserSearch />
+                <UserSearch groupID={groupID} isAdmin={isAdmin} />
                 <ShowAllPosts groupID={groupID} />
             </div>
         )

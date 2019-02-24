@@ -39,9 +39,7 @@ class ShowPosts extends Component {
 
         if (dbResponse.status === 200) {
             //returns an array of 1 - 20 books and maps over them
-            console.log(dbResponse)
             this.setState({ postArray: dbResponse.data });
-            console.log(this.state)
         } else {
             this.setState({ error: dbResponse.data.error })
         }
@@ -62,8 +60,8 @@ class ShowPosts extends Component {
             <div>
                 <h1>Posts</h1>
                 {
-                    postArray.map(Response => (
-                        <span>
+                    postArray.map((Response, i) => (
+                        <span key={i}>
                             <Jumbotron fluid>
                                 <Container>
                                     <strong>User:</strong> {Response.user}

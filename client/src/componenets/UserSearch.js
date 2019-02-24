@@ -94,15 +94,21 @@ class SingleUser extends Component {
     };
 
     addUserToGroup = async (event) => {
+        const { isAdmin, groupID } = this.props;
+        const { userID } = this.props.user;
 
+        const dbResponse = await axios.put(`/api/addusertogroup`, { isAdmin, groupID, userID });
     }
 
     // Taking out the book object to make displaying it easier
     render() {
-        const { isAdmin, groupID } = this.props;
+        const { isAdmin } = this.props;
+        const { email, username } = this.props.user;
+
         return (
             <div className="userCard">
-                <div>Showin</div>
+                <div>Email: {email}</div>
+                <div>Username: {username}</div>
 
                 {isAdmin && <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addUserToGroup}>Add User To Group</button>}
             </div>
