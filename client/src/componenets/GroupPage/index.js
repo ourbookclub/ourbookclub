@@ -4,11 +4,15 @@ import axios from 'axios';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
 import AddPost from './Discussion';
+<<<<<<< HEAD
 import ShowAllPosts from './ShowAllPosts';
+=======
+import UpdateBenchmark from './UpdateBenchmark';
+>>>>>>> master
 
 
 const initialState = {
-    
+
     groupID: 0,
     groupName: '',
     groupDescription: '',
@@ -31,6 +35,13 @@ class GroupPage extends Component {
     componentDidMount() {
         const groupIDFromURL = this.props.match.params.group;
         this.getGroupData(groupIDFromURL)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.group !== prevProps.match.params.group) {
+            const groupID = this.props.match.params.group;
+            this.getGroupData(groupID)
+        }
     }
 
     getGroupData = async (groupID) => {
@@ -68,28 +79,34 @@ class GroupPage extends Component {
     }
 
     render() {
-        const {  groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
+        const { groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
 
         return (
             <div>
                 {error && <p>{error.message}</p>}
 
                 <AddBook groupID={groupID} isAdmin={isAdmin} />
+                {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
+                <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
+<<<<<<< HEAD
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost  userID={this.props.userID} groupID={groupID} />
                 <ShowAllPosts groupID={groupID} />
+=======
+                <AddPost userID={this.props.userID} groupID={groupID} />
+>>>>>>> master
                 <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )
     }
 }
 
-const GroupInfo = (params) => {
+const GroupInfo = (props) => {
     return (
         <Fragment>
-            <h3>Name: {params.groupName}</h3>
-            <p><strong>Description: </strong>{params.groupDescription}</p>
+            <h3>Name: {props.groupName}</h3>
+            <p><strong>Description: </strong>{props.groupDescription}</p>
         </Fragment>
     )
 }
