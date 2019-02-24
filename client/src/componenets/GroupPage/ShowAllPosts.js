@@ -23,17 +23,18 @@ class ShowPosts extends Component {
         }
     };
 
+    //In both did update and did mount based on if the user goes to another page within the group or loads it
+    componentDidMount() {
+        this.getAllPosts(this.props.groupID)
+    }
+
     componentDidUpdate(PrevProps) {
         if (this.props.groupID !== PrevProps.groupID) {
             this.getAllPosts(this.props.groupID)
-
         }
-
-
     }
 
     getAllPosts = async (groupID) => {
-
 
         const dbResponse = await axios.get(`/api/getallgrouppost/${groupID}`);
 
@@ -43,12 +44,6 @@ class ShowPosts extends Component {
         } else {
             this.setState({ error: dbResponse.data.error })
         }
-
-
-        //    .then(res => res.json())
-        //    .then(res =>this.setState({ postArray: res}));
-
-
     }
 
 
@@ -72,12 +67,6 @@ class ShowPosts extends Component {
                                     </p>
                                 </Container>
                             </Jumbotron>;
-                            {/* how to convert user to user name? */}
-                            {/* <strong>User:</strong> {Response.user}
-                            <strong>Post:</strong> {Response.text}
-                            <strong>Date: </strong> {Response.date} */}
-
-
                         </span>
 
                     ))
@@ -88,14 +77,6 @@ class ShowPosts extends Component {
     }
 }
 
-const AddPostLink = () => (
-    <Link to={Routes.discussion}>
-        <button className='btn btn-link'>Create Post</button>
-    </Link>
-);
-
 const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(ShowPosts);
-
-export { AddPostLink };

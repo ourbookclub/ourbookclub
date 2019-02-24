@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const GroupNav = (props) => {
+const GroupList = (props) => {
     return (
         <div>
             {props.grouplist.map(groupID => <Link to={`/group/${groupID}`} key={groupID}><SingleGroup groupID={groupID} key={groupID} /></Link>)}
@@ -37,4 +37,4 @@ class SingleGroup extends Component {
 
 
 
-export default GroupNav;
+export default GroupList;

@@ -30,11 +30,11 @@ class AddPost extends Component {
     }
 
     handleSubmit = async event => {
-        
 
-        const {userID, groupID } = this.props
 
-        const userPost = {text: this.state.text}
+        const { userID, groupID } = this.props
+
+        const userPost = { text: this.state.text }
 
         const dbResponse = await axios.post('/api/newpost', { userID, groupID, userPost });
         console.log(dbResponse)
@@ -68,7 +68,7 @@ class AddPost extends Component {
                             />
                         </div>
                     </div>
-                
+
                     <div className='form-group '>
                         <div className='col-7'></div>
                         <button
@@ -82,14 +82,7 @@ class AddPost extends Component {
     };
 };
 
-const AddPostLink = () => (
-    <Link to={Routes.discussion}>
-        <button className='btn btn-link'>Create Group</button>
-    </Link>
-);
 
 const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(AddPost);
-
-export { AddPostLink };

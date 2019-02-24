@@ -63,7 +63,7 @@ class AddBookPage extends Component {
                                 style={inputStyle}
                                 type='text'
                                 name='bookSearch'
-                                placeholder='bookSearch'
+                                placeholder='Enter a Book to Search'
                                 value={this.state.bookSearch}
                                 onChange={this.handleChange}
                             />
