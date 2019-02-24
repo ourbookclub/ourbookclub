@@ -23,7 +23,13 @@ module.exports = app => {
 
     app.get(`/api/getuser/:email`, async (req, res) => {
         const email = req.params.email;
-        const foundUser = await userHandler.getSingleUser(email);
+        const foundUser = await userHandler.getUserByEmail(email);
         res.status(200).send(foundUser);
     });
+
+    app.get(`/api/getuserbyid/:userid`, async (req, res) => {
+        const userID = req.params.userid;
+        const foundUser = await userHandler.getUserByID(userID);
+        res.status(200).send(foundUser);
+    })
 }

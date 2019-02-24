@@ -56,8 +56,12 @@ module.exports = {
         const newUserInDB = await db.User.create(newUser);
         return newUserInDB;
     },
-    getSingleUser: async (email) => {
+    getUserByEmail: async (email) => {
         const foundUser = await db.User.findOne({ 'local.email': email });
         return foundUser;
+    },
+    getUserByID: async (userID) => {
+        const foundUser = await db.User.findById([userID]);
+        return foundUser.local.username;
     }
 };
