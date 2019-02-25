@@ -128,8 +128,8 @@ class SignUpFormBase extends Component {
                 break;
             default:
                 break;
-        }
-    }
+        };
+    };
 
     render() {
         const { username, email, passwordOne, passwordTwo, firstname, lastname, error, validMessage } = this.state;
