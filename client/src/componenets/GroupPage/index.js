@@ -126,18 +126,18 @@ class GroupPage extends Component {
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 {showMainPage &&
                     <Fragment>
-                        <AddPost userID={this.props.userID} groupID={groupID} />
+                        <AddPost userID={this.props.userID} groupID={groupID} updatePage={this.updatePage} />
                         <ShowAllPosts groupID={groupID} />
                     </Fragment>
                 }
                 {updateBook &&
                     <Fragment>
-                        <AddBook groupID={groupID} isAdmin={isAdmin} />
-                        <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} />
+                        <AddBook groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
+                        <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} updatePage={this.updatePage} />
                     </Fragment>
                 }
                 {addUser &&
-                    <UserSearch groupID={groupID} isAdmin={isAdmin} />
+                    <UserSearch groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
                 }
 
             </div>

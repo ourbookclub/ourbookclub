@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import * as Routes from './constants/routes';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
@@ -52,7 +52,7 @@ class App extends Component {
       userID: dbResponse.data._id,
       grouplist: dbResponse.data.grouplist
     }
-    sessionStorage.setItem('userID', currentUser.userID)
+    sessionStorage.setItem(`userID`, currentUser.userID)
     this.setState({ currentUser })
   }
 
@@ -64,7 +64,7 @@ class App extends Component {
     return (
       <BrowserRouter>
 
-        <div className="App">
+        <div className='App'>
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}

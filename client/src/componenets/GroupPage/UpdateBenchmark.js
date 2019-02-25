@@ -36,6 +36,10 @@ class UpdateBenchmark extends Component {
 
         try {
             const dbResponse = await axios.put(`/api/updatebenchmark`, { nextBenchmark, groupID, isAdmin });
+
+            if (dbResponse.status === 200) {
+                this.props.updatePage('main');
+            }
         } catch (error) {
             this.setState({ error: { message: `Moderator needed to update benchmark` } })
         }
@@ -48,9 +52,13 @@ class UpdateBenchmark extends Component {
         const { groupID, isAdmin } = this.props;
 
         try {
-            const dbResponse = await axios.put(`/api/updatepagesetup`, { totalCount, groupID, isAdmin })
+            const dbResponse = await axios.put(`/api/updatepagesetup`, { totalCount, groupID, isAdmin });
+
+            if (dbResponse.status === 200) {
+                this.props.updatePage('main');
+            }
         } catch (error) {
-            this.setState({ error: { message: `Moderator needed to update benchmark` } })
+            this.setState({ error: { message: `Moderator needed to update benchmark` } });
         }
     }
 
