@@ -36,9 +36,8 @@ class AddBookPage extends Component {
 
         if (dbResponse.status === 200) {
             //returns an array of 1 - 20 books and maps over them
-            console.log(dbResponse)
             this.setState({ bookArray: dbResponse.data });
-            console.log(this.state)
+
         } else {
             this.setState({ error: dbResponse.data.error })
         }
@@ -63,7 +62,7 @@ class AddBookPage extends Component {
                                 style={inputStyle}
                                 type='text'
                                 name='bookSearch'
-                                placeholder='bookSearch'
+                                placeholder='Enter a Book to Search'
                                 value={this.state.bookSearch}
                                 onChange={this.handleChange}
                             />
@@ -78,7 +77,7 @@ class AddBookPage extends Component {
                         </div>
                     </div>
                 </form>
-                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} />)}
+                {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} updatePage={this.props.updatePage} />)}
             </div>
         )
     }
@@ -96,7 +95,9 @@ class SingleBook extends Component {
         const { groupID, isAdmin } = this.props;
 
         const dbResponse = await axios.post(`/api/addbook`, { groupID, isAdmin, chosenBook });
-        console.log(dbResponse)
+        if (dbResponse.status === 200) {
+            this.props.updatePage('main');
+        }
     }
 
     // Taking out the book object to make displaying it easier

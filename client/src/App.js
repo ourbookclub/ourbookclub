@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import * as Routes from './constants/routes';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
@@ -14,7 +14,7 @@ import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
-import GroupNav from './componenets/GroupNav'
+import GroupList from './componenets/GroupList';
 
 
 //adding a comment hoping it will help merge on github
@@ -52,7 +52,7 @@ class App extends Component {
       userID: dbResponse.data._id,
       grouplist: dbResponse.data.grouplist
     }
-    sessionStorage.setItem('userID', currentUser.userID)
+    sessionStorage.setItem(`userID`, currentUser.userID)
     this.setState({ currentUser })
   }
 
@@ -64,11 +64,11 @@ class App extends Component {
     return (
       <BrowserRouter>
 
-        <div className="App">
+        <div className='App'>
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}
-          {grouplist && <GroupNav grouplist={grouplist} />}
+          {grouplist && <GroupList grouplist={grouplist} />}
           <Route
             exact path={Routes.home}
             render={() =>

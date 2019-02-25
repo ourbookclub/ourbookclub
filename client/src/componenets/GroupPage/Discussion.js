@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
-import { Link } from 'react-router-dom';
-import * as Routes from '../../constants/routes';
 import axios from 'axios';
 
 const inputStyle = {
-    width: '50%',
-    height: '40px'
+    width: `50%`,
+    height: `40px`
 }
 const labelStyle = {
-    marginBottom: '0px'
+    marginBottom: `0px`
 }
 
 const initialState = {
@@ -30,16 +28,14 @@ class AddPost extends Component {
     }
 
     handleSubmit = async event => {
-        
+        event.preventDefault();
+        const { userID, groupID } = this.props
 
-        const {userID, groupID } = this.props
+        const userPost = { text: this.state.text }
 
-        const userPost = {text: this.state.text}
-
-        const dbResponse = await axios.post('/api/newpost', { userID, groupID, userPost });
-        console.log(dbResponse)
+        const dbResponse = await axios.post(`/api/newpost`, { userID, groupID, userPost });
         this.props.history.push(`/group/${dbResponse.data._id}`)
-
+        this.props.updatePage(`main`)
     }
 
     render() {
@@ -68,7 +64,7 @@ class AddPost extends Component {
                             />
                         </div>
                     </div>
-                
+
                     <div className='form-group '>
                         <div className='col-7'></div>
                         <button
@@ -82,14 +78,7 @@ class AddPost extends Component {
     };
 };
 
-const AddPostLink = () => (
-    <Link to={Routes.discussion}>
-        <button className='btn btn-link'>Create Group</button>
-    </Link>
-);
 
 const condition = authUser => !!authUser;
 
 export default withAuthorization(condition)(AddPost);
-
-export { AddPostLink };

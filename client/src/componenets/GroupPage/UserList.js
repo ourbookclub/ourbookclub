@@ -24,9 +24,7 @@ class SingleUser extends Component {
     }
 
     componentDidMount = async () => {
-        console.log(this.props)
         const dbResponse = await axios.get(`/api/getuserbyid/${this.props.userID}`);
-        console.log(dbResponse)
         if (dbResponse.status === 200) {
             this.setState({ username: dbResponse.data })
         } else {
