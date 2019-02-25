@@ -27,7 +27,8 @@ const initialState = {
     error: null,
     emailValid: false,
     passwordValid: false,
-    usernameValid: false
+    usernameValid: false,
+    validMessage: []
 }
 
 const SignUpPage = () => (
@@ -48,23 +49,28 @@ class SignUpFormBase extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const { username, email, password, firstname, lastname } = this.state;
+        //Checks if all the input fields are valid
+        //If not the validation messages are shown and no user is sent to sign up
+        if (this.checkValidInput()) {
+            const { username, email, password, firstname, lastname } = this.state;
 
-        const dbResponse = await axios.post('/api/newuser', { username, email, firstname, lastname });
+            const dbResponse = await axios.post('/api/newuser', { username, email, firstname, lastname });
 
-        if (dbResponse.status === 200) {
-            return this.props.firebase
-                .doCreateUserWithEmailAndPassword(email, password)
-                .then(authUser => {
-                    //The User has been successfully authenticated, clear this component state and redirect them to the home page
-                    this.setState({ ...initialState });
-                    this.props.history.push(Routes.home);
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.setState({ error });
-                });
+            if (dbResponse.status === 200) {
+                return this.props.firebase
+                    .doCreateUserWithEmailAndPassword(email, password)
+                    .then(authUser => {
+                        //The User has been successfully authenticated, clear this component state and redirect them to the home page
+                        this.setState({ ...initialState });
+                        this.props.history.push(Routes.home);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.setState({ error });
+                    });
+            }
         }
+
     };
 
     handleChange = event => {
@@ -77,7 +83,28 @@ class SignUpFormBase extends Component {
 
     };
 
-    // TODO START HERE https://learnetto.com/blog/how-to-do-simple-form-validation-in-reactjs
+    checkValidInput = () => {
+        let invalidInputs = 0;
+        let invalidMessages = [];
+        if (!this.state.emailValid) {
+            invalidInputs++;
+            invalidMessages.push(`Email entered is invalid`);
+        }
+        if (!this.state.usernameValid) {
+            invalidInputs++;
+            invalidMessages.push(`Please ensure username is at least 3 characters, no more than 16 and only contains letters, numbers, underscores and dashes`);
+        }
+        if (!this.state.passwordValid) {
+            invalidInputs++;
+            invalidMessages.push(`Password must be at least 6 characters in length and contain no spaces`)
+        }
+        if (invalidInputs > 0) {
+            this.setState({ validMessage: invalidMessages });
+            return false;
+        } else {
+            return true;
+        };
+    };
 
     validateForm = (fieldName, value) => {
         let validCheck;
@@ -106,7 +133,7 @@ class SignUpFormBase extends Component {
     }
 
     render() {
-        const { username, email, passwordOne, passwordTwo, firstname, lastname, error } = this.state;
+        const { username, email, passwordOne, passwordTwo, firstname, lastname, error, validMessage } = this.state;
 
         const isInvalid =
             passwordOne !== passwordTwo ||
@@ -122,6 +149,7 @@ class SignUpFormBase extends Component {
                 <br />
                 {/* If there's an error with signup then display the error */}
                 {error && <p>{error.message}</p>}
+                {validMessage && validMessage.map((message, i) => <p key={i}>{message}</p>)}
 
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group">
