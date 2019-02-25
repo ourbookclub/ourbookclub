@@ -3,11 +3,6 @@ const bookHandler = require(`../handlers/bookHandler`);
 
 
 module.exports = app => {
-    app.put(`/api/updateuser`, async (req, res) => {
-        //Pass the user to change's field, their updated value and what field they would like to change
-        const updatedUser = await userHandler.updateProfile(req.body.userID, req.body.value, req.body.request);
-        res.json(updatedUser)
-    });
 
     app.get(`/api/searchbook/:book`, async (req, res) => {
         const searchedBook = req.params.book;
