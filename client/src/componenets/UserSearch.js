@@ -23,8 +23,8 @@ class UserSearch extends Component {
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
-        })
-    }
+        });
+    };
 
     handleSubmit = async event => {
         event.preventDefault();

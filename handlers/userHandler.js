@@ -86,6 +86,6 @@ module.exports = {
     },
     getUserByID: async (userID) => {
         const foundUser = await db.User.findById([userID]);
-        return foundUser.local.username;
+        return foundUser;
     }
 };

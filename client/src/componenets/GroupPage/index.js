@@ -36,13 +36,13 @@ class GroupPage extends Component {
     };
 
     componentDidMount() {
-        const groupIDFromURL = this.props.match.params.group;
+        const groupIDFromURL = this.props.match.params.groupID;
         this.getGroupData(groupIDFromURL);
     };
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.group !== prevProps.match.params.group) {
-            const groupID = this.props.match.params.group;
+        if (this.props.match.params.groupID !== prevProps.match.params.groupID) {
+            const groupID = this.props.match.params.groupID;
             this.getGroupData(groupID);
         };
     };
@@ -107,6 +107,8 @@ class GroupPage extends Component {
                     addUser: true
                 });
                 this.getGroupData(this.state.groupID);
+                break;
+            default:
                 break;
         }
     };
