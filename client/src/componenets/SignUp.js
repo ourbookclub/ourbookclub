@@ -84,20 +84,21 @@ class SignUpFormBase extends Component {
 
         switch (fieldName) {
             case 'email':
-                let emailValid = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-                validCheck = emailValid ? true : false;
-                console.log(validCheck)
+                let checkEmail = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                validCheck = checkEmail ? true : false;
+                this.setState({ emailValid: validCheck });
                 break;
             case 'password':
-                let passwordValid = value.length >= 6;
-                validCheck = passwordValid ? true : false;
-                console.log(validCheck)
+                let checkPassword = value.length >= 6;
+                let noSpacesInPassword = value.match(/^\S*$/);
+                validCheck = checkPassword && noSpacesInPassword ? true : false;
+                this.setState({ passwordValid: validCheck });
                 break;
             case 'username':
-                let usernameValid = value.match(/^([a-z0-9-_])+$/i);
+                let checkUsername = value.match(/^([a-z0-9-_])+$/i);
                 let usernameLength = value.length >= 3 && value.length <= 16;
-                validCheck = usernameValid && usernameLength ? true : false;
-                console.log(validCheck)
+                validCheck = checkUsername && usernameLength ? true : false;
+                this.setState({ usernameValid: validCheck });
                 break;
             default:
                 break;
@@ -142,7 +143,7 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="password" style={labelStyle}>Password<br />(Must be at least 6 characters) </label>
+                            <label className="form-label" htmlFor="password" style={labelStyle}>Password<br />(Must be at least 6 characters with no spaces) </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
@@ -174,7 +175,7 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="username" style={labelStyle}>Username<br />(Must be at least 3 characters, no more than 16 & no spaces)</label>
+                            <label className="form-label" htmlFor="username" style={labelStyle}>Username<br />(Must be at least 3 characters, no more than 16, no special characters & no spaces)</label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
