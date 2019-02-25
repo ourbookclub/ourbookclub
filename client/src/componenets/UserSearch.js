@@ -32,6 +32,7 @@ class UserSearch extends Component {
         const { userSearch, searchSelect } = this.state;
 
         const dbResponse = await axios.get(`/api/usersearch/${userSearch}/${searchSelect}`);
+
         this.setState({ userArray: dbResponse.data });
     }
 
@@ -70,17 +71,17 @@ class UserSearch extends Component {
                             />
                         </div>
 
-                        <div className="form-group ">
-                            <div className="col-7"></div>
+                        <div className='form-group'>
+                            <div className='col-7'></div>
                             <button
                                 disabled={isInvalid}
-                                className="btn btn-primary col-1 col-mr-auto"
-                                type="submit"
+                                className='btn btn-primary col-1 col-mr-auto'
+                                type='submit'
                             >Search User</button>
                         </div>
                     </div>
                 </form>
-                {userArray && userArray.map((user, i) => <SingleUser user={user} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} />)}
+                {userArray && userArray.map((user, i) => <SingleUser user={user} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} updatePage={this.props.updatePage} />)}
             </div>
         )
     }
@@ -98,6 +99,7 @@ class SingleUser extends Component {
         const { userID } = this.props.user;
 
         const dbResponse = await axios.put(`/api/addusertogroup`, { isAdmin, groupID, userID });
+        this.props.updatePage(`main`);
     }
 
     // Taking out the book object to make displaying it easier
@@ -106,11 +108,11 @@ class SingleUser extends Component {
         const { email, username } = this.props.user;
 
         return (
-            <div className="userCard">
+            <div className='userCard'>
                 <div>Email: {email}</div>
                 <div>Username: {username}</div>
 
-                {isAdmin && <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addUserToGroup}>Add User To Group</button>}
+                {isAdmin && <button className='btn btn-primary col-1 col-mr-auto' onClick={this.addUserToGroup}>Add User To Group</button>}
             </div>
         )
     }
