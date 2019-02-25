@@ -5,7 +5,10 @@ import axios from 'axios';
 const GroupList = (props) => {
     return (
         <div>
-            {props.grouplist.map(groupID => <Link to={`/group/${groupID}`} key={groupID}><SingleGroup groupID={groupID} key={groupID} /></Link>)}
+            <h4>Your Clubs:</h4>
+            <div>
+                {props.grouplist.map(groupID => <Link to={`/group/${groupID}`} key={groupID}><SingleGroup groupID={groupID} key={groupID} /></Link>)}
+            </div>
         </div>
     )
 }

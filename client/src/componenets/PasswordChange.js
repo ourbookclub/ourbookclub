@@ -55,43 +55,46 @@ class PasswordChangeForm extends Component {
             password !== passwordConfirm || password === '';
 
         return (
-            <form className='form-horizontal' onSubmit={this.onSubmit}>
-                {error && <p>{error.message}</p>}
-                <div className="col-1 col-ml-auto">
-                    <label className="form-label" style={labelStyle} htmlFor="password">New Password:</label>
-                </div>
-                <div className='form-group'>
-                    <input className="form-input"
-                        style={inputStyle}
-                        name="password"
-                        value={password}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="New Password"
-                    />
-                </div>
-                <div className="col-1 col-ml-auto">
-                    <label className="form-label" style={labelStyle} htmlFor="passwordConfirm">Confirm Password:</label>
-                </div>
-                <div className='form-group'>
-                    <input className="form-input"
-                        style={inputStyle}
-                        name="passwordConfirm"
-                        value={passwordConfirm}
-                        onChange={this.onChange}
-                        type="password"
-                        placeholder="Confirm New Password"
-                    />
-                </div>
-                <div className="form-group ">
-                    <div className="col-7"></div>
-                    <button
-                        className="btn btn-primary col-1 col-mr-auto"
-                        disabled={isInvalid}
-                        type="submit">Update Password</button>
-                </div>
+            <div>
+                <h3>Update Password:</h3>
+                <form className='form-horizontal' onSubmit={this.onSubmit}>
+                    {error && <p>{error.message}</p>}
+                    <div className="col-1 col-ml-auto">
+                        <label className="form-label" style={labelStyle} htmlFor="password">New Password:</label>
+                    </div>
+                    <div className='form-group'>
+                        <input className="form-input"
+                            style={inputStyle}
+                            name="password"
+                            value={password}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="New Password"
+                        />
+                    </div>
+                    <div className="col-1 col-ml-auto">
+                        <label className="form-label" style={labelStyle} htmlFor="passwordConfirm">Confirm Password:</label>
+                    </div>
+                    <div className='form-group'>
+                        <input className="form-input"
+                            style={inputStyle}
+                            name="passwordConfirm"
+                            value={passwordConfirm}
+                            onChange={this.onChange}
+                            type="password"
+                            placeholder="Confirm New Password"
+                        />
+                    </div>
+                    <div className="form-group ">
+                        <div className="col-7"></div>
+                        <button
+                            className="btn btn-primary col-1 col-mr-auto"
+                            disabled={isInvalid}
+                            type="submit">Update Password</button>
+                    </div>
 
-            </form>
+                </form>
+            </div>
         );
     }
 }

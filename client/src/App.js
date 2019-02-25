@@ -104,9 +104,14 @@ class App extends Component {
               <CreateGroup userID={this.state.currentUser.userID} />}
           />
           <Route
-            path={`/group/:group`}
+            path={`/group/:groupID`}
             render={() =>
               <GroupPage userID={this.state.currentUser.userID} />}
+          />
+          <Route
+            path={`/user/:userID`}
+            render={() =>
+              <UserProfile userID={this.state.currentUser.userID} />}
           />
 
         </div>

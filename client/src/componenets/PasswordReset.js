@@ -13,6 +13,7 @@ const inputStyle = {
 
 const PasswordResetPage = () => (
     <div>
+        {/* TODO This totally doesn't work */}
         <h3>Password Reset</h3>
         <br />
         <PasswordResetForm />

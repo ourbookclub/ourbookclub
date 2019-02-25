@@ -38,7 +38,6 @@ class CreateGroup extends Component {
         const { groupName, groupDescription } = this.state
 
         const dbResponse = await axios.post('/api/creategroup', { currentUserID, groupName, groupDescription });
-        console.log(dbResponse)
         this.props.history.push(`/group/${dbResponse.data._id}`)
 
     }

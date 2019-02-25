@@ -26,7 +26,7 @@ class SingleUser extends Component {
     componentDidMount = async () => {
         const dbResponse = await axios.get(`/api/getuserbyid/${this.props.userID}`);
         if (dbResponse.status === 200) {
-            this.setState({ username: dbResponse.data })
+            this.setState({ username: dbResponse.data.local.username })
         } else {
             this.setState({ error: dbResponse.data })
         }

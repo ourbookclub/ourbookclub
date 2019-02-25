@@ -3,9 +3,11 @@ const userHandler = require(`../handlers/userHandler`);
 
 module.exports = app => {
     app.put(`/api/updateuser`, async (req, res) => {
+        const { userID, value, request } = req.body;
+
         //Pass the user to change's field, their updated value and what field they would like to change
-        const updatedUser = await userHandler.updateProfile(req.body.userID, req.body.value, req.body.request);
-        res.json(updatedUser)
+        const updatedUser = await userHandler.updateProfile(userID, value, request);
+        res.status(200).send(updatedUser)
     });
 
     app.post(`/api/newuser`, async (req, res) => {
