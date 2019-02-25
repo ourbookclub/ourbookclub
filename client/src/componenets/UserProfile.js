@@ -16,6 +16,9 @@ const initialUpdateState = {
     email: '',
     firstname: '',
     lastname: '',
+    emailValid: false,
+    usernameValid: false,
+    validMessage: ''
 };
 
 const initialProfileState = {
@@ -101,27 +104,70 @@ class UpdateInformationForm extends Component {
         this.state = { ...initialUpdateState };
     };
 
-    handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    };
-
     handleSubmit = async (fieldSubmitted) => {
-        const value = this.state[fieldSubmitted];
-        const userID = this.props.userID;
-        const request = fieldSubmitted;
 
-        const dbResponse = await axios.put(`/api/updateuser`, { userID, value, request });
+        if (this.checkValidInput(fieldSubmitted)) {
+            const value = this.state[fieldSubmitted];
+            const userID = this.props.userID;
+            const request = fieldSubmitted;
 
-        if (dbResponse.status === 200) {
-            this.props.updatedProfile();
-            this.setState({ ...initialUpdateState });
+            const dbResponse = await axios.put(`/api/updateuser`, { userID, value, request });
+
+            if (dbResponse.status === 200) {
+                this.props.updatedProfile();
+                this.setState({ ...initialUpdateState });
+            };
         };
     };
 
+    handleChange = event => {
+        //Breaking this out due to the input validation
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [event.target.name]: event.target.value },
+            () => this.validateForm(name, value));
+
+    };
+
+    validateForm = (fieldName, value) => {
+        let validCheck;
+
+        switch (fieldName) {
+            case `email`:
+                let checkEmail = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                validCheck = checkEmail ? true : false;
+                this.setState({ emailValid: validCheck });
+                break;
+            case `username`:
+                let checkUsername = value.match(/^([a-z0-9-_])+$/i);
+                let usernameLength = value.length >= 3 && value.length <= 16;
+                validCheck = checkUsername && usernameLength ? true : false;
+                this.setState({ usernameValid: validCheck });
+                break;
+            default:
+                break;
+        };
+    };
+
+    checkValidInput = (fieldSubmitted) => {
+        let invalidInputs = 0;
+
+        if (fieldSubmitted === 'email' && !this.state.emailValid) {
+            this.setState({ validMessage: `Email entered is invalid` });
+            return false
+        };
+
+        if (fieldSubmitted === 'username' && !this.state.usernameValid) {
+            this.setState({ validMessage: `Please ensure username is at least 3 characters, no more than 16 and only contains letters, numbers, underscores and dashes` });
+            return false
+        }
+
+        return true;
+    };
+
     render() {
-        const { username, email, firstname, lastname } = this.state;
+        const { username, email, firstname, lastname, validMessage } = this.state;
 
         const usernameIsInvalid = username === '';
         const emailIsInvalid = email === '';
@@ -130,6 +176,8 @@ class UpdateInformationForm extends Component {
 
         return (
             <div className='form-group'>
+                {validMessage && <p>{validMessage}</p>}
+                <br />
                 <label style={labelStyle}>Username:</label>
                 <input className='form-input'
                     style={inputStyle}
@@ -184,7 +232,7 @@ class UpdateInformationForm extends Component {
                     disabled={lastnameIsInvalid}
                     onClick={() => this.handleSubmit('lastname')}>Update Lastname</button>
                 <br />
-            </div>
+            </div >
         );
     };
 };
