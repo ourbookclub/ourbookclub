@@ -11,7 +11,6 @@ class Home extends Component {
         }
         return (
             <div>
-                <p>It's good to be home {this.props.userID}</p>
                 <img style={imageStyle} alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
             </div>
         )

@@ -24,7 +24,10 @@ const initialState = {
     firstname: '',
     lastname: '',
     redirectTo: null,
-    error: null
+    error: null,
+    emailValid: false,
+    passwordValid: false,
+    usernameValid: false
 }
 
 const SignUpPage = () => (
@@ -65,9 +68,41 @@ class SignUpFormBase extends Component {
     };
 
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        //Breaking this out due to the input validation
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [event.target.name]: event.target.value },
+            () => this.validateForm(name, value));
 
     };
+
+    // TODO START HERE https://learnetto.com/blog/how-to-do-simple-form-validation-in-reactjs
+
+    validateForm = (fieldName, value) => {
+        let validCheck;
+
+        switch (fieldName) {
+            case 'email':
+                let emailValid = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                validCheck = emailValid ? true : false;
+                console.log(validCheck)
+                break;
+            case 'password':
+                let passwordValid = value.length >= 6;
+                validCheck = passwordValid ? true : false;
+                console.log(validCheck)
+                break;
+            case 'username':
+                let usernameValid = value.match(/^([a-z0-9-_])+$/i);
+                let usernameLength = value.length >= 3 && value.length <= 16;
+                validCheck = usernameValid && usernameLength ? true : false;
+                console.log(validCheck)
+                break;
+            default:
+                break;
+        }
+    }
 
     render() {
         const { username, email, passwordOne, passwordTwo, firstname, lastname, error } = this.state;
@@ -76,9 +111,10 @@ class SignUpFormBase extends Component {
             passwordOne !== passwordTwo ||
             passwordOne === '' ||
             email === '' ||
-            username === '' ||
             firstname === '' ||
-            lastname === '';
+            lastname === '' ||
+            username.length < 3 ||
+            passwordOne < 6;
 
         return (
             <div className="SignupForm">
@@ -89,7 +125,7 @@ class SignUpFormBase extends Component {
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="email" style={labelStyle}>Email: </label>
+                            <label className="form-label" htmlFor="email" style={labelStyle}>Email </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
@@ -97,7 +133,7 @@ class SignUpFormBase extends Component {
                                 type="text"
                                 id="email"
                                 name="email"
-                                placeholder="email"
+                                placeholder="ex. janedoe@email.com"
                                 value={this.state.email}
                                 onChange={this.handleChange}
                             />
@@ -106,12 +142,12 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="password" style={labelStyle}>Password: </label>
+                            <label className="form-label" htmlFor="password" style={labelStyle}>Password<br />(Must be at least 6 characters) </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="password"
+                                placeholder="Password"
                                 type="password"
                                 name="password"
                                 value={this.state.password}
@@ -122,7 +158,7 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="confirmPassword" style={labelStyle}>Confirm Password: </label>
+                            <label className="form-label" htmlFor="confirmPassword" style={labelStyle}>Confirm Password </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
@@ -138,12 +174,12 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="username" style={labelStyle}>Username: </label>
+                            <label className="form-label" htmlFor="username" style={labelStyle}>Username<br />(Must be at least 3 characters, no more than 16 & no spaces)</label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="username"
+                                placeholder="ex. JaneDoe14"
                                 type="username"
                                 name="username"
                                 value={this.state.username}
@@ -159,7 +195,7 @@ class SignUpFormBase extends Component {
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="firstname"
+                                placeholder="ex. Jane"
                                 type="firstname"
                                 name="firstname"
                                 value={this.state.firstname}
@@ -175,7 +211,7 @@ class SignUpFormBase extends Component {
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="lastname"
+                                placeholder="ex. Doe"
                                 type="lastname"
                                 name="lastname"
                                 value={this.state.lastname}

@@ -14,10 +14,10 @@ const NavBar = (props) => {
                     {props.authUser ? (
                         <section className="navbar-section">
                             <HomeLink />
-                            <SignOutButton />
-                            <Link to={Routes.passwordChange} className="btn btn-link">
-                                <span className="text-secondary">Update Password</span>
+                            <Link to={Routes.createGroup} className="btn btn-link">
+                                Create a Club
                             </Link>
+                            <SignOutButton />
                         </section>
                     ) : (
                             <section className="navbar-section">
