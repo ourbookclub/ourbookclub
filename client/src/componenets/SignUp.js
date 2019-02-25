@@ -54,7 +54,7 @@ class SignUpFormBase extends Component {
         if (this.checkValidInput()) {
             const { username, email, password, firstname, lastname } = this.state;
 
-            const dbResponse = await axios.post('/api/newuser', { username, email, firstname, lastname });
+            const dbResponse = await axios.post(`/api/newuser`, { username, email, firstname, lastname });
 
             if (dbResponse.status === 200) {
                 return this.props.firebase
@@ -68,9 +68,8 @@ class SignUpFormBase extends Component {
                         console.log(error)
                         this.setState({ error });
                     });
-            }
-        }
-
+            };
+        };
     };
 
     handleChange = event => {
@@ -89,15 +88,15 @@ class SignUpFormBase extends Component {
         if (!this.state.emailValid) {
             invalidInputs++;
             invalidMessages.push(`Email entered is invalid`);
-        }
+        };
         if (!this.state.usernameValid) {
             invalidInputs++;
             invalidMessages.push(`Please ensure username is at least 3 characters, no more than 16 and only contains letters, numbers, underscores and dashes`);
-        }
+        };
         if (!this.state.passwordValid) {
             invalidInputs++;
             invalidMessages.push(`Password must be at least 6 characters in length and contain no spaces`)
-        }
+        };
         if (invalidInputs > 0) {
             this.setState({ validMessage: invalidMessages });
             return false;
@@ -110,18 +109,18 @@ class SignUpFormBase extends Component {
         let validCheck;
 
         switch (fieldName) {
-            case 'email':
+            case `email`:
                 let checkEmail = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
                 validCheck = checkEmail ? true : false;
                 this.setState({ emailValid: validCheck });
                 break;
-            case 'password':
+            case `password`:
                 let checkPassword = value.length >= 6;
                 let noSpacesInPassword = value.match(/^\S*$/);
                 validCheck = checkPassword && noSpacesInPassword ? true : false;
                 this.setState({ passwordValid: validCheck });
                 break;
-            case 'username':
+            case `username`:
                 let checkUsername = value.match(/^([a-z0-9-_])+$/i);
                 let usernameLength = value.length >= 3 && value.length <= 16;
                 validCheck = checkUsername && usernameLength ? true : false;
