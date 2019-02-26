@@ -44,9 +44,13 @@ module.exports = app => {
     });
 
     app.post(`/api/newcomment`, async (req, res) => {
-        const { postID, comment } = req.body;
-        const newComment = await postHandler.createComment(req.user._id, postID, comment);
-        res.json(newComment);
+        const { userID, postID, comment } = req.body;
+
+        res.json({ 'working': userID });
+
+        console.log(userID, postID, comment)
+        // const newComment = await postHandler.createComment(userID, postID, comment);
+        // res.json(newComment);
     });
 
     //Everything is singular on the backend

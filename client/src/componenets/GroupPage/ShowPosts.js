@@ -82,7 +82,7 @@ class SinglePost extends Component {
 
     render() {
         const { username } = this.state;
-        const { date, title, text, _id } = this.props.post;
+        const { date, title, text, _id, user } = this.props.post;
 
         return (
             <span>
@@ -113,6 +113,18 @@ class AddComment extends Component {
         }
     };
 
+    handleSubmit = async () => {
+        const comment = this.state.comment;
+        const userID = this.props.userID;
+        const postID = this.props.postID;
+
+        const dbResponse = await axios.post(`/api/newcomment`, { userID, postID, comment });
+
+        //TODO PASS DOWN THE USER ID FROM APP LEVEL TO HERE
+        //ALSO FIX THE SESSION STORAGE
+        console.log(dbResponse);
+    }
+
     handleChange = (event) => {
         this.setState({ [event.target.name]: event.target.value });
     };
@@ -135,7 +147,7 @@ class AddComment extends Component {
                     onChange={this.handleChange}></input>
                 <button className='btn btn-primary'
                     disabled={isInvalid}
-                    onClick={this.handleClick}>Add Comment</button>
+                    onClick={this.handleSubmit}>Add Comment</button>
             </div>
         )
     }
