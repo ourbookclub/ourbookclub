@@ -19,6 +19,8 @@ const initalState = {
     password: '',
     passwordConfirm: '',
     error: null,
+    passwordValid: false,
+    validMessage: []
 };
 
 class PasswordChangeForm extends Component {
@@ -28,28 +30,60 @@ class PasswordChangeForm extends Component {
         this.state = { ...initalState };
     }
 
-    onSubmit = event => {
+    handleSubmit = event => {
         event.preventDefault();
 
-        const { password } = this.state;
+        //Checks if the password they inputted is correct. If it isn't it will not submit
+        if (this.checkValidInput()) {
+            const { password } = this.state;
 
-        this.props.firebase
-            .doPasswordUpdate(password)
-            .then(() => {
-                this.setState({ ...initalState });
-                this.props.history.push(Routes.home);
-            })
-            .catch(error => {
-                this.setState({ error });
-            });
+            this.props.firebase
+                .doPasswordUpdate(password)
+                .then(() => {
+                    this.setState({ ...initalState });
+                    this.props.history.push(Routes.home);
+                })
+                .catch(error => {
+                    this.setState({ error });
+                });
+        }
     };
 
-    onChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+    handleChange = event => {
+        //Breaking this out due to the input validation
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [event.target.name]: event.target.value },
+            () => this.validateForm(name, value));
     };
+
+    checkValidInput = () => {
+        let invalidInputs = 0;
+        let invalidMessages = [];
+        if (!this.state.passwordValid) {
+            invalidInputs++;
+            invalidMessages.push(`Password must be at least 6 characters in length and contain no spaces`)
+        };
+        if (invalidInputs > 0) {
+            this.setState({ validMessage: invalidMessages });
+            return false;
+        } else {
+            return true;
+        };
+    }
+
+    //Field name to keep validation consistant, but there's only password here
+    validateForm = (fieldName, value) => {
+        let validCheck;
+        let checkPassword = value.length >= 6;
+        let noSpacesInPassword = value.match(/^\S*$/);
+        validCheck = checkPassword && noSpacesInPassword ? true : false;
+        this.setState({ passwordValid: validCheck });
+    }
 
     render() {
-        const { password, passwordConfirm, error } = this.state;
+        const { password, passwordConfirm, error, validMessage } = this.state;
 
         const isInvalid =
             password !== passwordConfirm || password === '';
@@ -57,7 +91,9 @@ class PasswordChangeForm extends Component {
         return (
             <div>
                 <h3>Update Password:</h3>
-                <form className='form-horizontal' onSubmit={this.onSubmit}>
+                <br />
+                {validMessage && validMessage.map((message, i) => <p key={i}>{message}</p>)}
+                <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     {error && <p>{error.message}</p>}
                     <div className="col-1 col-ml-auto">
                         <label className="form-label" style={labelStyle} htmlFor="password">New Password:</label>
@@ -67,7 +103,7 @@ class PasswordChangeForm extends Component {
                             style={inputStyle}
                             name="password"
                             value={password}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                             type="password"
                             placeholder="New Password"
                         />
@@ -80,7 +116,7 @@ class PasswordChangeForm extends Component {
                             style={inputStyle}
                             name="passwordConfirm"
                             value={passwordConfirm}
-                            onChange={this.onChange}
+                            onChange={this.handleChange}
                             type="password"
                             placeholder="Confirm New Password"
                         />

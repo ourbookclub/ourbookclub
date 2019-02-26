@@ -99,8 +99,11 @@ class SingleUser extends Component {
         const { userID } = this.props.user;
 
         const dbResponse = await axios.put(`/api/addusertogroup`, { isAdmin, groupID, userID });
-        this.props.updatePage(`main`);
-    }
+
+        if (dbResponse.status === 200) {
+            this.props.updatePage(`main`);
+        };
+    };
 
     // Taking out the book object to make displaying it easier
     render() {
