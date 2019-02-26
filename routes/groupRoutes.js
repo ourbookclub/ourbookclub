@@ -40,7 +40,7 @@ module.exports = app => {
         const { userID, groupID, userPost } = req.body;
 
         const newPost = await postHandler.createPost(userID, groupID, userPost);
-        res.json(newPost);
+        res.status(200).send(newPost);
     });
 
     app.post(`/api/newcomment`, async (req, res) => {
