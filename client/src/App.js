@@ -70,7 +70,7 @@ class App extends Component {
           <Route
             exact path={Routes.home}
             render={() =>
-              <Home userID={this.state.currentUser.userID} />} />
+              <Home grouplist={grouplist} />} />
           <Route
             path={Routes.signin}
             render={() =>
