@@ -5,7 +5,7 @@ import { withFirebase } from './componenets/Firebase';
 import axios from 'axios';
 
 //background
-import Background from './images/spacebackground.jpg'
+
 
 // Components
 import SignUpPage from './componenets/SignUp';
@@ -21,16 +21,16 @@ import GroupPage from './componenets/GroupPage';
 import GroupList from './componenets/GroupList';
 
 
-const background = {
-  backgroundImage: `url(${Background})`,
-  width: 'auto',
-  height: '100%',
-  overflow: 'hidden',
+// const background = {
+//   backgroundImage: `url(${Background})`,
+//   width: 'auto',
+//   height: '100%',
+//   overflow: 'hidden',
 
-backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-}
+// backgroundPosition: 'center',
+//       backgroundSize: 'cover',
+//       backgroundRepeat: 'no-repeat',
+// }
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -80,7 +80,7 @@ class App extends Component {
       
       <BrowserRouter>
 
-        <div style={background} className="App">
+        <div>
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}

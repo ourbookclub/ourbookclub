@@ -8,6 +8,15 @@ const initialState = {
     error: null
 }
 
+const textsize = {
+    fontSize: '50px' 
+}
+
+const imagesize = {
+    width: "auto",
+    height: "30%",
+}
+
 class CurrentBook extends Component {
     constructor(props) {
         super(props);
@@ -46,10 +55,10 @@ class CurrentBook extends Component {
     render() {
         return (
             <div className='currentBook'>
-                <div>Title: {this.state.title}</div>
-                <img src={this.state.image} alt={`${this.state.title}`} />
-                <div>Current Benchmark: {this.props.currentBenchmark}</div>
-                <div>Total Benchmark: {this.props.totalBenchmark}</div>
+                <div style={textsize}>Title: {this.state.title}</div>
+                <img width="auto" height="50%" src={this.state.image} alt={`${this.state.title}`} />
+                <div style={textsize}>Current Benchmark: {this.props.currentBenchmark}</div>
+                <div style={textsize}>Total Benchmark: {this.props.totalBenchmark}</div>
                 <br />
             </div>
 

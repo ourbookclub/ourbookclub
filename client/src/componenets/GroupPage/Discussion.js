@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
+import { Input, TextArea, FormBtn } from "./Form/index.js";
 import TextareaAutosize from 'react-textarea-autosize';
 
 
 const inputStyle = {
-    width: `50%`,
-    height: `40px`
+    width: `100%`,
+    height: '100%',
 }
 const labelStyle = {
-    marginBottom: `0px`
+    fontSize: '50px' 
 }
 
 const initialState = {
@@ -48,22 +49,27 @@ class AddPost extends Component {
         return (
             <div>
                 <br />
-                {/* If there's an error with sign in then display the error */}
+                If there's an error with sign in then display the error
                 {error && <p>{error.message}</p>}
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
-                    <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
+                    <div >
+                    {/* // className='form-group'> */}
+                        <div >
                             <label className='form-label' style={labelStyle} htmlFor='text'>Post:</label>
                         </div>
-                        <div className='col-3 col-mr-auto'>
-                            <TextareaAutosize
-    style={{boxSizing: 'border-box'}}
-    minRows={3}
-    maxRows={6}
-    defaultValue="Just a single line..." input className='form-input'
+                        <div>
+                            <TextArea
+
+    // style={{boxSizing: 'border-box'}}
+    // minRows={3}
+    // maxRows={6}
+    // defaultValue="Just a single line..." 
+    input 
+    // className='form-input'
                                 style={inputStyle}
                                 type='text'
                                 name='text'
+                               
                                 placeholder='Write your Post'
                                 value={this.state.text}
                                 onChange={this.handleChange}
@@ -71,7 +77,9 @@ class AddPost extends Component {
                         </div>
                     </div>
 
-                    <div className='form-group '>
+                    <div 
+                    // className='form-group '
+                    >
                         <div className='col-7'></div>
                         <button
                             className='btn btn-primary col-1 col-mr-auto'

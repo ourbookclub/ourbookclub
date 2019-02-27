@@ -34,7 +34,7 @@ const text = {
 }
 
 const h1 = {
-    color: 'white',
+    color: 'blue',
     fontSize: '50px',
 }; 
 
@@ -109,7 +109,7 @@ class ShowPosts extends Component {
         const { postArray } = this.state;
         return (
             <div>
-                <h1>Posts</h1>
+                <h1 style={h1}>Posts</h1>
                 {
                     postArray.map((Response, i) => (
                         <span key={i}>
