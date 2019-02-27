@@ -3,6 +3,8 @@ import { withAuthorization } from '../Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../../constants/routes';
 import axios from 'axios';
+import TextareaAutosize from 'react-textarea-autosize';
+
 
 const inputStyle = {
     width: '50%',
@@ -58,7 +60,11 @@ class AddPost extends Component {
                             <label className='form-label' style={labelStyle} htmlFor='text'>Post:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
+                            <TextareaAutosize
+    style={{boxSizing: 'border-box'}}
+    minRows={3}
+    maxRows={6}
+    defaultValue="Just a single line..." input className='form-input'
                                 style={inputStyle}
                                 type='text'
                                 name='text'

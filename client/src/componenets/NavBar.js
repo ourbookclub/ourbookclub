@@ -1,39 +1,83 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css';
+import Background from '../images/spacebackground.jpg'
 import * as Routes from '../constants/routes';
 import SignOutButton from './SignOutButton';
 import { HomeLink } from './Home';
+import Logo from '../images/logo.png'
+import Border from '../images/background.png'
+import JimGif from '../images/JimGif.gif'
+import { Nav, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
 
+
+const background = {
+    backgroundImage: `url(${Border})`,
+        width: 'auto',
+        height: '100%',
+        overflow: 'hidden',
+   
+    backgroundPosition: 'center',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+
+}
 
 const NavBar = (props) => {
     return (
         < div >
-            <header className="navbar App-header" id="nav-container">
-                <div className="col-4" >
+       
+            <header style={background}  className="navbar App-header" >
+            <div row> </div>
+                <div className="col-12 col-mr-auto">
+                <Nav fixed="top" />
+                <Nav>
                     {props.authUser ? (
-                        <section className="navbar-section">
-                            <HomeLink />
-                            <SignOutButton />
-                            <Link to={Routes.passwordChange} className="btn btn-link">
-                                <span className="text-secondary">Update Password</span>
-                            </Link>
+                        <section >
+                          <NavItem className="col-12 col-mr-auto">
+            <NavLink fontSize="50px" href= {<HomeLink />} active>Home</NavLink>
+          </NavItem>
+          
+          <NavItem className="col-12 col-mr-auto">
+            <NavLink href= {<SignOutButton />} active>Sign Out</NavLink>
+          </NavItem>
+          <NavItem className="col-12 col-mr-auto">
+            <NavLink href={Routes.passwordChange}>Update Password</NavLink>
+          </NavItem>
+          
+
+
+                         
                         </section>
                     ) : (
-                            <section className="navbar-section">
-                                <Link to={Routes.signin} className="btn btn-link">
-                                    <span className="text-secondary">Sign In</span>
-                                </Link>
-                                <Link to={Routes.signup} className="btn btn-link">
-                                    <span className="text-secondary">sign up</span>
-                                </Link>
+                        <section>
+                        <NavItem>
+                        <NavLink href={Routes.signin}>Sign In</NavLink>
+                      </NavItem>
+                      <NavItem>
+                      <NavLink href={Routes.signup}>Sign Up</NavLink>
+                    </NavItem>
+                      
+                            
+                                
                             </section>
                         )
                     }
+                
+                    </Nav>
                 </div>
-                <div className="col-4 col-mr-auto">
+                <div row> </div>
+                <div className="navbar App-header" className="col-12 col-mr-auto">
+                
+                <div row> </div>
                     <div id="top-filler"></div>
-                    <h1 className="App-title">Bookworm</h1>
+                    <div></div>
+     <img src={Logo}  alt="Logo" height="251px" width="auto"   />
+                </div>
+                <div id="top-filler"></div>
+                <br></br>
+                <div className="navbar App-header" className="col-12 col-mr-auto">
+                <img src={JimGif} poition  alt="gif" height="auto" width="auto"   />
                 </div>
             </header>
         </div >

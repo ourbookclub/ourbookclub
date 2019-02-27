@@ -6,8 +6,13 @@ import AddBook from './AddBook';
 import AddPost from './Discussion';
 import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
+import Background from './images/spacebackground.jpg'
+import WormFooter from './images/wormfooter.png'
 
-
+const background = {
+    backgroundImage: `url(${Background})`,
+              resizeMode: 'center,'
+  }
 const initialState = {
 
     groupID: 0,
@@ -79,7 +84,7 @@ class GroupPage extends Component {
         const { groupID, groupName, groupDescription, userlist, currentBook, pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error, isAdmin } = this.state;
 
         return (
-            <div>
+            <div style={background}>
                 {error && <p>{error.message}</p>}
 
                 <AddBook groupID={groupID} isAdmin={isAdmin} />
@@ -89,7 +94,7 @@ class GroupPage extends Component {
                 <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />
                 <AddPost userID={this.props.userID} groupID={groupID} />
                 <ShowAllPosts groupID={groupID} />
-                <img alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
+                <img alt='Earthworm Jim and his book' width="40%" src={WormFooter} />
             </div>
         )
     }

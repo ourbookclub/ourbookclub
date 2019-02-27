@@ -2,17 +2,24 @@ import React, { Component } from 'react';
 import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
+import Background from '../images/spacebackground.jpg'
+import WormFooter from '../images//wormfooter.png'
+
+
 
 class Home extends Component {
 
     render() {
         const imageStyle = {
-            width: 200
+           
+            // backgroundImage: `url(${Background})`,
+            backgroundSize: 'cover',
+  
         }
         return (
             <div>
                 <p>It's good to be home {this.props.userID}</p>
-                <img style={imageStyle} alt='Earthworm Jim and his book' src='../img/1550080499329.png' />
+                <img  style={imageStyle} width='33%' alt='Earthworm Jim and his book' src={WormFooter} />
             </div>
         )
     }

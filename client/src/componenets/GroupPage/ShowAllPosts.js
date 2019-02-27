@@ -1,15 +1,41 @@
 import React, { Component } from 'react';
+import Worm from './images/Divider.png'
+import WormLong from './images/wormrow4.png'
+import Background from './images/background.png'
 import { withAuthorization } from '../Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../../constants/routes';
 import axios from 'axios';
-import Jumbotron from 'react-bootstrap/Jumbotron'
-import Container from 'react-bootstrap/Container'
+
+
+import { Card, Button, CardHeader, CardFooter, CardBody,
+    CardTitle, CardText } from 'reactstrap';
+// import { url } from 'inspector';
+
+    const sectionStyle = {
+        width: "100%",
+        height: "55px",
+        backgroundImage: `url(${Background})`,
+        
+      
+        
+     
+      }
 
 
 const labelStyle = {
-    marginBottom: '0px'
+    marginBottom: '0px',
+    background: 'blue'
 }
+const text = {
+    color: 'white'
+}
+
+const h1 = {
+    color: 'white',
+    fontSize: '50px',
+}; 
+
 
 
 
@@ -60,25 +86,33 @@ class ShowPosts extends Component {
                 const { postArray } = this.state;
                 return (
                     <div>
-                        <h1>Posts</h1>
+                        <h1 >Posts</h1>
                     {
                     postArray.map(Response => (
-                        <span>
-                            <Jumbotron fluid>
-  <Container>
-    <strong>User:</strong> {Response.user}
-    <br /> 
-    <strong>Date: </strong> {Response.date}
-    <p>
-    <strong>Post:</strong> {Response.text}
-    </p>
-  </Container>
-</Jumbotron>;
-                            {/* how to convert user to user name? */}
-                            {/* <strong>User:</strong> {Response.user}
-                            <strong>Post:</strong> {Response.text}
-                            <strong>Date: </strong> {Response.date} */}
-                        
+                        <span >
+<div>
+<Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
+        <CardHeader tag="h3">{Response.user}</CardHeader>
+        <CardBody>
+          
+          <CardText style={{  fontsize:'200px' , color: 'white' , backgroundColor: '#333', borderColor: '#333' }} >{Response.text} </CardText>
+        </CardBody>
+        <CardFooter className="text-muted">{Response.date}</CardFooter>
+        
+      </Card>
+                    
+               
+                            <div
+                             
+                             >
+                           
+     <img  src={WormLong}  alt="divider" height="75px" width="100%" position="relative"  />
+    
+     </div>
+     <br></br>
+    </div>
+
+
 
                         </span>
 
@@ -86,7 +120,7 @@ class ShowPosts extends Component {
                     }
                     
                     </div>
-                );
+                )
             }
         }
 

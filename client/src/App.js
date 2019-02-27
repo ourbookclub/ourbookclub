@@ -4,10 +4,14 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
 import axios from 'axios';
 
+//background
+import Background from './images/spacebackground.jpg'
+
 // Components
 import SignUpPage from './componenets/SignUp';
 import SignInPage from './componenets/SignIn';
 import NavBar from './componenets/NavBar';
+// import Example from './componenets/SideNav'
 import Home from './componenets/Home';
 import PasswordReset from './componenets/PasswordReset';
 import PasswordChange from './componenets/PasswordChange';
@@ -16,6 +20,17 @@ import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
 import GroupNav from './componenets/GroupNav'
 
+
+const background = {
+  backgroundImage: `url(${Background})`,
+  width: 'auto',
+  height: '100%',
+  overflow: 'hidden',
+
+backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+}
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -29,7 +44,7 @@ class App extends Component {
     
   };
 
-  componentDidMount() {
+  componentDidMount() { 
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.setState({ authUser });
@@ -62,9 +77,10 @@ class App extends Component {
     const { grouplist } = this.state.currentUser;
 
     return (
+      
       <BrowserRouter>
 
-        <div className="App">
+        <div style={background} className="App">
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}
