@@ -37,11 +37,13 @@ class GroupPage extends Component {
 
     componentDidMount() {
         const groupIDFromURL = this.props.match.params.groupID;
-        this.getGroupData(groupIDFromURL);
+        if (typeof groupIDFromURL !== 'undefined') {
+            this.getGroupData(groupIDFromURL);
+        };
     };
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.groupID !== prevProps.match.params.groupID) {
+        if (this.props.userID !== prevProps.userID) {
             const groupID = this.props.match.params.groupID;
             this.getGroupData(groupID);
         };
@@ -60,7 +62,11 @@ class GroupPage extends Component {
                 currentBenchmark: dbResponse.data.currentBenchmark,
                 previousBenchmark: dbResponse.data.previousBenchmark,
                 totalBenchmark: dbResponse.data.totalBenchmark,
-            }, () => this.checkAdmin()); //Want check admin to only run after the state is set
+            }, () => { //If statement incase the componentDidMount happens first
+                if (this.props.userID) {
+                    this.checkAdmin();
+                };
+            });
         } else {
             //TODO Check Error message
             this.setState({
