@@ -71,7 +71,7 @@ class GroupPage extends Component {
 
     checkAdmin = () => {
         const { userlist } = this.state;
-        const currentUserID = sessionStorage.getItem('userID');
+        const currentUserID = this.props.userID;
 
         const currentUser = userlist.filter(user => user._id === currentUserID);
         if (currentUser[0].isAdmin) {
