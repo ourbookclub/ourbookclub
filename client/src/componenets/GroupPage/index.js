@@ -124,6 +124,8 @@ class GroupPage extends Component {
             pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error,
             isAdmin, showMainPage, updateBook, addUser } = this.state;
 
+        const { userID } = this.props;
+
         return (
             <div>
                 {error && <p>{error.message}</p>}
@@ -135,7 +137,7 @@ class GroupPage extends Component {
                 {showMainPage &&
                     <Fragment>
                         <AddPost userID={this.props.userID} groupID={groupID} updatePage={this.updatePage} />
-                        <ShowAllPosts groupID={groupID} />
+                        <ShowAllPosts groupID={groupID} userID={userID} />
                     </Fragment>
                 }
                 {updateBook &&

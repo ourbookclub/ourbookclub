@@ -48,9 +48,8 @@ module.exports = app => {
 
         res.json({ 'working': userID });
 
-        console.log(userID, postID, comment)
-        // const newComment = await postHandler.createComment(userID, postID, comment);
-        // res.json(newComment);
+        const newComment = await postHandler.createComment(userID, postID, comment);
+        res.json(newComment);
     });
 
     //Everything is singular on the backend

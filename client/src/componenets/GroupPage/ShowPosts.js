@@ -45,11 +45,12 @@ class ShowPosts extends Component {
 
     render() {
         const { postArray } = this.state;
+        const { userID } = this.props;
+
         return (
             <div>
                 <h1>Posts</h1>
-                {postArray.map((post, i) => <SinglePost key={i} post={post} />)}
-
+                {postArray.map((post, i) => <SinglePost key={i} post={post} userID={userID} />)}
             </div>
         );
     };
@@ -83,6 +84,7 @@ class SinglePost extends Component {
     render() {
         const { username } = this.state;
         const { date, title, text, _id, user } = this.props.post;
+        const { userID } = this.props;
 
         return (
             <span>
@@ -98,7 +100,7 @@ class SinglePost extends Component {
                             <strong>Post:</strong> {text}
                         </p>
                     </Container>
-                    <AddComment postID={_id} />
+                    <AddComment postID={_id} userID={userID} />
                 </Jumbotron>
             </span>
         )
@@ -121,7 +123,6 @@ class AddComment extends Component {
         const dbResponse = await axios.post(`/api/newcomment`, { userID, postID, comment });
 
         //TODO PASS DOWN THE USER ID FROM APP LEVEL TO HERE
-        //ALSO FIX THE SESSION STORAGE
         console.log(dbResponse);
     }
 
