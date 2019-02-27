@@ -3,8 +3,7 @@ import { withAuthorization } from '../Session';
 import axios from 'axios';
 import CurrentBook from './CurrentBook';
 import AddBook from './AddBook';
-import AddPost from './AddPost';
-import ShowAllPosts from './ShowPosts';
+import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
 import UserSearch from '../UserSearch';
 import UserList from './UserList';
@@ -136,7 +135,6 @@ class GroupPage extends Component {
                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
                 {showMainPage &&
                     <Fragment>
-                        <AddPost userID={this.props.userID} groupID={groupID} updatePage={this.updatePage} />
                         <ShowAllPosts groupID={groupID} userID={userID} />
                     </Fragment>
                 }

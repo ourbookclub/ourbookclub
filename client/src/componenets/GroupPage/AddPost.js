@@ -38,9 +38,7 @@ class AddPost extends Component {
         const dbResponse = await axios.post(`/api/newpost`, { userID, groupID, userPost });
 
         if (dbResponse.status === 200) {
-            //TODO RELOAD THE SHOW ALL POSTS COMPONENT
-            this.props.history.push(`/group/${groupID}`);
-            this.props.updatePage(`main`);
+            this.props.getAllPosts();
             this.setState({ ...initialState })
         };
         //TODO SHOW MODAL FOR POST ADDED

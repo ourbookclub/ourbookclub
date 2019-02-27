@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import Jumbotron from 'react-bootstrap/Jumbotron'
-import Container from 'react-bootstrap/Container'
+import Jumbotron from 'react-bootstrap/Jumbotron';
+import Container from 'react-bootstrap/Container';
+import AddPost from './AddPost';
+
 
 
 const labelStyle = {
@@ -14,7 +16,7 @@ const inputStyle = {
     height: `40px`
 }
 
-class ShowPosts extends Component {
+class ShowAllPosts extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -26,16 +28,17 @@ class ShowPosts extends Component {
 
     //In both did update and did mount based on if the user goes to another page within the group or loads it
     componentDidMount() {
-        this.getAllPosts(this.props.groupID)
+        this.getAllPosts()
     };
 
     componentDidUpdate(prevProps) {
         if (this.props.groupID !== prevProps.groupID) {
-            this.getAllPosts(this.props.groupID)
+            this.getAllPosts()
         };
     };
 
-    getAllPosts = async (groupID) => {
+    getAllPosts = async () => {
+        const groupID = this.props.groupID;
         const dbResponse = await axios.get(`/api/getallgrouppost/${groupID}`);
 
         if (dbResponse.status === 200) {
@@ -45,12 +48,13 @@ class ShowPosts extends Component {
 
     render() {
         const { postArray } = this.state;
-        const { userID } = this.props;
+        const { userID, groupID } = this.props;
 
         return (
             <div>
+                <AddPost userID={this.props.userID} groupID={groupID} getAllPosts={this.getAllPosts} />
                 <h1>Posts</h1>
-                {postArray.map(post => <SinglePost key={post._id} post={post} userID={userID} />)}
+                {postArray.map(post => <SinglePost key={post._id} post={post} userID={userID} getAllPosts={this.getAllPosts} />)}
             </div>
         );
     };
@@ -83,8 +87,9 @@ class SinglePost extends Component {
 
     render() {
         const { username } = this.state;
-        const { date, title, text, _id, comment } = this.props.post;
+        const { title, text, _id, comment } = this.props.post;
         const { userID } = this.props;
+        const postDate = new Date(this.props.post.date)
 
         return (
             <span>
@@ -92,7 +97,7 @@ class SinglePost extends Component {
                     <Container>
                         <strong>User:</strong> {username}
                         <br />
-                        <strong>Date: </strong> {date}
+                        <strong>Date: </strong> {postDate.toLocaleString()}
                         <p>
                             <strong>Title:</strong> {title}
                         </p>
@@ -101,7 +106,7 @@ class SinglePost extends Component {
                         </p>
                         {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
                     </Container>
-                    <AddComment postID={_id} userID={userID} />
+                    <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
                 </Jumbotron>
             </span>
         )
@@ -132,13 +137,14 @@ class ShowComment extends Component {
 
     render() {
         const { username } = this.state;
-        const { date, text } = this.props.comment;
+        const { text } = this.props.comment;
+        const commentDate = new Date(this.props.comment.date)
 
         return (
             <Container>
                 <strong>User:</strong> {username}
                 <br />
-                <strong>Date: </strong> {date}
+                <strong>Date: </strong> {commentDate.toLocaleString()}
                 <p>
                     <strong>Comment:</strong> {text}
                 </p>
@@ -161,9 +167,10 @@ class AddComment extends Component {
         const postID = this.props.postID;
 
         const dbResponse = await axios.post(`/api/newcomment`, { userID, postID, comment });
-
-        //TODO PASS DOWN THE USER ID FROM APP LEVEL TO HERE
-        console.log(dbResponse);
+        if (dbResponse.status === 200) {
+            this.props.getAllPosts();
+            this.setState({ 'comment': '' })
+        }
     }
 
     handleChange = (event) => {
@@ -196,4 +203,4 @@ class AddComment extends Component {
 
 const condition = authUser => !!authUser;
 
-export default withAuthorization(condition)(ShowPosts);
+export default withAuthorization(condition)(ShowAllPosts);
