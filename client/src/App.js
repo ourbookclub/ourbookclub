@@ -80,11 +80,7 @@ class App extends Component {
       
       <BrowserRouter>
 
-<<<<<<< HEAD
         <div style={background} className="App">
-=======
-        <div className='App'>
->>>>>>> master
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}

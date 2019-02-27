@@ -6,21 +6,19 @@ import AddBook from './AddBook';
 import AddPost from './Discussion';
 import ShowAllPosts from './ShowAllPosts';
 import UpdateBenchmark from './UpdateBenchmark';
-<<<<<<< HEAD
 import Background from './images/spacebackground.jpg'
 import WormFooter from './images/wormfooter.png'
+import UserSearch from '../UserSearch';
+import UserList from './UserList';
+import GroupNav from './GroupNav';
+
 
 const background = {
     backgroundImage: `url(${Background})`,
               resizeMode: 'center,'
   }
-=======
-import UserSearch from '../UserSearch';
-import UserList from './UserList';
-import GroupNav from './GroupNav';
 
 //Initializes all the data we need for the group as well as what should display on the app
->>>>>>> master
 const initialState = {
     groupID: 0,
     groupName: '',

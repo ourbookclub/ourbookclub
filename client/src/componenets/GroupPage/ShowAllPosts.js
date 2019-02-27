@@ -6,6 +6,8 @@ import { withAuthorization } from '../Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../../constants/routes';
 import axios from 'axios';
+import Container from 'react-bootstrap/Container';
+import Jumbotron from 'react-bootstrap/Jumbotron';
 
 
 import { Card, Button, CardHeader, CardFooter, CardBody,
@@ -96,35 +98,8 @@ class ShowPosts extends Component {
     
 
 
-            render() {
-                const { postArray } = this.state;
-                return (
-                    <div>
-                        <h1 >Posts</h1>
-                    {
-                    postArray.map(Response => (
-                        <span >
-<div>
-<Card body inverse style={{ backgroundColor: '#333', borderColor: '#333' }}>
-        <CardHeader tag="h3">{Response.user}</CardHeader>
-        <CardBody>
-          
-          <CardText style={{  fontsize:'200px' , color: 'white' , backgroundColor: '#333', borderColor: '#333' }} >{Response.text} </CardText>
-        </CardBody>
-        <CardFooter className="text-muted">{Response.date}</CardFooter>
-        
-      </Card>
+            
                     
-               
-                            <div
-                             
-                             >
-                           
-     <img  src={WormLong}  alt="divider" height="75px" width="100%" position="relative"  />
-    
-     </div>
-     <br></br>
-    </div>
 
 
 
@@ -148,6 +123,18 @@ class ShowPosts extends Component {
                                     </p>
                                 </Container>
                             </Jumbotron>;
+                            
+               
+                            <div
+                             
+                             >
+                           
+     <img  src={WormLong}  alt="divider" height="75px" width="100%" position="relative"  />
+    
+     </div>
+     <br></br>
+   
+   
                         </span>
 
                     ))
@@ -158,10 +145,7 @@ class ShowPosts extends Component {
             }
         }
 
-            </div>
-        );
-    }
-}
+         
 
 const condition = authUser => !!authUser;
 

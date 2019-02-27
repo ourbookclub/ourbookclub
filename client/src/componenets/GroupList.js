@@ -4,10 +4,6 @@ import axios from 'axios';
 
 const GroupList = (props) => {
     return (
-<<<<<<< HEAD:client/src/componenets/GroupNav.js
-        <div fontSize="50px">
-            {props.grouplist.map(groupID => <Link to={`/group/${groupID}`} key={groupID}><SingleGroup groupID={groupID} key={groupID} /></Link>)}
-=======
         <div>
             <h4>Your Clubs:</h4>
             <div>
@@ -16,7 +12,6 @@ const GroupList = (props) => {
                         <SingleGroup groupID={groupID} key={groupID} />
                     </Link>)}
             </div>
->>>>>>> master:client/src/componenets/GroupList.js
         </div>
     )
 }
