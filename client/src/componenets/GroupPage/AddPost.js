@@ -11,6 +11,7 @@ const labelStyle = {
 }
 
 const initialState = {
+    title: '',
     text: '',
     error: null
 };
@@ -22,26 +23,33 @@ class AddPost extends Component {
     }
 
     handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+        this.setState({ [event.target.name]: event.target.value })
     }
 
     handleSubmit = async event => {
         event.preventDefault();
         const { userID, groupID } = this.props
 
-        const userPost = { text: this.state.text }
+        const userPost = {
+            title: this.state.title,
+            text: this.state.text
+        }
 
         const dbResponse = await axios.post(`/api/newpost`, { userID, groupID, userPost });
-        this.props.history.push(`/group/${dbResponse.data._id}`)
-        this.props.updatePage(`main`)
+
+        if (dbResponse.status === 200) {
+            //TODO RELOAD THE SHOW ALL POSTS COMPONENT
+            this.props.history.push(`/group/${groupID}`);
+            this.props.updatePage(`main`);
+            this.setState({ ...initialState })
+        };
+        //TODO SHOW MODAL FOR POST ADDED
     }
 
     render() {
-        const { text, error } = this.state;
+        const { text, title, error } = this.state;
 
-        const isInvalid = text === '';
+        const isInvalid = text === '' || title === '';
 
         return (
             <div>
@@ -51,12 +59,25 @@ class AddPost extends Component {
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     <div className='form-group'>
                         <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='text'>Post:</label>
+                            <label className='form-label' style={labelStyle} htmlFor='title'>Title:</label>
                         </div>
                         <div className='col-3 col-mr-auto'>
                             <input className='form-input'
                                 style={inputStyle}
                                 type='text'
+                                name='title'
+                                placeholder="Your Post's Title"
+                                value={this.state.title}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className='col-1 col-ml-auto'>
+                            <label className='form-label' style={labelStyle} htmlFor='text'>Post Body:</label>
+                        </div>
+                        <div className='col-3 col-mr-auto'>
+                            <input className='form-input'
+                                style={inputStyle}
+                                type='input'
                                 name='text'
                                 placeholder='Write your Post'
                                 value={this.state.text}
