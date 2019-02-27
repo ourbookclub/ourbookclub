@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
@@ -42,7 +42,7 @@ class Home extends Component {
         const { grouplist } = this.state;
         return (
             <div>
-                {grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />)}
+                {grouplist ? grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />) : <div><strong>Nothing</strong>No Groups</div>}
             </div>
         );
     };
@@ -130,7 +130,7 @@ class GroupCard extends Component {
                     <CardBody>
                         <CardText>
                             {author && <PostAuthor author={author} />}
-                            {date && <div>{postDate.toLocaleString()}</div>}
+                            {date && postDate.toLocaleString()}
                         </CardText>
                         <Link to={`/group/${groupID}`}>
                             <button className='btn btn-success'>Go to Club</button>
@@ -166,9 +166,9 @@ class PostAuthor extends Component {
 
     render() {
         return (
-            <div>
+            <Fragment>
                 Last Post By: {this.state.username}
-            </div>
+            </Fragment>
         );
     };
 };
