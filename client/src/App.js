@@ -51,7 +51,6 @@ class App extends Component {
         this.isSignedIn(authUser.email);
       } else {
         this.setState({ authUser: null, currentUser: {} });
-        sessionStorage.clear()
       }
     });
   }
@@ -67,7 +66,6 @@ class App extends Component {
       userID: dbResponse.data._id,
       grouplist: dbResponse.data.grouplist
     }
-    sessionStorage.setItem(`userID`, currentUser.userID)
     this.setState({ currentUser })
   }
 

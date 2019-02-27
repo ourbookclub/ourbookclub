@@ -5,10 +5,12 @@ import Background from '../images/spacebackground.jpg';
 import * as Routes from '../constants/routes';
 import SignOutButton from './SignOutButton';
 import { HomeLink } from './Home';
+import { CreateGroupLink } from './CreateGroup';
 import Logo from '../images/logo.png';
 import Border from '../images/background.png';
 import JimGif from '../images/JimGif.gif';
 import { Nav, Navbar, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 
 const background = {
@@ -21,22 +23,28 @@ const background = {
     backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
+        
 
+}
+const textsize = {
+    fontSize:"20px"
 }
 
 const NavBar = (props) => {
     return (
-        < div >
+        < div  >
        
             <header style={background} 
              className="navbar" 
              >
-            <div row> </div>
-                <div className="col-12 col-mr-auto">
+            
+                <div>
+                <Row>
+                    <Col>
                 <Navbar color="light" light expand="md">
               
                     {props.authUser ? ( <section>
-                        <Nav className="ml-auto" navbar>
+                        <Nav style={textsize}  className="ml-auto" navbar>
                         
 <NavItem >
 
@@ -44,9 +52,7 @@ const NavBar = (props) => {
                             </NavItem>
                             
                             <NavItem >
-                            <Link to={Routes.createGroup} >
-                                Create a Club
-                            </Link>
+                            <CreateGroupLink />
                             </NavItem>
                             <NavItem>
                             <SignOutButton />
@@ -56,7 +62,7 @@ const NavBar = (props) => {
                        </section>
                     ) : (
                         <section>
-                        
+                         <Nav style={textsize}  className="ml-auto" navbar>
                         <NavItem>
                         <NavLink href={Routes.signin}>Sign In</NavLink>
                       </NavItem>
@@ -66,28 +72,34 @@ const NavBar = (props) => {
                       
                             
                     
-                            
-                    </section> )
+                    </Nav> 
+                    </section>
+                    
+                    )
                     }
                 
                     </Navbar>
+                    </Col>
+                    </Row>
                 </div>
              
-                <div row> </div>
-                <div className="navbar App-header" className="col-12 col-mr-auto">
-                
-                <div row> </div>
-                    <div id="top-filler"></div>
-                    <div></div>
-     <img src={Logo}  alt="Logo" height="251px" width="auto"   />
-                </div>
-                <div id="top-filler"></div>
-                <br></br>
+              
                 <div >
                 
-                {/* className="navbar App-header" className="col-12 col-mr-auto">
-                <img src={JimGif} poition  alt="gif" height="auto" width="auto"   /> */}
+                <Row>
+                <Col sm={{ size: '4', offset: 1}}>
+                  
+     <img src={Logo}  alt="Logo" height="150px" width="auto"   />
+
+     </Col>
+     <Col sm={{ size: '2', offset: 3 }}>
+     <img src={JimGif}  alt="gif" height="auto" width="auto"   />
+     </Col>
+
+     </Row>
                 </div>
+             
+                
             </header>
         </div >
 

@@ -5,6 +5,10 @@ import * as Routes from '../constants/routes';
 import Background from '../images/spacebackground.jpg'
 import WormFooter from '../images//wormfooter.png'
 
+const textsize = {
+    fontSize:"15px"
+}
+
 
 
 class Home extends Component {
@@ -26,7 +30,7 @@ class Home extends Component {
 
 const HomeLink = () => (
     <Link to={Routes.home}>
-        <button className='btn btn-link'>Home</button>
+        <button style={textsize} className='btn btn-link'>Home</button>
     </Link>
 );
 

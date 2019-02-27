@@ -3,7 +3,7 @@ import { withAuthorization } from "../Session";
 import axios from "axios";
 import CurrentBook from "./CurrentBook";
 import AddBook from "./AddBook";
-import AddPost from "./Discussion";
+import AddPost from "./AddPost";
 import ShowAllPosts from "./ShowAllPosts";
 import UpdateBenchmark from "./UpdateBenchmark";
 import Background from "./images/spacebackground.jpg";
@@ -41,109 +41,129 @@ const columnbackground = {
 }
 
 class GroupPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { ...initialState };
-  }
+    constructor(props) {
+        super(props);
+        this.state = { ...initialState };
+    };
 
-  componentDidMount() {
-    const groupIDFromURL = this.props.match.params.groupID;
-    this.getGroupData(groupIDFromURL);
-  }
+    componentDidMount() {
+        const groupIDFromURL = this.props.match.params.groupID;
+        if (typeof groupIDFromURL !== 'undefined') {
+            this.getGroupData(groupIDFromURL);
+        };
+    };
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.groupID !== prevProps.match.params.groupID) {
-      const groupID = this.props.match.params.groupID;
-      this.getGroupData(groupID);
-    }
-  }
+    componentDidUpdate(prevProps) {
+        if (this.props.userID !== prevProps.userID) {
+            const groupID = this.props.match.params.groupID;
+            this.getGroupData(groupID);
+        };
+    };
 
-  getGroupData = async groupID => {
-    const dbResponse = await axios.get(`/api/getgroupdata/${groupID}`);
-    if (dbResponse.status === 200) {
-      this.setState(
-        {
-          groupID: dbResponse.data._id,
-          groupName: dbResponse.data.name,
-          groupDescription: dbResponse.data.description,
-          userlist: dbResponse.data.userlist,
-          currentBook: dbResponse.data.currentBook,
-          pastBook: dbResponse.data.pastBook,
-          currentBenchmark: dbResponse.data.currentBenchmark,
-          previousBenchmark: dbResponse.data.previousBenchmark,
-          totalBenchmark: dbResponse.data.totalBenchmark
-        },
-        () => this.checkAdmin()
-      ); //Want check admin to only run after the state is set
-    } else {
-      //TODO Check Error message
-      this.setState({
-        error: dbResponse.data.error
-      });
-    }
-  };
+    getGroupData = async (groupID) => {
+        const dbResponse = await axios.get(`/api/getgroupdata/${groupID}`);
+        if (dbResponse.status === 200) {
+            this.setState({
+                groupID: dbResponse.data._id,
+                groupName: dbResponse.data.name,
+                groupDescription: dbResponse.data.description,
+                userlist: dbResponse.data.userlist,
+                currentBook: dbResponse.data.currentBook,
+                pastBook: dbResponse.data.pastBook,
+                currentBenchmark: dbResponse.data.currentBenchmark,
+                previousBenchmark: dbResponse.data.previousBenchmark,
+                totalBenchmark: dbResponse.data.totalBenchmark,
+            }, () => { //If statement incase the componentDidMount happens first
+                if (this.props.userID) {
+                    this.checkAdmin();
+                };
+            });
+        } else {
+            //TODO Check Error message
+            this.setState({
+                error: dbResponse.data.error
+            });
+        };
+    };
 
-  checkAdmin = () => {
-    const { userlist } = this.state;
-    const currentUserID = sessionStorage.getItem("userID");
+    checkAdmin = () => {
+        const { userlist } = this.state;
+        const currentUserID = this.props.userID;
 
-    const currentUser = userlist.filter(user => user._id === currentUserID);
-    if (currentUser[0].isAdmin) {
-      this.setState({
-        isAdmin: true
-      });
-    }
-  };
+        const currentUser = userlist.filter(user => user._id === currentUserID);
+        if (currentUser[0].isAdmin) {
+            this.setState({
+                isAdmin: true
+            });
+        };
+    };
 
-  //Toggles the page based on what the user chooses to see
-  updatePage = showPage => {
-    switch (showPage) {
-      case "main":
-        this.setState({
-          showMainPage: true,
-          updateBook: false,
-          addUser: false
-        });
-        this.getGroupData(this.state.groupID);
-        break;
-      case "updateBook":
-        this.setState({
-          showMainPage: false,
-          updateBook: true,
-          addUser: false
-        });
-        this.getGroupData(this.state.groupID);
-        break;
-      case "addUser":
-        this.setState({
-          showMainPage: false,
-          updateBook: false,
-          addUser: true
-        });
-        this.getGroupData(this.state.groupID);
-        break;
-      default:
-        break;
-    }
-  };
+    //Toggles the page based on what the user chooses to see
+    updatePage = (showPage) => {
+        switch (showPage) {
+            case 'main':
+                this.setState({
+                    showMainPage: true,
+                    updateBook: false,
+                    addUser: false
+                });
+                this.getGroupData(this.state.groupID);
+                break;
+            case 'updateBook':
+                this.setState({
+                    showMainPage: false,
+                    updateBook: true,
+                    addUser: false
+                });
+                this.getGroupData(this.state.groupID);
+                break;
+            case 'addUser':
+                this.setState({
+                    showMainPage: false,
+                    updateBook: false,
+                    addUser: true
+                });
+                this.getGroupData(this.state.groupID);
+                break;
+            default:
+                break;
+        }
+    };
 
-  render() {
-    const {
-      groupID,
-      groupName,
-      groupDescription,
-      userlist,
-      currentBook,
-      pastBook,
-      currentBenchmark,
-      previousBenchmark,
-      totalBenchmark,
-      error,
-      isAdmin,
-      showMainPage,
-      updateBook,
-      addUser
-    } = this.state;
+    render() {
+        const { groupID, groupName, groupDescription, userlist, currentBook,
+            pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error,
+            isAdmin, showMainPage, updateBook, addUser } = this.state;
+
+        const { userID } = this.props;
+
+//         return (
+//             <div>
+//                 {error && <p>{error.message}</p>}
+
+//                 {isAdmin && <GroupNav updatePage={this.updatePage} />}
+//                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
+//                 <UserList userlist={userlist} />
+//                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
+//                 {showMainPage &&
+//                     <Fragment>
+//                         <ShowAllPosts groupID={groupID} userID={userID} />
+//                     </Fragment>
+//                 }
+//                 {updateBook &&
+//                     <Fragment>
+//                         <AddBook groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
+//                         <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} updatePage={this.updatePage} />
+//                     </Fragment>
+//                 }
+//                 {addUser &&
+//                     <UserSearch groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
+//                 }
+
+//             </div>
+//         );
+//     };
+// };
 
     return (
       <div>
