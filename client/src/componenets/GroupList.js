@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+//CURRENTLY NOT BEING USED .. DELETE?
+
 const GroupList = (props) => {
     return (
         <div>

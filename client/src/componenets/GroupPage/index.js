@@ -120,7 +120,7 @@ class GroupPage extends Component {
 
     render() {
         const { groupID, groupName, groupDescription, userlist, currentBook,
-            pastBook, currentBenchmark, previousBenchmark, totalBenchmark, error,
+            currentBenchmark, totalBenchmark, error,
             isAdmin, showMainPage, updateBook, addUser } = this.state;
 
         const { userID } = this.props;
