@@ -37,13 +37,12 @@ class Home extends Component {
         };
     };
 
+    //TODO This only displays 3 groups properly!!
     render() {
         const { grouplist } = this.state;
         return (
             <div>
-                <Row>
-                    {grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />)}
-                </Row>
+                {grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />)}
             </div>
         );
     };
