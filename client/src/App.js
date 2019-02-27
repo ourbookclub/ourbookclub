@@ -18,7 +18,6 @@ import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
-import GroupList from './componenets/GroupList';
 
 
 // const background = {
@@ -82,11 +81,10 @@ class App extends Component {
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}
-          {grouplist && <GroupList grouplist={grouplist} />}
           <Route
             exact path={Routes.home}
             render={() =>
-              <Home userID={this.state.currentUser.userID} />} />
+              <Home grouplist={grouplist} />} />
           <Route
             path={Routes.signin}
             render={() =>

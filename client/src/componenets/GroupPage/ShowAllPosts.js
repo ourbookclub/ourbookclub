@@ -8,8 +8,6 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Container from 'react-bootstrap/Container';
 import AddPost from './AddPost';
 
-
-
 import { Card, Button, CardHeader, CardFooter, CardBody,
     CardTitle, CardText } from 'reactstrap';
 // import { url } from 'inspector';
@@ -48,14 +46,16 @@ const inputStyle = {
     height: `40px`
 }
 
+const initalState = {
+    text: '',
+    error: null,
+    postArray: []
+}
+
 class ShowAllPosts extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            text: '',
-            error: null,
-            postArray: []
-        }
+        this.state = { ...initalState }
     };
 
     //In both did update and did mount based on if the user goes to another page within the group or loads it
@@ -121,7 +121,7 @@ class SinglePost extends Component {
         const { username } = this.state;
         const { title, text, _id, comment } = this.props.post;
         const { userID } = this.props;
-        const postDate = new Date(this.props.post.date)
+        const postDate = new Date(this.props.post.date);
 
         return (
             <span>
