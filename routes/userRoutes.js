@@ -3,9 +3,11 @@ const userHandler = require(`../handlers/userHandler`);
 
 module.exports = app => {
     app.put(`/api/updateuser`, async (req, res) => {
+        const { userID, value, request } = req.body;
+
         //Pass the user to change's field, their updated value and what field they would like to change
-        const updatedUser = await userHandler.updateProfile(req.body.userID, req.body.value, req.body.request);
-        res.json(updatedUser)
+        const updatedUser = await userHandler.updateProfile(userID, value, request);
+        res.status(200).send(updatedUser)
     });
 
     app.post(`/api/newuser`, async (req, res) => {
@@ -21,12 +23,20 @@ module.exports = app => {
         res.json(newUserInDB)
     });
 
+    //This is email specific for pulling users who are logged in
     app.get(`/api/getuser/:email`, async (req, res) => {
         const email = req.params.email;
         const foundUser = await userHandler.getUserByEmail(email);
         res.status(200).send(foundUser);
     });
 
+    //This is the route for the user search
+    app.get(`/api/usersearch/:query/:searchParam`, async (req, res) => {
+        const { query, searchParam } = req.params;
+
+        const foundUser = await userHandler.userSearch(query, searchParam);
+        res.status(200).send(foundUser);
+    });
     app.get(`/api/getuserbyid/:userid`, async (req, res) => {
         const userID = req.params.userid;
         const foundUser = await userHandler.getUserByID(userID);

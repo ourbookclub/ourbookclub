@@ -24,11 +24,11 @@ module.exports = app => {
 
     //Need to find a way for this to approve the user to the group
     app.put(`/api/addusertogroup`, async (req, res) => {
-        const { addedUserID, groupID } = req.body;
-        const isMod = await groupHandler.checkGroupMod(req.user._id, groupID);
-        if (isMod) {
-            const added = await groupHandler.addUser(addedUserID, groupID);
-            res.json(added);
+        const { userID, groupID, isAdmin } = req.body;
+
+        if (isAdmin) {
+            const added = await groupHandler.addUser(userID, groupID);
+            res.status(200).send(added);
         } else {
             //TODO Need to have some sort of display on the front end 
             return "You need to be a moderator to add users to the group"

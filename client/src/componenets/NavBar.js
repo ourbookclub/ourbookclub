@@ -33,21 +33,19 @@ const NavBar = (props) => {
                 <Nav fixed="top" />
                 <Nav>
                     {props.authUser ? (
-                        <section >
-                          <NavItem className="col-12 col-mr-auto">
-            <NavLink fontSize="50px" href= {<HomeLink />} active>Home</NavLink>
-          </NavItem>
-          
-          <NavItem className="col-12 col-mr-auto">
-            <NavLink href= {<SignOutButton />} active>Sign Out</NavLink>
-          </NavItem>
-          <NavItem className="col-12 col-mr-auto">
-            <NavLink href={Routes.passwordChange}>Update Password</NavLink>
-          </NavItem>
-          
+                        <section>
+<NavItem className="col-12 col-mr-auto">
 
-
-                         
+                            <HomeLink />
+                            </NavItem>
+                            <NavItem className="col-12 col-mr-auto">
+                            <Link to={Routes.createGroup} className="btn btn-link">
+                                Create a Club
+                            </Link>
+                            </NavItem>
+                            <NavItem className="col-12 col-mr-auto">
+                            <SignOutButton />
+                            </NavItem>
                         </section>
                     ) : (
                         <section>

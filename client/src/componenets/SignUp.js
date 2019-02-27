@@ -24,7 +24,11 @@ const initialState = {
     firstname: '',
     lastname: '',
     redirectTo: null,
-    error: null
+    error: null,
+    emailValid: false,
+    passwordValid: false,
+    usernameValid: false,
+    validMessage: []
 }
 
 const SignUpPage = () => (
@@ -45,51 +49,111 @@ class SignUpFormBase extends Component {
     handleSubmit = async event => {
         event.preventDefault();
 
-        const { username, email, password, firstname, lastname } = this.state;
+        //Checks if all the input fields are valid
+        //If not the validation messages are shown and no user is sent to sign up
+        if (this.checkValidInput()) {
+            const { username, email, password, firstname, lastname } = this.state;
 
-        const dbResponse = await axios.post('/api/newuser', { username, email, firstname, lastname });
+            const dbResponse = await axios.post(`/api/newuser`, { username, email, firstname, lastname });
 
-        if (dbResponse.status === 200) {
-            return this.props.firebase
-                .doCreateUserWithEmailAndPassword(email, password)
-                .then(authUser => {
-                    //The User has been successfully authenticated, clear this component state and redirect them to the home page
-                    this.setState({ ...initialState });
-                    this.props.history.push(Routes.home);
-                })
-                .catch(error => {
-                    console.log(error)
-                    this.setState({ error });
-                });
-        }
+            if (dbResponse.status === 200) {
+                return this.props.firebase
+                    .doCreateUserWithEmailAndPassword(email, password)
+                    .then(authUser => {
+                        //The User has been successfully authenticated, clear this component state and redirect them to the home page
+                        this.setState({ ...initialState });
+                        this.props.history.push(Routes.home);
+                    })
+                    .catch(error => {
+                        console.log(error)
+                        this.setState({ error });
+                    });
+            };
+        };
     };
 
     handleChange = event => {
-        this.setState({ [event.target.name]: event.target.value });
+        //Breaking this out due to the input validation
+        const name = event.target.name;
+        const value = event.target.value;
+
+        this.setState({ [event.target.name]: event.target.value },
+            () => this.validateForm(name, value));
 
     };
 
+    checkValidInput = () => {
+        let invalidInputs = 0;
+        let invalidMessages = [];
+        if (!this.state.emailValid) {
+            invalidInputs++;
+            invalidMessages.push(`Email entered is invalid`);
+        };
+        if (!this.state.usernameValid) {
+            invalidInputs++;
+            invalidMessages.push(`Please ensure username is at least 3 characters, no more than 16 and only contains letters, numbers, underscores and dashes`);
+        };
+        if (!this.state.passwordValid) {
+            invalidInputs++;
+            invalidMessages.push(`Password must be at least 6 characters in length and contain no spaces`)
+        };
+        if (invalidInputs > 0) {
+            this.setState({ validMessage: invalidMessages });
+            return false;
+        } else {
+            return true;
+        };
+    };
+
+    validateForm = (fieldName, value) => {
+        let validCheck;
+
+        switch (fieldName) {
+            case `email`:
+                let checkEmail = value.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+                validCheck = checkEmail ? true : false;
+                this.setState({ emailValid: validCheck });
+                break;
+            case `password`:
+                let checkPassword = value.length >= 6;
+                let noSpacesInPassword = value.match(/^\S*$/);
+                validCheck = checkPassword && noSpacesInPassword ? true : false;
+                this.setState({ passwordValid: validCheck });
+                break;
+            case `username`:
+                let checkUsername = value.match(/^([a-z0-9-_])+$/i);
+                let usernameLength = value.length >= 3 && value.length <= 16;
+                validCheck = checkUsername && usernameLength ? true : false;
+                this.setState({ usernameValid: validCheck });
+                break;
+            default:
+                break;
+        };
+    };
+
     render() {
-        const { username, email, passwordOne, passwordTwo, firstname, lastname, error } = this.state;
+        const { username, email, passwordOne, passwordTwo, firstname, lastname, error, validMessage } = this.state;
 
         const isInvalid =
             passwordOne !== passwordTwo ||
             passwordOne === '' ||
             email === '' ||
-            username === '' ||
             firstname === '' ||
-            lastname === '';
+            lastname === '' ||
+            username.length < 3 ||
+            passwordOne < 6;
 
         return (
             <div className="SignupForm">
                 <br />
                 {/* If there's an error with signup then display the error */}
                 {error && <p>{error.message}</p>}
+                {validMessage && validMessage.map((message, i) => <p key={i}>{message}</p>)}
 
                 <form className="form-horizontal" onSubmit={this.handleSubmit}>
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="email" style={labelStyle}>Email: </label>
+                            <label className="form-label" htmlFor="email" style={labelStyle}>Email </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
@@ -97,7 +161,7 @@ class SignUpFormBase extends Component {
                                 type="text"
                                 id="email"
                                 name="email"
-                                placeholder="email"
+                                placeholder="ex. janedoe@email.com"
                                 value={this.state.email}
                                 onChange={this.handleChange}
                             />
@@ -106,12 +170,12 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="password" style={labelStyle}>Password: </label>
+                            <label className="form-label" htmlFor="password" style={labelStyle}>Password<br />(Must be at least 6 characters with no spaces) </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="password"
+                                placeholder="Password"
                                 type="password"
                                 name="password"
                                 value={this.state.password}
@@ -122,7 +186,7 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="confirmPassword" style={labelStyle}>Confirm Password: </label>
+                            <label className="form-label" htmlFor="confirmPassword" style={labelStyle}>Confirm Password </label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
@@ -138,12 +202,12 @@ class SignUpFormBase extends Component {
 
                     <div className="form-group">
                         <div className="col-1 col-ml-auto">
-                            <label className="form-label" htmlFor="username" style={labelStyle}>Username: </label>
+                            <label className="form-label" htmlFor="username" style={labelStyle}>Username<br />(Must be at least 3 characters, no more than 16, no special characters & no spaces)</label>
                         </div>
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="username"
+                                placeholder="ex. JaneDoe14"
                                 type="username"
                                 name="username"
                                 value={this.state.username}
@@ -159,7 +223,7 @@ class SignUpFormBase extends Component {
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="firstname"
+                                placeholder="ex. Jane"
                                 type="firstname"
                                 name="firstname"
                                 value={this.state.firstname}
@@ -175,7 +239,7 @@ class SignUpFormBase extends Component {
                         <div className="col-3 col-mr-auto">
                             <input className="form-input"
                                 style={inputStyle}
-                                placeholder="lastname"
+                                placeholder="ex. Doe"
                                 type="lastname"
                                 name="lastname"
                                 value={this.state.lastname}

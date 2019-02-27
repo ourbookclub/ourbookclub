@@ -60,8 +60,32 @@ module.exports = {
         const foundUser = await db.User.findOne({ 'local.email': email });
         return foundUser;
     },
+    userSearch: async (query, searchParam) => {
+        //On the front end we control what can be searched with a select dropdown
+        let userArray = [];
+        switch (searchParam) {
+            case `username`:
+                userArray = await db.User.find({ 'local.username': query });
+                break;
+            case `email`:
+                userArray = await db.User.find({ 'local.email': query });
+                break;
+        }
+
+        const userArrayToShow = userArray.map(user => {
+            const dataToShow = {
+                userID: user._id,
+                email: user.local.email,
+                username: user.local.username,
+                firstname: user.local.firstname,
+                lastname: user.local.lastname,
+            }
+            return dataToShow
+        })
+        return userArrayToShow;
+    },
     getUserByID: async (userID) => {
         const foundUser = await db.User.findById([userID]);
-        return foundUser.local.username;
+        return foundUser;
     }
 };

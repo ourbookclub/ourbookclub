@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import * as Routes from './constants/routes';
 import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
@@ -18,7 +18,7 @@ import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
-import GroupNav from './componenets/GroupNav'
+import GroupList from './componenets/GroupList';
 
 
 const background = {
@@ -41,7 +41,7 @@ class App extends Component {
       authUser: null,
       currentUser: {}
     }
-    
+
   };
 
   componentDidMount() { 
@@ -67,10 +67,10 @@ class App extends Component {
       userID: dbResponse.data._id,
       grouplist: dbResponse.data.grouplist
     }
-    sessionStorage.setItem('userID', currentUser.userID)
+    sessionStorage.setItem(`userID`, currentUser.userID)
     this.setState({ currentUser })
   }
-  
+
 
   render() {
 
@@ -80,11 +80,15 @@ class App extends Component {
       
       <BrowserRouter>
 
+<<<<<<< HEAD
         <div style={background} className="App">
+=======
+        <div className='App'>
+>>>>>>> master
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}
-          {grouplist && <GroupNav grouplist={grouplist} />}
+          {grouplist && <GroupList grouplist={grouplist} />}
           <Route
             exact path={Routes.home}
             render={() =>
@@ -120,11 +124,16 @@ class App extends Component {
               <CreateGroup userID={this.state.currentUser.userID} />}
           />
           <Route
-            path={`/group/:group`}
+            path={`/group/:groupID`}
             render={() =>
               <GroupPage userID={this.state.currentUser.userID} />}
           />
-     
+          <Route
+            path={`/user/:userID`}
+            render={() =>
+              <UserProfile userID={this.state.currentUser.userID} />}
+          />
+
         </div>
       </BrowserRouter>
     );
