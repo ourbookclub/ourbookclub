@@ -41,6 +41,17 @@
     "react-textarea-autosize": "^7.1.0",
     "reactstrap": "^7.1.0",
     "spectre.css": "^0.5.8",
+    "sweetalert2": "^7.33.1",
+    "sweetalert2-react-content": "^1.0.3",
     "uuid": "^3.3.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ourbookclub/ourbookclub.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/ourbookclub/ourbookclub/issues"
+  },
+  "homepage": "https://github.com/ourbookclub/ourbookclub#readme"
 }

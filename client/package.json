@@ -38,5 +38,10 @@
       "not op_mini all",
       "ie 11"
     ]
-  }
+  },
+  "main": "index.js",
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
