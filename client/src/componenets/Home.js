@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import axios from 'axios';
 
+
 //Stateful component to allow the grouplist to properly populate
 class Home extends Component {
     constructor(props) {
@@ -44,9 +45,13 @@ class GroupCard extends Component {
             groupName: '',
             currentBook: '',
             currentBenchmark: 0,
-            error: null
-        }
-    }
+            error: null,
+            bookTitle: '',
+            bookImage: '',
+            author: '',
+            date: ''
+        };
+    };
 
     componentDidMount() {
         const groupID = this.props.groupID;
@@ -61,78 +66,43 @@ class GroupCard extends Component {
                 groupName: dbResponse.data.name,
                 currentBook: dbResponse.data.currentBook,
                 currentBenchmark: dbResponse.data.currentBenchmark
+            }, async () => {
+                const dbResponse = await axios.get(`/api/getbookdata/${this.state.currentBook}`);
+
+                if (dbResponse.status === 200) {
+                    this.setState({
+                        bookTitle: dbResponse.data.title,
+                        bookImage: dbResponse.data.image
+                    });
+                }
+                const postResponse = await axios.get(`/api/getallgrouppost/${this.props.groupID}`);
+
+                if (postResponse.data.length > 0) {
+                    this.setState({
+                        author: dbResponse.data[0].user,
+                        date: dbResponse.data[0].date
+                    });
+                };
             });
         };
     };
 
     render() {
-        const { currentBook, currentBenchmark } = this.state;
-        const { groupID } = this.props;
+        const { currentBook, currentBenchmark, bookImage, bookTitle, author, date } = this.state;
+        const postDate = new Date(this.state.date);
 
         return (
             <div>
                 {this.state.groupName}
                 <div>
-                    <CurrentBook currentBook={currentBook} />
+                    {bookImage && <img src={bookImage} alt={`${bookTitle}`} />}
                 </div>
                 <div>
                     <strong>Next Chapter:  </strong>{currentBenchmark}
                 </div>
                 <div>
-                    <LastPost groupID={groupID} />
-                </div>
-            </div>
-        );
-    };
-};
-
-class CurrentBook extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            title: '',
-            image: '',
-            error: null
-        };
-    };
-
-    componentDidMount() {
-        const bookID = this.props.currentBook;
-        if (bookID) {
-            this.getCurrentBook(bookID);
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        if (this.props.currentBook !== prevProps.currentBook) {
-            const bookID = this.props.currentBook;
-            this.getCurrentBook(bookID)
-        }
-    }
-
-    getCurrentBook = async (bookID) => {
-        const dbResponse = await axios.get(`/api/getbookdata/${bookID}`);
-
-        if (dbResponse.status === 200) {
-            this.setState({
-                title: dbResponse.data.title,
-                image: dbResponse.data.image
-            })
-        } else {
-            this.setState({
-                error: dbResponse.data.error
-            });
-        };
-    }
-
-
-    render() {
-        const { image, title } = this.state;
-        return (
-            <div>
-                {title && <div>Currently Reading: {title}</div>};
-                <div>
-                    {image && <img src={image} alt={`${title}`} />}
+                    {author && <PostAuthor author={author} />}
+                    {date && <div>{postDate.toLocaleString()}</div>}
                 </div>
             </div>
         );
