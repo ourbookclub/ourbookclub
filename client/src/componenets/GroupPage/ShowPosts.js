@@ -50,7 +50,7 @@ class ShowPosts extends Component {
         return (
             <div>
                 <h1>Posts</h1>
-                {postArray.map((post, i) => <SinglePost key={i} post={post} userID={userID} />)}
+                {postArray.map(post => <SinglePost key={post._id} post={post} userID={userID} />)}
             </div>
         );
     };
@@ -83,7 +83,7 @@ class SinglePost extends Component {
 
     render() {
         const { username } = this.state;
-        const { date, title, text, _id, user } = this.props.post;
+        const { date, title, text, _id, comment } = this.props.post;
         const { userID } = this.props;
 
         return (
@@ -99,12 +99,52 @@ class SinglePost extends Component {
                         <p>
                             <strong>Post:</strong> {text}
                         </p>
+                        {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
                     </Container>
                     <AddComment postID={_id} userID={userID} />
                 </Jumbotron>
             </span>
         )
     };
+};
+
+class ShowComment extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            username: ''
+        }
+    };
+
+    componentDidMount = () => {
+        //Taking this out the of lifecycle method to make it an async function
+        this.getUsername();
+    };
+
+    getUsername = async () => {
+        const dbResponse = await axios.get(`/api/getuserbyid/${this.props.comment.user}`);
+        if (dbResponse.status === 200) {
+            this.setState({ username: dbResponse.data.local.username })
+        } else {
+            this.setState({ error: dbResponse.data })
+        };
+    };
+
+    render() {
+        const { username } = this.state;
+        const { date, text } = this.props.comment;
+
+        return (
+            <Container>
+                <strong>User:</strong> {username}
+                <br />
+                <strong>Date: </strong> {date}
+                <p>
+                    <strong>Comment:</strong> {text}
+                </p>
+            </Container>
+        )
+    }
 };
 
 class AddComment extends Component {
