@@ -6,7 +6,22 @@ const initialState = {
     image: '',
     authors: [],
     error: null
-}
+};
+
+const progressBarStyle = {
+    position: 'relative',
+    height: '20px',
+    width: '350px',
+    borderRadius: '50px',
+    border: '1px solid #333'
+};
+
+const fillerStyle = {
+    background: '#1DA598',
+    height: '100%',
+    borderRadius: 'inherit',
+    transition: 'width .2s ease-in'
+};
 
 class CurrentBook extends Component {
     constructor(props) {
@@ -44,17 +59,46 @@ class CurrentBook extends Component {
     }
 
     render() {
+        const percentageComplete = (this.props.currentBenchmark / this.props.totalBenchmark) * 100;
+        const { currentBenchmark, totalBenchmark } = this.props;
+        const { title, image } = this.state;
+
         return (
             <div className='currentBook'>
-                <div>Title: {this.state.title}</div>
-                <img src={this.state.image} alt={`${this.state.title}`} />
-                <div>Current Benchmark: {this.props.currentBenchmark}</div>
-                <div>Total Benchmark: {this.props.totalBenchmark}</div>
+                <div>Title: {title}</div>
+                <img src={image} alt={`${title}`} />
+                <div>Current Chapters: {currentBenchmark}</div>
+                <div>Total Chapters: {totalBenchmark}</div>
+                <div>
+                    <ProgressBar percentage={percentageComplete} />
+                </div>
                 <br />
             </div>
 
         );
     };
+};
+
+const ProgressBar = (props) => {
+    return (
+        <div className='progressBar'
+            style={progressBarStyle}>
+            <BarFiller percentage={props.percentage} />
+        </div>
+    );
+};
+
+const BarFiller = (props) => {
+    return (
+        <div className='filler'
+            style={{
+                background: '#1DA598',
+                height: '100%',
+                borderRadius: 'inherit',
+                transition: 'width .2s ease-in',
+                width: `${props.percentage}%`
+            }} />
+    );
 };
 
 export default CurrentBook;
