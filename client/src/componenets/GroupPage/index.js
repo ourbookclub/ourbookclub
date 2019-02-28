@@ -6,8 +6,6 @@ import AddBook from "./AddBook";
 import AddPost from "./AddPost";
 import ShowAllPosts from "./ShowAllPosts";
 import UpdateBenchmark from "./UpdateBenchmark";
-import Background from "./images/spacebackground.jpg";
-import WormFooter from "./images/wormfooter.png";
 import UserSearch from "../UserSearch";
 import UserList from "./UserList";
 import GroupNav from "./GroupNav";
@@ -38,7 +36,7 @@ const initialState = {
 
 const adminpanel = {
   textAlign: 'center',
-  fontSize:"30px",
+  fontSize:"25px",
   border:'1px double #000000',
   padding: '10px',
   marginBottom: '50px'
@@ -165,6 +163,7 @@ class GroupPage extends Component {
 
             <div style={adminpanel}>
             Admin Panel
+           <hr></hr>
               {error && <p>{error.message}</p>}
 
               {isAdmin && <GroupNav updatePage={this.updatePage} />}

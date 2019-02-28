@@ -2,16 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
-import Background from '../images/spacebackground.jpg'
-import WormFooter from '../images//wormfooter.png'
-
-
-
 import axios from 'axios';
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Col, Row
-} from 'reactstrap';
+import {Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Col, } from 'reactstrap';
 
 const cardStyle = {
     border: '1px solid darkgrey',
@@ -20,7 +12,7 @@ const cardStyle = {
     marginRight: '5px'
 }
 const textsize = {
-    fontSize:"15px"
+    fontSize:"25px"
 }
 
 

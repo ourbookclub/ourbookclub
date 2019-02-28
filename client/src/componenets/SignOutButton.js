@@ -3,7 +3,7 @@ import React from 'react';
 import { withFirebase } from './Firebase';
 
 const textsize = {
-  fontSize:"15px"
+  fontSize:"25px"
 }
 
 const SignOutButton = ({ firebase }) => (

@@ -1,16 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import '../App.css';
-import Background from '../images/spacebackground.jpg';
+
 import * as Routes from '../constants/routes';
 import SignOutButton from './SignOutButton';
 import { HomeLink } from './Home';
 import { CreateGroupLink } from './CreateGroup';
 import Logo from '../images/logo.png';
-import Border from '../images/background.png';
-import JimGif from '../images/JimGif.gif';
-import { Nav, Navbar, NavItem, Dropdown, DropdownItem, DropdownToggle, DropdownMenu, NavLink } from 'reactstrap';
-import { Container, Row, Col } from 'reactstrap';
+
+import { Nav, Navbar, NavItem,  NavLink } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 
 
 const background = {
@@ -39,7 +38,7 @@ const NavBar = (props) => {
              className="navbar" 
              >
             
-                <div>
+                <div style={textsize}>
                 <Row>
 
                     
@@ -47,10 +46,10 @@ const NavBar = (props) => {
 
 
 
-                <Navbar color="dark" light expand="md">
+                <Navbar color="dark" dark expand="md">
               
                     {props.authUser ? ( <section>
-                        <Nav style={textsize}  className="ml-auto" navbar>
+                        <Nav   className="ml-auto" navbar>
                         
 <NavItem >
 
@@ -98,9 +97,7 @@ const NavBar = (props) => {
      <img src={Logo}  alt="Logo" height="150px" width="auto"   />
 
      </Col>
-     {/* <Col sm={{ size: '2', offset: 3 }}>
-     <img src={JimGif}  alt="gif" height="auto" width="auto"   />
-     </Col> */}
+
 
      </Row>
                 </div>

@@ -1,7 +1,8 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 
 const ButtonStyle ={
-    fontSize: '25px',
+    fontSize: '17px',
     
     
 
@@ -10,9 +11,9 @@ const ButtonStyle ={
 const GroupNav = (props) => {
     return (
         <div align="center" >
-            <button className='btn btn-success' style={ButtonStyle} onClick={() => props.updatePage('main')}>Show Club Page</button>
-            <button className='btn btn-success' style={ButtonStyle} onClick={() => props.updatePage('updateBook')}>Update Book</button>
-            <button className='btn btn-success' style={ButtonStyle} onClick={() => props.updatePage('addUser')}>Add User</button>
+           <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('main')}>Show Club Page</Button>
+           <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('updateBook')}>Update Book</Button>
+           <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('addUser')}>Add User</Button>
         </div>
     )
 }

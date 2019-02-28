@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Worm from './images/wormlong2.png'
 
-import Background from './images/background.png'
+
 import { withAuthorization } from '../Session';
 import axios from 'axios';
 import { Jumbotron, Button } from 'reactstrap';
@@ -30,6 +30,17 @@ import { Container, Row, Col } from 'reactstrap';
      
       }
 
+      const date = {
+        textAlign: 'center',
+          fontSize: '8px',
+          marginBottom:'10px',
+          marginTop:'-1px',
+      }
+
+      const buttonPosition = {
+          marginTop: '10px',
+      }
+
 
 
 
@@ -45,10 +56,13 @@ const commentContainer = {
 }
 
 const postTitle = {
-    fontsize: '50px',
+    fontSize: '20px',
     textAlign: 'center',
 }
 
+const postStyle = {
+    fontSize: '12px',
+}
 
 
 
@@ -141,25 +155,32 @@ class SinglePost extends Component {
                 <div style={commentContainer}>
                 
                     
-                        <Row>
-                            <Col xs="6">
-                        <strong>{ username }</strong> 
-                        </Col>
-                        <Col xs="6">
-                        <strong>Date: </strong> {postDate.toLocaleString()}
-                        </Col>
-                        </Row>
-                        
-                        <Row>
                         
                         <div style ={postTitle}>
-                            {title}
-                            </div>
+                        <Row>
+                        <Col xs="12">
+                        
+                        
+                           <strong> {title} </strong>
                             
+                            
+                            </Col>
                         </Row>
-                        <p>
-                            <strong>Post:</strong> {text}
+                        </div>
+                        
+                        <p style={postStyle}>
+                            <strong>{username} : </strong>
+                            
+                             {text}
                         </p>
+                        <div style= {date}>
+                        <Row>
+                        <Col xs="12">
+                        {postDate.toLocaleString()}
+                        </Col>
+                        </Row>
+                        </div>
+                        <hr></hr>
                         {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
                  
                     <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
@@ -207,12 +228,22 @@ class ShowComment extends Component {
 
         return (
             <Container>
-                <strong>User:</strong> {username}
-                <br />
-                <strong>Date: </strong> {commentDate.toLocaleString()}
-                <p>
-                    <strong>Comment:</strong> {text}
+               
+             
+
+
+               <p style={postStyle}>
+                    <strong>{username} : </strong> 
+                    {text}
                 </p>
+                <div style= {date}>
+                        <Row>
+                        <Col xs="12">
+                 {commentDate.toLocaleString()}
+                 </Col>
+                        </Row>
+                        </div>
+                        <hr></hr>
             </Container>
         )
     }
@@ -250,6 +281,8 @@ class AddComment extends Component {
         return (
 
             <div>
+                <Row>
+                <Col sm={{ size: '5', offset: 2 }}>
                 
                 <input className='form-input'
                     style={inputStyle}
@@ -258,9 +291,13 @@ class AddComment extends Component {
                     placeholder='Add A Comment'
                     value={comment}
                     onChange={this.handleChange}></input>
-                <button className='btn btn-primary'
+                    </Col>
+                    <Col sm={{ size: '2', offset: -3 }}>
+                <Button style={buttonPosition} color="primary"
                     disabled={isInvalid}
-                    onClick={this.handleSubmit}>Add Comment</button>
+                    onClick={this.handleSubmit}>Add Comment</Button>
+                    </Col>
+                    </Row>
             </div>
         )
     }

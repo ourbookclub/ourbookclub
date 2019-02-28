@@ -19,7 +19,7 @@ const initialState = {
 };
 
 const textsize = {
-    fontSize:"15px"
+    fontSize:"25px"
 }
 
 
