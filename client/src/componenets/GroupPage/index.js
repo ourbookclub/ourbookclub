@@ -3,13 +3,13 @@ import { withAuthorization } from "../Session";
 import axios from "axios";
 import CurrentBook from "./CurrentBook";
 import AddBook from "./AddBook";
-import AddPost from "./AddPost";
+
 import ShowAllPosts from "./ShowAllPosts";
 import UpdateBenchmark from "./UpdateBenchmark";
 import UserSearch from "../UserSearch";
 import UserList from "./UserList";
 import GroupNav from "./GroupNav";
-import { Container, Row, Col } from 'reactstrap';
+import {  Row, Col } from 'reactstrap';
 
 // const background = {
 //     backgroundImage: `url(${Background})`,
@@ -151,7 +151,7 @@ class GroupPage extends Component {
             currentBenchmark, totalBenchmark, error,
             isAdmin, showMainPage, updateBook, addUser } = this.state;
 
-        const { userID } = this.props;
+        // const { userID } = this.props;
 
 
 

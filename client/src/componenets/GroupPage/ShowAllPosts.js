@@ -4,7 +4,7 @@ import Worm from './images/wormlong2.png'
 
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import { Jumbotron, Button } from 'reactstrap';
+import {  Button } from 'reactstrap';
 // import Container from 'react-bootstrap/Container';
 import AddPost from './AddPost';
 import { Container, Row, Col } from 'reactstrap';

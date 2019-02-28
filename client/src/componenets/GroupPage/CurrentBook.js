@@ -10,10 +10,7 @@ const initialState = {
 
 
 
-const imagesize = {
-    width: "auto",
-    height: "30%",
-}
+
 
 class CurrentBook extends Component {
     constructor(props) {

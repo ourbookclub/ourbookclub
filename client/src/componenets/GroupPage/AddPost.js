@@ -3,13 +3,10 @@ import { withAuthorization } from '../Session';
 import axios from 'axios';
 // import { Input, TextArea, FormBtn } from "./Form/index.js";
 // import TextareaAutosize from 'react-textarea-autosize';
-import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input,  } from 'reactstrap';
 
 
-const inputStyle = {
-    width: `100%`,
-    height: '100%',
-}
+
 const labelStyle = {
     fontSize: '15px' 
 }
@@ -122,8 +119,8 @@ render() {
             return (
                 <div>
                     <br />
-                    {/* If there's an error with sign in then display the error
-                    {error && <p>{error.message}</p>} */}
+                    If there's an error with sign in then display the error
+                    {error && <p>{error.message}</p>}
     
                     <Form style={labelStyle} onSubmit={this.handleSubmit}>
             <FormGroup>
