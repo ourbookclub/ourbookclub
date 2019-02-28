@@ -11,7 +11,7 @@ import WormFooter from "./images/wormfooter.png";
 import UserSearch from "../UserSearch";
 import UserList from "./UserList";
 import GroupNav from "./GroupNav";
-import { Col, Row, Container } from "../Grid/index.js";
+import { Container, Row, Col } from 'reactstrap';
 
 // const background = {
 //     backgroundImage: `url(${Background})`,
@@ -36,8 +36,26 @@ const initialState = {
   addUser: false
 };
 
+const adminpanel = {
+  textAlign: 'center',
+  fontSize:"30px",
+  border:'1px double #000000',
+  padding: '10px',
+  marginBottom: '50px'
+}
+const groupinfopanel = {
+  textAlign: 'center',
+  fontSize:"50px",
+  
+  padding: '10px',
+  marginBottom: '30px'
+}
+
 const columnbackground = {
-    backgroundColor: "blue",
+   fontSize: '30px',
+   padding: '10px',
+  marginBottom: '50px',
+  textAlign: 'center',
 }
 
 class GroupPage extends Component {
@@ -137,59 +155,31 @@ class GroupPage extends Component {
 
         const { userID } = this.props;
 
-//         return (
-//             <div>
-//                 {error && <p>{error.message}</p>}
 
-//                 {isAdmin && <GroupNav updatePage={this.updatePage} />}
-//                 <GroupInfo groupName={groupName} groupDescription={groupDescription} />
-//                 <UserList userlist={userlist} />
-//                 {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
-//                 {showMainPage &&
-//                     <Fragment>
-//                         <ShowAllPosts groupID={groupID} userID={userID} />
-//                     </Fragment>
-//                 }
-//                 {updateBook &&
-//                     <Fragment>
-//                         <AddBook groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
-//                         <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} updatePage={this.updatePage} />
-//                     </Fragment>
-//                 }
-//                 {addUser &&
-//                     <UserSearch groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
-//                 }
-
-//             </div>
-//         );
-//     };
-// };
 
     return (
-      <div>
+      <div >
         <Row>
-          
-            <Col size="md-12">
+               
+            <Col xs="6">
 
-            <div>
+            <div style={adminpanel}>
+            Admin Panel
               {error && <p>{error.message}</p>}
 
               {isAdmin && <GroupNav updatePage={this.updatePage} />}
               
               </div>
-              </Col>
-              </Row>
-              <Row>
+              
+            
+             
           
-            <Col size="md-6" >
+            
               <div style={columnbackground}>
 
 
               
-              <GroupInfo
-                groupName={groupName}
-                groupDescription={groupDescription}
-              />
+             
 
              
               {currentBook && (
@@ -199,30 +189,34 @@ class GroupPage extends Component {
                   totalBenchmark={totalBenchmark}
                 />
               )}
+
+              <div>
                <UserList userlist={userlist} />
+               </div>
                
             
           
           </div>
           </Col>
 
-          <Col size="md-6">
-            {showMainPage && (
-              <Fragment>
-                <AddPost
-                  userID={this.props.userID}
-                  groupID={groupID}
-                  updatePage={this.updatePage}
-                />
-              </Fragment>
-            )}
+          <Col xs="6">
 
-            {showMainPage && (
+          <div style={groupinfopanel}>
+          <GroupInfo
+                groupName={groupName}
+                groupDescription={groupDescription}
+              />
+          </div>
+            
+
+            {
+              showMainPage && (
               <Fragment>
                 <ShowAllPosts groupID={groupID} />
               </Fragment>
-            )}
-          </Col>
+            )
+            }
+          
           {/* </div> */}
 
           {updateBook && (
@@ -246,6 +240,7 @@ class GroupPage extends Component {
               updatePage={this.updatePage}
             />
           )}
+          </Col>
         </Row>
       </div>
     );
@@ -255,11 +250,12 @@ class GroupPage extends Component {
 const GroupInfo = props => {
   return (
     <Fragment>
-      <h3>Name: {props.groupName}</h3>
-      <p>
-        <strong>Description: </strong>
-        {props.groupDescription}
-      </p>
+      
+      <strong>{props.groupName}</strong>
+      
+        <br></br>
+        <h3>{props.groupDescription}</h3>
+        
     </Fragment>
   );
 };

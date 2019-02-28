@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
-import Worm from './images/Divider.png'
-import WormLong from './images/wormrow4.png'
+import Worm from './images/wormlong2.png'
+
 import Background from './images/background.png'
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Container from 'react-bootstrap/Container';
+import { Jumbotron, Button } from 'reactstrap';
+// import Container from 'react-bootstrap/Container';
 import AddPost from './AddPost';
+import { Container, Row, Col } from 'reactstrap';
 
-import { Card, Button, CardHeader, CardFooter, CardBody,
-    CardTitle, CardText } from 'reactstrap';
+
 // import { url } from 'inspector';
 
-    const sectionStyle = {
-        width: "100%",
-        height: "55px",
-        backgroundImage: `url(${Background})`,
+    const divider = {
+        height: '50px',
+        width: '100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'contain',
+        backgroundImage: `url(${Worm})`,
+        marginTop: '10px',
+        marginBottom: '-5px',
+        // borderBottom: '2px solid',
+        // borderLeft: '2px solid',
+        // borderRight: '2px solid',
+        
         
       
         
@@ -25,20 +33,25 @@ import { Card, Button, CardHeader, CardFooter, CardBody,
 
 
 
-
-
-const labelStyle = {
-    marginBottom: '0px',
-    background: 'blue'
+const commentContainer = {
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    // borderBottom: 'none',
+    backgroundColor: '#e9ecef',
+    marginTop: '10px',
+    marginBottom: '20px',
+    
+  
 }
-const text = {
-    color: 'white'
+
+const postTitle = {
+    fontsize: '50px',
+    textAlign: 'center',
 }
 
-const h1 = {
-    color: 'blue',
-    fontSize: '50px',
-}; 
+
+
+
 
 
 const inputStyle = {
@@ -125,21 +138,41 @@ class SinglePost extends Component {
 
         return (
             <span>
-                <Jumbotron fluid>
-                    <Container>
-                        <strong>User:</strong> {username}
-                        <br />
+                <div style={commentContainer}>
+                
+                    
+                        <Row>
+                            <Col xs="6">
+                        <strong>{ username }</strong> 
+                        </Col>
+                        <Col xs="6">
                         <strong>Date: </strong> {postDate.toLocaleString()}
-                        <p>
-                            <strong>Title:</strong> {title}
-                        </p>
+                        </Col>
+                        </Row>
+                        
+                        <Row>
+                        
+                        <div style ={postTitle}>
+                            {title}
+                            </div>
+                            
+                        </Row>
                         <p>
                             <strong>Post:</strong> {text}
                         </p>
                         {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
-                    </Container>
+                 
                     <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
-                </Jumbotron>
+                    
+              
+                
+                   
+                <div style={divider}>
+
+                </div>
+                </div>
+                
+                
             </span>
         )
     };
@@ -217,12 +250,12 @@ class AddComment extends Component {
         return (
 
             <div>
-                <label style={labelStyle}>Add a comment:</label>
+                
                 <input className='form-input'
                     style={inputStyle}
                     type='text'
                     name='comment'
-                    placeholder='Add Comment'
+                    placeholder='Add A Comment'
                     value={comment}
                     onChange={this.handleChange}></input>
                 <button className='btn btn-primary'

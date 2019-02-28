@@ -14,7 +14,7 @@ import { Container, Row, Col } from 'reactstrap';
 
 
 const background = {
-    backgroundColor: 'black',
+    backgroundColor: '#343a40',
     // backgroundImage: `url(${Border})`,
         width: 'auto',
         height: '100%',
@@ -27,7 +27,8 @@ const background = {
 
 }
 const textsize = {
-    fontSize:"20px"
+    fontSize:"40px",
+    color: 'white',
 }
 
 const NavBar = (props) => {
@@ -40,8 +41,13 @@ const NavBar = (props) => {
             
                 <div>
                 <Row>
+
+                    
                     <Col>
-                <Navbar color="light" light expand="md">
+
+
+
+                <Navbar color="dark" light expand="md">
               
                     {props.authUser ? ( <section>
                         <Nav style={textsize}  className="ml-auto" navbar>
@@ -92,9 +98,9 @@ const NavBar = (props) => {
      <img src={Logo}  alt="Logo" height="150px" width="auto"   />
 
      </Col>
-     <Col sm={{ size: '2', offset: 3 }}>
+     {/* <Col sm={{ size: '2', offset: 3 }}>
      <img src={JimGif}  alt="gif" height="auto" width="auto"   />
-     </Col>
+     </Col> */}
 
      </Row>
                 </div>
