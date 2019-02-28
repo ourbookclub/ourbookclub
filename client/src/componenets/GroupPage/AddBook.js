@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { css } from '@emotion/core';
 import { BarLoader } from 'react-spinners';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+//Using Swal to display messages when add book button is hit
+const Alert = withReactContent(Swal);
 
 const inputStyle = {
     width: '50%',
@@ -11,10 +15,9 @@ const labelStyle = {
     marginBottom: '0px'
 }
 
-const override = css`
+const loaderStyle = `
     display: block;
     margin: 0 auto;
-    border-color: red;
 `;
 
 class AddBookPage extends Component {
@@ -65,7 +68,7 @@ class AddBookPage extends Component {
                 {error && <p>{error}</p>}
                 {loading ?
                     (<BarLoader
-                        css={override}
+                        css={loaderStyle}
                         sizeUnit={"px"}
                         height={4}
                         width={200}
@@ -112,14 +115,68 @@ class SingleBook extends Component {
 
     };
 
-    addBookToGroup = async (event) => {
+    //We are going to chain alerts so the user adds a book then immeditley sets it up for use
+    //TODO Possibly redo this to make three modals in order and then three calls to the api
+    getChapterCount = async (title) => {
+        //Send alert to user that they should add the chapters
+        const { value: totalBenchmark } = await Alert.fire({
+            type: 'info',
+            input: 'number',
+            title: `How many chapters in ${title}?`,
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value || value <= 0) {
+                    return 'Please input a number above 0'
+                };
+            }
+        });
+        if (totalBenchmark) {
+            this.addBookToGroup(totalBenchmark)
+        }
+    }
+
+    addBookToGroup = async (totalBenchmark) => {
         const chosenBook = { ...this.props.book };
         const { groupID, isAdmin } = this.props;
 
         const dbResponse = await axios.post(`/api/addbook`, { groupID, isAdmin, chosenBook });
         if (dbResponse.status === 200) {
-            this.props.updatePage('main');
-        }
+            this.addTotalBenchmark(totalBenchmark, groupID, isAdmin, chosenBook.title);
+        };
+    };
+
+    addTotalBenchmark = async (totalCount, groupID, isAdmin, title) => {
+        const dbResponse = await axios.put(`/api/updatepagesetup`, { totalCount, groupID, isAdmin });
+
+        if (dbResponse.status === 200) {
+            //Send alert to user that they should add the first chapter for the group
+            const { value: nextBenchmark } = await Alert.fire({
+                type: 'info',
+                input: 'number',
+                title: `What's your first chapter goal for the group?`,
+                showCancelButton: true,
+                inputValidator: (value) => {
+                    if (!value || value <= 0 || value > totalCount) {
+                        return 'Please input a number above 0 and below the total chapters'
+                    };
+                }
+            });
+            this.addCurrentBenchmark(nextBenchmark, groupID, isAdmin, title)
+        };
+    }
+
+    addCurrentBenchmark = async (nextBenchmark, groupID, isAdmin, title) => {
+        const dbResponse = await axios.put(`/api/updatebenchmark`, { nextBenchmark, groupID, isAdmin });
+
+        if (dbResponse.status === 200) {
+            Alert.fire({
+                type: 'success',
+                title: `${title} Added to Group!`,
+                text: 'Sending you back to the club page. Why not make a post about the new book?'
+            });
+
+            this.props.updatePage(`main`);
+        };
     }
 
     // Taking out the book object to make displaying it easier
@@ -133,7 +190,7 @@ class SingleBook extends Component {
                 <img src={image} alt={`${title}`} />
                 <div>{pageCount}</div>
                 <div>{publishedDate}</div>
-                <button className="btn btn-primary col-1 col-mr-auto" onClick={this.addBookToGroup}>Add Book To Group</button>
+                <button className="btn btn-primary col-1 col-mr-auto" onClick={() => this.getChapterCount(title)}>Add Book To Group</button>
             </div>
         )
     }
