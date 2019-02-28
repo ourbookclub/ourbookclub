@@ -13,7 +13,8 @@ const cardStyle = {
     borderRadius: '2px',
     marginLeft: '5px',
     marginRight: '5px',
-    height: '425px'
+    height: 'auto',
+    overflow: 'auto'
 }
 
 //Stateful component to allow the grouplist to properly populate
@@ -149,6 +150,7 @@ class GroupCard extends Component {
                     <CardBody>
                         <CardText>
                             {author && <PostAuthor author={author} />}
+                            <br />
                             {date && postDate.toLocaleString()}
                         </CardText>
                         <Link to={`/group/${groupID}`}>
