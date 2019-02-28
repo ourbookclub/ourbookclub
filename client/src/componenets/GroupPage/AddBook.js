@@ -153,7 +153,7 @@ class SingleBook extends Component {
             const { value: nextBenchmark } = await Alert.fire({
                 type: 'info',
                 input: 'number',
-                title: `What's your first chapter goal for the group?`,
+                title: `What's the group's first chapter goal?`,
                 showCancelButton: true,
                 inputValidator: (value) => {
                     if (!value || value <= 0 || value > totalCount) {

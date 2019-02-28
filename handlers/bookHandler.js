@@ -50,7 +50,7 @@ module.exports = {
     //All functions and files are singular on the back end
     //When searching google books spaces need to be turned into +
     searchGoogleBook: async (searchedBook) => {
-        const search = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&maxResults=20&printType=Books`);
+        const search = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${searchedBook}&maxResults=10&printType=Books`);
 
         //TODO Try and do this in one ForEach or something
         const searchedBookArray = await search.data.items.filter(book => checkForISBN(book.volumeInfo.industryIdentifiers));
