@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { css } from '@emotion/core';
+import { BarLoader } from 'react-spinners';
 
 const inputStyle = {
     width: '50%',
@@ -9,13 +11,20 @@ const labelStyle = {
     marginBottom: '0px'
 }
 
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+`;
+
 class AddBookPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
             bookSearch: '',
             error: null,
-            bookArray: []
+            bookArray: [],
+            loading: false
         }
     };
 
@@ -31,53 +40,66 @@ class AddBookPage extends Component {
 
         //This changes the book the user enters into a searchable term by the browser
         const searchableBook = bookSearch.trim().split(' ').join('+');
-        console.log(searchableBook);
+
+        this.setState({ loading: true });
         const dbResponse = await axios.get(`/api/searchbook/${searchableBook}`);
 
         if (dbResponse.status === 200) {
+            this.setState({ loading: false });
             //returns an array of 1 - 20 books and maps over them
             this.setState({ bookArray: dbResponse.data });
-
         } else {
+            this.setState({ loading: false });
             this.setState({ error: dbResponse.data.error })
         }
         //TODO Send this to another component to then map over the 
     }
 
     render() {
-        const { bookSearch, error, bookArray } = this.state;
+        const { bookSearch, error, bookArray, loading } = this.state;
         const isInvalid = bookSearch === '';
 
         return (
 
             <div className='bookSearch'>
                 {error && <p>{error}</p>}
-                <form className='form-horizontal' onSubmit={this.handleSubmit}>
-                    <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='bookSearch'>Book to Search:</label>
+                {loading ?
+                    (<BarLoader
+                        css={override}
+                        sizeUnit={"px"}
+                        height={4}
+                        width={200}
+                        color={'#36D7B7'}
+                        loading={loading}
+                    />)
+                    :
+                    (<form className='form-horizontal' onSubmit={this.handleSubmit}>
+                        <div className='form-group'>
+                            <div className='col-1 col-ml-auto'>
+                                <label className='form-label' style={labelStyle} htmlFor='bookSearch'>Book to Search:</label>
+                            </div>
+                            <div className='col-3 col-mr-auto'>
+                                <input className='form-input'
+                                    style={inputStyle}
+                                    type='text'
+                                    name='bookSearch'
+                                    placeholder='Enter a Book to Search'
+                                    value={this.state.bookSearch}
+                                    onChange={this.handleChange}
+                                />
+                            </div>
+                            <div className="form-group ">
+                                <div className="col-7"></div>
+                                <button
+                                    disabled={isInvalid}
+                                    className="btn btn-primary col-1 col-mr-auto"
+                                    type="submit"
+                                >Search Book</button>
+                            </div>
                         </div>
-                        <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='text'
-                                name='bookSearch'
-                                placeholder='Enter a Book to Search'
-                                value={this.state.bookSearch}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className="form-group ">
-                            <div className="col-7"></div>
-                            <button
-                                disabled={isInvalid}
-                                className="btn btn-primary col-1 col-mr-auto"
-                                type="submit"
-                            >Search Book</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>)}
                 {bookArray && bookArray.map((book, i) => <SingleBook book={book} key={i} isAdmin={this.props.isAdmin} groupID={this.props.groupID} updatePage={this.props.updatePage} />)}
+
             </div>
         )
     }

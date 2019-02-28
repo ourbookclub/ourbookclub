@@ -12,7 +12,8 @@ const cardStyle = {
     border: '1px solid darkgrey',
     borderRadius: '2px',
     marginLeft: '5px',
-    marginRight: '5px'
+    marginRight: '5px',
+    height: '425px'
 }
 
 //Stateful component to allow the grouplist to properly populate
@@ -21,32 +22,50 @@ class Home extends Component {
         super(props)
         this.state = {
             grouplist: [],
-            error: null
+            error: null,
+            hasGroups: false
         };
     };
 
     componentDidMount() {
         if (this.props.grouplist) {
             this.setState({ grouplist: this.props.grouplist });
+            this.checkIfGroups();
         };
     };
 
     componentDidUpdate(prevProps) {
         if (this.props.grouplist !== prevProps.grouplist) {
-            this.setState({ grouplist: this.props.grouplist })
+            this.setState({ grouplist: this.props.grouplist });
+            this.checkIfGroups();
         };
     };
 
+    checkIfGroups() {
+        if (this.props.grouplist.length > 0) {
+            this.setState({ hasGroups: true })
+        }
+    }
+
     //TODO This only displays 3 groups properly!!
     render() {
-        const { grouplist } = this.state;
+        const { grouplist, hasGroups } = this.state;
         return (
             <div>
-                {grouplist ? grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />) : <div><strong>Nothing</strong>No Groups</div>}
+                {hasGroups ? (grouplist.map(groupID => <GroupCard key={groupID} groupID={groupID} />)) : (<Testing />)}
             </div>
         );
     };
 };
+
+const Testing = () => {
+    return (
+        <div>
+            <h1>Welcome to Bookworm!</h1>
+            <p>We are here to help you stay engaged with reading. Create a book club above, invite some friends and dive into a good book!</p>
+        </div>
+    )
+}
 
 //Stateful component to get the groupdata
 class GroupCard extends Component {
@@ -115,7 +134,7 @@ class GroupCard extends Component {
         const { groupID } = this.props;
 
         return (
-            <Col sm="4">
+            <Col sm="3">
                 <Card style={cardStyle}>
                     <CardBody>
                         <CardTitle>
