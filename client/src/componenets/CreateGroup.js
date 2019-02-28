@@ -3,6 +3,11 @@ import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+//Using Swal to display message when group is created
+const Alert = withReactContent(Swal);
 
 const inputStyle = {
     width: '50%',
@@ -35,12 +40,14 @@ class CreateGroup extends Component {
 
         const currentUserID = this.props.userID;
 
-        const { groupName, groupDescription } = this.state
+        const { groupName, groupDescription } = this.state;
 
         const dbResponse = await axios.post('/api/creategroup', { currentUserID, groupName, groupDescription });
-        this.props.history.push(`/group/${dbResponse.data._id}`)
 
-    }
+
+
+        this.props.history.push(`/group/${dbResponse.data._id}`);
+    };
 
     render() {
         const { groupName, groupDescription, error } = this.state;
