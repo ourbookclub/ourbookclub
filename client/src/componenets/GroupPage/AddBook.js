@@ -78,10 +78,10 @@ class AddBookPage extends Component {
                     :
                     (<form className='form-horizontal' onSubmit={this.handleSubmit}>
                         <div className='form-group'>
-                            <div className='col-1 col-ml-auto'>
+                            <div >
                                 <label className='form-label' style={labelStyle} htmlFor='bookSearch'>Book to Search:</label>
                             </div>
-                            <div className='col-3 col-mr-auto'>
+                            <div >
                                 <input className='form-input'
                                     style={inputStyle}
                                     type='text'
@@ -92,7 +92,6 @@ class AddBookPage extends Component {
                                 />
                             </div>
                             <div className="form-group ">
-                                <div className="col-7"></div>
                                 <button
                                     disabled={isInvalid}
                                     className="btn btn-primary col-1 col-mr-auto"

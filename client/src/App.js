@@ -4,17 +4,20 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import { withFirebase } from './componenets/Firebase';
 import axios from 'axios';
 
+//background
+
+
 // Components
 import SignUpPage from './componenets/SignUp';
 import SignInPage from './componenets/SignIn';
 import NavBar from './componenets/NavBar';
+// import Example from './componenets/SideNav'
 import Home from './componenets/Home';
 import PasswordReset from './componenets/PasswordReset';
 import PasswordChange from './componenets/PasswordChange';
 import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
-
 
 //adding a comment hoping it will help merge on github
 class App extends Component {
@@ -59,9 +62,10 @@ class App extends Component {
     const { grouplist } = this.state.currentUser;
 
     return (
+
       <BrowserRouter>
 
-        <div className='App'>
+        <div>
 
           <NavBar authUser={this.state.authUser} />
           {/* Routes to different components */}

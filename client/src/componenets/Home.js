@@ -3,10 +3,7 @@ import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import axios from 'axios';
-import {
-    Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Button, Col, Row
-} from 'reactstrap';
+import {Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Col, } from 'reactstrap';
 
 const cardStyle = {
     border: '1px solid darkgrey',
@@ -16,6 +13,11 @@ const cardStyle = {
     height: 'auto',
     overflow: 'auto'
 }
+const textsize = {
+    fontSize:"25px"
+}
+
+
 
 //Stateful component to allow the grouplist to properly populate
 class Home extends Component {
@@ -196,7 +198,7 @@ class PostAuthor extends Component {
 
 const HomeLink = () => (
     <Link to={Routes.home}>
-        <button className='btn btn-link'>Home</button>
+        <button style={textsize} className='btn btn-link'>Home</button>
     </Link>
 );
 

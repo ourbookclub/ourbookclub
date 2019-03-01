@@ -1,11 +1,21 @@
 import React from 'react';
+import { Button } from 'reactstrap';
+
+const ButtonStyle = {
+    fontSize: '17px',
+
+
+
+}
 
 const GroupNav = (props) => {
     return (
-        <div>
-            <button className='btn btn-success' onClick={() => props.updatePage('main')}>Show Club Page</button>
-            <button className='btn btn-success' onClick={() => props.updatePage('updateBook')}>Update / Add Book</button>
-            <button className='btn btn-success' onClick={() => props.updatePage('addUser')}>Add User</button>
+        <div align="center" >
+            Admin Panel
+                <hr></hr>
+            <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('main')}>Show Club Page</Button>
+            <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('updateBook')}>Update Book</Button>
+            <Button outline color="primary" style={ButtonStyle} onClick={() => props.updatePage('addUser')}>Add User</Button>
         </div>
     )
 }

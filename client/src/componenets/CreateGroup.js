@@ -23,6 +23,11 @@ const initialState = {
     error: null
 };
 
+const textsize = {
+    fontSize:"25px"
+}
+
+
 class CreateGroup extends Component {
     constructor(props) {
         super(props)
@@ -108,7 +113,7 @@ class CreateGroup extends Component {
 
 const CreateGroupLink = () => (
     <Link to={Routes.createGroup}>
-        <button className='btn btn-link'>Create Group</button>
+        <button style={textsize} className='btn btn-link'>Create Group</button>
     </Link>
 );
 

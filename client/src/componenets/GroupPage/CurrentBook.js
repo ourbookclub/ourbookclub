@@ -23,6 +23,10 @@ const fillerStyle = {
     transition: 'width .2s ease-in'
 };
 
+
+
+
+
 class CurrentBook extends Component {
     constructor(props) {
         super(props);
@@ -65,13 +69,18 @@ class CurrentBook extends Component {
 
         return (
             <div className='currentBook'>
-                <div>Title: {title}</div>
-                <img src={image} alt={`${title}`} />
-                <div>Current Chapters: {currentBenchmark}</div>
-                <div>Total Chapters: {totalBenchmark}</div>
-                <div>
-                    <ProgressBar percentage={percentageComplete} />
+                <div ><strong>Current Book </strong>
+                    <br></br>
+                    {title}
+                    <br></br>
+                    <img width="auto" height="75%" src={image} alt={`${title}`} />
                 </div>
+
+                <br></br>
+                <div ><strong> Current Progress </strong>
+                    <br></br>
+                    <ProgressBar percentage={percentageComplete} />
+                    {currentBenchmark} / {totalBenchmark} </div>
                 <br />
             </div>
 

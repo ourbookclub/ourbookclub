@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
+// import { Input, TextArea, FormBtn } from "./Form/index.js";
+// import TextareaAutosize from 'react-textarea-autosize';
+import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
 
-const inputStyle = {
-    width: `50%`,
-    height: `40px`
-}
+
+
 const labelStyle = {
-    marginBottom: `0px`
+    fontSize: '15px'
 }
 
 const initialState = {
@@ -44,6 +45,7 @@ class AddPost extends Component {
         //TODO SHOW MODAL FOR POST ADDED
     }
 
+    //updated form 
     render() {
         const { text, title, error } = this.state;
 
@@ -54,44 +56,25 @@ class AddPost extends Component {
                 <br />
                 {/* If there's an error with sign in then display the error */}
                 {error && <p>{error.message}</p>}
-                <form className='form-horizontal' onSubmit={this.handleSubmit}>
-                    <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='title'>Title:</label>
-                        </div>
-                        <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='text'
-                                name='title'
-                                placeholder="Your Post's Title"
-                                value={this.state.title}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                        <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='text'>Post Body:</label>
-                        </div>
-                        <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='input'
-                                name='text'
-                                placeholder='Write your Post'
-                                value={this.state.text}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
 
-                    <div className='form-group '>
-                        <div className='col-7'></div>
-                        <button
-                            className='btn btn-primary col-1 col-mr-auto'
-                            disabled={isInvalid}
-                            type='submit'>Submit Post</button>
-                    </div>
-                </form>
+                <Form style={labelStyle} onSubmit={this.handleSubmit}>
+                    <FormGroup>
+                        <Label fontSize='25px' for="text">Post Title</Label>
+                        <Input fontSize='15px' type="text" name="title" id="exampleEmail" placeholder="Your Post's Title" value={this.state.title}
+                            onChange={this.handleChange} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label fontSize='25px' for="text">Post Body</Label>
+                        <Input fontSize='15px' type="textarea" name="text" id="exampleText" placeholder='Write your Post'
+                            value={this.state.text}
+                            onChange={this.handleChange} />
+                    </FormGroup>
+                    <Button className='btn btn-primary'
+
+                        disabled={isInvalid}
+                        type='submit'>Submit Post</Button>
+
+                </Form>
             </div>
         );
     };

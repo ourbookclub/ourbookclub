@@ -1,13 +1,15 @@
-import React, { Component, Fragment } from 'react';
-import { withAuthorization } from '../Session';
-import axios from 'axios';
-import CurrentBook from './CurrentBook';
-import AddBook from './AddBook';
-import ShowAllPosts from './ShowAllPosts';
-import UpdateBenchmark from './UpdateBenchmark';
-import UserSearch from '../UserSearch';
-import UserList from './UserList';
-import GroupNav from './GroupNav';
+import React, { Component, Fragment } from "react";
+import { withAuthorization } from "../Session";
+import axios from "axios";
+import CurrentBook from "./CurrentBook";
+import AddBook from "./AddBook";
+
+import ShowAllPosts from "./ShowAllPosts";
+import UpdateBenchmark from "./UpdateBenchmark";
+import UserSearch from "../UserSearch";
+import UserList from "./UserList";
+import GroupNav from "./GroupNav";
+import { Row, Col } from 'reactstrap';
 
 //Initializes all the data we need for the group as well as what should display on the app
 const initialState = {
@@ -27,6 +29,27 @@ const initialState = {
   addUser: false
 };
 
+const adminpanel = {
+  textAlign: 'center',
+  fontSize: "25px",
+  border: '1px double #000000',
+  padding: '10px',
+  marginBottom: '50px'
+}
+const groupinfopanel = {
+  textAlign: 'center',
+  fontSize: "50px",
+
+  padding: '10px',
+  marginBottom: '30px'
+}
+
+const columnbackground = {
+  fontSize: '30px',
+  padding: '10px',
+  marginBottom: '50px',
+  textAlign: 'center',
+}
 
 class GroupPage extends Component {
   constructor(props) {
@@ -126,43 +149,79 @@ class GroupPage extends Component {
     const { userID } = this.props;
 
     return (
-      <div>
-        {error && <p>{error.message}</p>}
-
-        {isAdmin && <GroupNav updatePage={this.updatePage} />}
-        <GroupInfo groupName={groupName} groupDescription={groupDescription} />
-        <UserList userlist={userlist} />
-        {currentBook && <CurrentBook currentBook={currentBook} currentBenchmark={currentBenchmark} totalBenchmark={totalBenchmark} />}
-        {showMainPage &&
-          <Fragment>
-            <ShowAllPosts groupID={groupID} userID={userID} />
-          </Fragment>
-        }
-        {updateBook &&
-          <Fragment>
-            <AddBook groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
-            <UpdateBenchmark isAdmin={isAdmin} groupID={groupID} updatePage={this.updatePage} />
-          </Fragment>
-        }
-        {addUser &&
-          <UserSearch groupID={groupID} isAdmin={isAdmin} updatePage={this.updatePage} />
-        }
-
+      <div >
+        <Row>
+          <Col xs="6">
+            {error && <p>{error.message}</p>}
+            {isAdmin &&
+              <div style={adminpanel}>
+                <GroupNav updatePage={this.updatePage} />
+              </div>
+            }
+            <div style={columnbackground}>
+              {currentBook && (
+                <CurrentBook
+                  currentBook={currentBook}
+                  currentBenchmark={currentBenchmark}
+                  totalBenchmark={totalBenchmark}
+                />
+              )}
+              <div>
+                <UserList userlist={userlist} />
+              </div>
+            </div>
+          </Col>
+          <Col xs="6">
+            <div style={groupinfopanel}>
+              <GroupInfo
+                groupName={groupName}
+                groupDescription={groupDescription}
+              />
+            </div>
+            {
+              showMainPage && (
+                <Fragment>
+                  <ShowAllPosts groupID={groupID} userID={userID} />
+                </Fragment>
+              )
+            }
+            {updateBook && (
+              <Fragment>
+                <AddBook
+                  groupID={groupID}
+                  isAdmin={isAdmin}
+                  updatePage={this.updatePage}
+                />
+                <UpdateBenchmark
+                  isAdmin={isAdmin}
+                  groupID={groupID}
+                  updatePage={this.updatePage}
+                />
+              </Fragment>
+            )}
+            {addUser && (
+              <UserSearch
+                groupID={groupID}
+                isAdmin={isAdmin}
+                updatePage={this.updatePage}
+              />
+            )}
+          </Col>
+        </Row>
       </div>
     );
-  };
-};
+  }
+}
 
-const GroupInfo = (props) => {
+const GroupInfo = props => {
   return (
     <Fragment>
-      <h3>Name: {props.groupName}</h3>
-      <p><strong>Description: </strong>{props.groupDescription}</p>
+      <strong>{props.groupName}</strong>
+      <br></br>
+      <h3>{props.groupDescription}</h3>
     </Fragment>
   );
 };
-
-
 
 const condition = authUser => !!authUser;
 

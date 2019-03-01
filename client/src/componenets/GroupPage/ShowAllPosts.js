@@ -1,13 +1,53 @@
 import React, { Component } from 'react';
+import Worm from './images/wormlong2.png'
+
+
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import Jumbotron from 'react-bootstrap/Jumbotron';
-import Container from 'react-bootstrap/Container';
+import { Button } from 'reactstrap';
+// import Container from 'react-bootstrap/Container';
 import AddPost from './AddPost';
+import { Container, Row, Col } from 'reactstrap';
 
 
-const labelStyle = {
-    marginBottom: '0px'
+// import { url } from 'inspector';
+
+const divider = {
+    height: '50px',
+    width: '100%',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundImage: `url(${Worm})`,
+    marginTop: '10px',
+    marginBottom: '-5px'
+}
+
+const date = {
+    textAlign: 'center',
+    fontSize: '8px',
+    marginBottom: '10px',
+    marginTop: '-1px',
+}
+
+const buttonPosition = {
+    marginTop: '10px',
+}
+
+const commentContainer = {
+    borderStyle: 'solid',
+    borderWidth: '2px',
+    backgroundColor: '#e9ecef',
+    marginTop: '10px',
+    marginBottom: '20px',
+}
+
+const postTitle = {
+    fontSize: '20px',
+    textAlign: 'center',
+}
+
+const postStyle = {
+    fontSize: '12px',
 }
 
 const inputStyle = {
@@ -94,21 +134,33 @@ class SinglePost extends Component {
 
         return (
             <span>
-                <Jumbotron fluid>
-                    <Container>
-                        <strong>User:</strong> {username}
-                        <br />
-                        <strong>Date: </strong> {postDate.toLocaleString()}
-                        <p>
-                            <strong>Title:</strong> {title}
-                        </p>
-                        <p>
-                            <strong>Post:</strong> {text}
-                        </p>
-                        {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
-                    </Container>
+                <div style={commentContainer}>
+                    <div style={postTitle}>
+                        <Row>
+                            <Col xs="12">
+                                <strong> {title} </strong>
+                            </Col>
+                        </Row>
+                    </div>
+                    <p style={postStyle}>
+                        <strong>{username} : </strong>
+                        {text}
+                    </p>
+                    <div style={date}>
+                        <Row>
+                            <Col xs="12">
+                                {postDate.toLocaleString()}
+                            </Col>
+                        </Row>
+                    </div>
+                    <hr></hr>
+                    {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
                     <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
-                </Jumbotron>
+                    <div style={divider}>
+                    </div>
+                </div>
+
+
             </span>
         )
     };
@@ -128,6 +180,7 @@ class ShowComment extends Component {
     };
 
     getUsername = async () => {
+        console.log(this.props.comment.user)
         const dbResponse = await axios.get(`/api/getuserbyid/${this.props.comment.user}`);
         if (dbResponse.status === 200) {
             this.setState({ username: dbResponse.data.local.username })
@@ -143,12 +196,18 @@ class ShowComment extends Component {
 
         return (
             <Container>
-                <strong>User:</strong> {username}
-                <br />
-                <strong>Date: </strong> {commentDate.toLocaleString()}
-                <p>
-                    <strong>Comment:</strong> {text}
+                <p style={postStyle}>
+                    <strong>{username} : </strong>
+                    {text}
                 </p>
+                <div style={date}>
+                    <Row>
+                        <Col xs="12">
+                            {commentDate.toLocaleString()}
+                        </Col>
+                    </Row>
+                </div>
+                <hr></hr>
             </Container>
         )
     }
@@ -186,17 +245,23 @@ class AddComment extends Component {
         return (
 
             <div>
-                <label style={labelStyle}>Add a comment:</label>
-                <input className='form-input'
-                    style={inputStyle}
-                    type='text'
-                    name='comment'
-                    placeholder='Add Comment'
-                    value={comment}
-                    onChange={this.handleChange}></input>
-                <button className='btn btn-primary'
-                    disabled={isInvalid}
-                    onClick={this.handleSubmit}>Add Comment</button>
+                <Row>
+                    <Col sm={{ size: '5', offset: 2 }}>
+
+                        <input className='form-input'
+                            style={inputStyle}
+                            type='text'
+                            name='comment'
+                            placeholder='Add A Comment'
+                            value={comment}
+                            onChange={this.handleChange}></input>
+                    </Col>
+                    <Col sm={{ size: '2', offset: -3 }}>
+                        <Button style={buttonPosition} color="primary"
+                            disabled={isInvalid}
+                            onClick={this.handleSubmit}>Add Comment</Button>
+                    </Col>
+                </Row>
             </div>
         )
     }

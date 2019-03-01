@@ -51,7 +51,7 @@ class UserSearch extends Component {
                 {error && <p>{error}</p>}
                 <form className='form-horizontal' onSubmit={this.handleSubmit}>
                     <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
+                        <div >
                             <label className='form-label' style={labelStyle}>Search By:</label>
                         </div>
                         <select name='searchSelect' value={this.state.searchSelect} onChange={this.handleChange}>
@@ -62,10 +62,10 @@ class UserSearch extends Component {
                     </div>
 
                     <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
+                        <div >
                             <label className='form-label' style={labelStyle} htmlFor='userSearch'>Search Users:</label>
                         </div>
-                        <div className='col-3 col-mr-auto'>
+                        <div >
                             <input className='form-input'
                                 style={inputStyle}
                                 type='text'
@@ -77,10 +77,11 @@ class UserSearch extends Component {
                         </div>
 
                         <div className='form-group'>
-                            <div className='col-7'></div>
+                            <div></div>
                             <button
+                            className='btn btn-primary'
                                 disabled={isInvalid}
-                                className='btn btn-primary col-1 col-mr-auto'
+                                
                                 type='submit'
                             >Search User</button>
                         </div>
@@ -125,7 +126,7 @@ class SingleUser extends Component {
                 <div>Email: {email}</div>
                 <div>Username: {username}</div>
 
-                {isAdmin && <button className='btn btn-primary col-1 col-mr-auto' onClick={this.addUserToGroup}>Add User To Group</button>}
+                {isAdmin && <button className='btn btn-primary' onClick={this.addUserToGroup}>Add User To Group</button>}
             </div>
         )
     }

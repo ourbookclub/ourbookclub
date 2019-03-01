@@ -2,10 +2,12 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+
+
 const UserList = (props) => {
     return (
         <Fragment>
-            <h3>Userlist:</h3>
+            <h2 >Group Members</h2>
             <div>
                 {props.userlist.map((user, i) => <Link to={`/user/${user._id}`} key={i}><SingleUser userID={user._id} key={user._id} /></Link>)}
             </div>
