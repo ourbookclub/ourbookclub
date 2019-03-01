@@ -19,18 +19,6 @@ import UserProfile from './componenets/UserProfile'
 import CreateGroup from './componenets/CreateGroup';
 import GroupPage from './componenets/GroupPage';
 
-
-// const background = {
-//   backgroundImage: `url(${Background})`,
-//   width: 'auto',
-//   height: '100%',
-//   overflow: 'hidden',
-
-// backgroundPosition: 'center',
-//       backgroundSize: 'cover',
-//       backgroundRepeat: 'no-repeat',
-// }
-
 //adding a comment hoping it will help merge on github
 class App extends Component {
   constructor(props) {
@@ -43,7 +31,7 @@ class App extends Component {
 
   };
 
-  componentDidMount() { 
+  componentDidMount() {
     this.listener = this.props.firebase.auth.onAuthStateChanged(authUser => {
       if (authUser) {
         this.setState({ authUser });
@@ -74,7 +62,7 @@ class App extends Component {
     const { grouplist } = this.state.currentUser;
 
     return (
-      
+
       <BrowserRouter>
 
         <div>

@@ -146,18 +146,18 @@ class GroupPage extends Component {
       currentBenchmark, totalBenchmark, error,
       isAdmin, showMainPage, updateBook, addUser } = this.state;
 
+    const { userID } = this.props;
+
     return (
       <div >
         <Row>
-
           <Col xs="6">
-
-            <div style={adminpanel}>
-              Admin Panel
-           <hr></hr>
-              {error && <p>{error.message}</p>}
-              {isAdmin && <GroupNav updatePage={this.updatePage} />}
-            </div>
+            {error && <p>{error.message}</p>}
+            {isAdmin &&
+              <div style={adminpanel}>
+                <GroupNav updatePage={this.updatePage} />
+              </div>
+            }
             <div style={columnbackground}>
               {currentBook && (
                 <CurrentBook
@@ -181,7 +181,7 @@ class GroupPage extends Component {
             {
               showMainPage && (
                 <Fragment>
-                  <ShowAllPosts groupID={groupID} />
+                  <ShowAllPosts groupID={groupID} userID={userID} />
                 </Fragment>
               )
             }
