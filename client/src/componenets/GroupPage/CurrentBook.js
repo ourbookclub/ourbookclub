@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+
 const initialState = {
     title: '',
     image: '',
@@ -9,11 +10,13 @@ const initialState = {
 };
 
 const progressBarStyle = {
-    position: 'relative',
+    position: 'center',
     height: '20px',
     width: '350px',
     borderRadius: '50px',
-    border: '1px solid #333'
+    border: '1px solid #333',
+    marginLeft: 'auto',
+    marginRight: 'auto'
 };
 
 const fillerStyle = {
@@ -22,6 +25,8 @@ const fillerStyle = {
     borderRadius: 'inherit',
     transition: 'width .2s ease-in'
 };
+
+
 
 
 
@@ -66,6 +71,10 @@ class CurrentBook extends Component {
         const percentageComplete = (this.props.currentBenchmark / this.props.totalBenchmark) * 100;
         const { currentBenchmark, totalBenchmark } = this.props;
         const { title, image } = this.state;
+
+
+
+        
 
         return (
             <div className='currentBook'>

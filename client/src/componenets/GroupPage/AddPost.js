@@ -7,8 +7,13 @@ import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
 
 
 
+
 const labelStyle = {
-    fontSize: '15px'
+    fontSize: '25px'
+}
+
+const forminputsize = {
+    fontSize: '20px'
 }
 
 const initialState = {
@@ -59,17 +64,17 @@ class AddPost extends Component {
 
                 <Form style={labelStyle} onSubmit={this.handleSubmit}>
                     <FormGroup>
-                        <Label fontSize='25px' for="text">Post Title</Label>
-                        <Input fontSize='15px' type="text" name="title" id="exampleEmail" placeholder="Your Post's Title" value={this.state.title}
+                        <Label  for="text">Post Title</Label>
+                        <Input style={forminputsize} type="text" name="title" id="exampleEmail" placeholder="Your Post's Title" value={this.state.title}
                             onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label fontSize='25px' for="text">Post Body</Label>
-                        <Input fontSize='15px' type="textarea" name="text" id="exampleText" placeholder='Write your Post'
+                        <Label  for="text">Post Body</Label>
+                        <Input style={forminputsize} type="textarea" name="text" id="exampleText" placeholder='Write your Post'
                             value={this.state.text}
                             onChange={this.handleChange} />
                     </FormGroup>
-                    <Button className='btn btn-primary'
+                    <Button color="secondary" size="lg"
 
                         disabled={isInvalid}
                         type='submit'>Submit Post</Button>

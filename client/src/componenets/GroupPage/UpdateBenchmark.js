@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
+import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
+import { Row, Col } from "reactstrap";
 
 const inputStyle = {
     width: '50%',
@@ -15,6 +17,15 @@ const initialState = {
     totalBenchmark: '',
     error: null
 };
+
+const formlabelStyle = {
+    fontSize: '25px'
+}
+
+const forminputsize = {
+    fontSize: '20px'
+}
+
 
 class UpdateBenchmark extends Component {
     constructor(props) {
@@ -69,63 +80,49 @@ class UpdateBenchmark extends Component {
         const totalIsInvalid = totalBenchmark === '' || totalBenchmark < 0;
 
         return (
-            <div className="center"> 
-                <br />
-                {error && <p>{error.message}</p>}
-                <form  onSubmit={this.handleCurrentSubmit}>
-                    <div className='form-group'>
-                        <div >
-                            <label className='form-label' style={labelStyle} htmlFor='nextBenchmark'>Next Goal for Group:</label>
-                        </div>
-                        <div >
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='number'
-                                name='nextBenchmark'
-                                placeholder='What is the next goal for the group?'
-                                value={this.state.nextBenchmark}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
+                <div>
+            
+             <div>
+            <br />
+            {/* If there's an error with sign in then display the error */}
+            {error && <p>{error.message}</p>}
 
-                    <div className='form-group '>
-                        <div ></div>
-                        <button
-                            className='btn btn-primary '
-                            disabled={currentIsInvalid}
-                            type='submit'>Set New Goal</button>
-                    </div>
-                </form>
+            <Form style={formlabelStyle} onSubmit={this.handleSubmit}>
+            <FormGroup>
+            <Label style={labelStyle} htmlFor='nextBenchmark' for="text"> Next Goal for Group:</Label>
+            <Input style={forminputsize} type='number' name='nextBenchmark' id="exampleEmail" placeholder='What is the next goal for the group?' value={this.state.nextBenchmark}
+                        onChange={this.handleChange} />     
+                         </FormGroup>  
+                         <Button color="secondary" size="lg" disabled={currentIsInvalid}
 
-                <br />
+type='submit'>Submit Post</Button>
 
-                <form className='form-horizontal' onSubmit={this.handleTotalSubmit}>
-                    <div className='form-group'>
-                        <div >
-                            <label className='form-label' style={labelStyle} htmlFor='totalBenchmark'>Update Total Benchmarks / Chapters:</label>
-                        </div>
-                        <div >
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='number'
-                                name='totalBenchmark'
-                                placeholder='What is the total benchmarks or chapters of this book?'
-                                value={this.state.totalBenchmark}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
 
-                    <div className='form-group '>
-                        <div ></div>
-                        <button
-                            className='btn btn-primary '
-                            disabled={totalIsInvalid}
-                            type='submit'>Update Total</button>
-                    </div>
-                </form>
-            </div>
+</Form> 
+</div>
+
+
+<div>
+<br />
+{/* If there's an error with sign in then display the error */}
+{error && <p>{error.message}</p>}
+
+<Form style={formlabelStyle} onSubmit={this.handleTotalSubmit}>
+<FormGroup>
+<Label style={labelStyle} htmlFor='totalBenchmark' for="text"> Update Total Benchmarks / Chapters:</Label>
+<Input style={forminputsize} type='number' name='totalBenchmark' id="exampleEmail"  placeholder='What is the total benchmarks or chapters of this book?'  value={this.state.totalBenchmark}
+            onChange={this.handleChange} />     
+             </FormGroup>  
+             <Button color="secondary" size="lg" disabled={currentIsInvalid}
+
+disabled={currentIsInvalid}
+type='submit'>Update Total</Button>
+
+
+</Form> 
+</div>
+</div>
+
         );
     };
 };
