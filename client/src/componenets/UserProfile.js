@@ -11,6 +11,10 @@ const labelStyle = {
     marginBottom: '0px'
 }
 
+const shiftLeft = {
+    marginLeft: '30px'
+}
+
 const initialUpdateState = {
     username: '',
     email: '',
@@ -79,7 +83,7 @@ class UserProfile extends Component {
         const { isCurrentUser, dbUsername, dbEmail, dbFirstname, dbLastname } = this.state;
 
         return (
-            <div>
+            <div style ={shiftLeft}> 
                 <h1>{this.state.dbUsername}'s Profile</h1>
                 <div>Username: {dbUsername}</div>
                 <div>Email: {dbEmail}</div>

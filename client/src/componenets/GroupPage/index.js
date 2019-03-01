@@ -213,16 +213,17 @@ class GroupPage extends Component {
 
             {updateBook && (
               <Fragment>
+                 <UpdateBenchmark
+                  isAdmin={isAdmin}
+                  groupID={groupID}
+                  updatePage={this.updatePage}
+                />
                 <AddBook
                   groupID={groupID}
                   isAdmin={isAdmin}
                   updatePage={this.updatePage}
                 />
-                <UpdateBenchmark
-                  isAdmin={isAdmin}
-                  groupID={groupID}
-                  updatePage={this.updatePage}
-                />
+               
               </Fragment>
             )}
             {addUser && (

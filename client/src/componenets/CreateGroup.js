@@ -5,6 +5,8 @@ import * as Routes from '../constants/routes';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { Button, Form, FormGroup, Label, Input, Card, CardImg, CardText, CardBody, CardTitle, } from "reactstrap";
+import { Row, Col } from "reactstrap";
 
 //Using Swal to display message when group is created
 const Alert = withReactContent(Swal);
@@ -26,6 +28,13 @@ const initialState = {
 const textsize = {
     fontSize:"25px"
 }
+const formlabelStyle = {
+    fontSize: "25px"
+  };
+  
+  const forminputsize = {
+    fontSize: "20px"
+  };
 
 
 class CreateGroup extends Component {
@@ -68,45 +77,51 @@ class CreateGroup extends Component {
                 <br />
                 {/* If there's an error with sign in then display the error */}
                 {error && <p>{error.message}</p>}
-                <form className='form-horizontal' onSubmit={this.handleSubmit}>
-                    <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='groupName'>Group Name:</label>
-                        </div>
-                        <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
-                                style={inputStyle}
-                                type='text'
-                                name='groupName'
-                                placeholder='Group Name'
-                                value={this.state.groupName}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
-                    <div className='form-group'>
-                        <div className='col-1 col-ml-auto'>
-                            <label className='form-label' style={labelStyle} htmlFor='groupDescription'>Group Descripton: </label>
-                        </div>
-                        <div className='col-3 col-mr-auto'>
-                            <input className='form-input'
-                                style={inputStyle}
-                                placeholder='Description'
-                                name='groupDescription'
-                                value={this.state.groupDescription}
-                                onChange={this.handleChange}
-                            />
-                        </div>
-                    </div>
-                    <div className='form-group '>
-                        <div className='col-7'></div>
-                        <button
-                            className='btn btn-primary col-1 col-mr-auto'
-                            disabled={isInvalid}
-                            type='submit'>Create New Group</button>
-                    </div>
-                </form>
-            </div>
+
+
+
+                <Form style={formlabelStyle} onSubmit={this.handleSubmit}>
+                <FormGroup>
+                <Label style={labelStyle} htmlFor="groupName" for="text"> Group Name: </Label>
+
+                <Input
+                  style={forminputsize}
+                  type="text"
+                  name="groupName"
+                
+                  placeholder='Enter A Group Name'
+                  value={this.state.groupName}
+                  onChange={this.handleChange}
+                />
+                   </FormGroup>
+                
+                <FormGroup>
+                <Label style={labelStyle} htmlFor="groupDescription" for="text">Enter A Group Description: </Label>
+                 
+                <Input
+                  style={forminputsize}
+                  type="text"
+                  name='groupDescription'
+                  placeholder='Description'
+                  value={this.state.groupDescription}
+                  onChange={this.handleChange}
+                />
+              </FormGroup>
+                
+                
+                <Button
+                color="secondary"
+                size="lg"
+               
+                disabled={isInvalid}
+                type="submit"
+              >
+                Create New Group
+              </Button>
+            </Form>
+                </div>
+                           
+                   
         );
     };
 };

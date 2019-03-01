@@ -25,8 +25,15 @@ const background = {
 
 }
 const textsize = {
-    fontSize: "40px",
+    fontSize: "30px",
     color: 'white',
+}
+
+const padding = {
+    marginLeft: '40px'
+}
+const padding2 = {
+    textAlign:'left',
 }
 
 const NavBar = (props) => {
@@ -55,13 +62,19 @@ const NavBar = (props) => {
                                 </section>
                                 ) : (
                                         <section>
-                                            <Nav style={textsize} className="ml-auto" navbar>
+                                            <Nav style={textsize}  >
+                                            <div style={padding2}>
                                                 <NavItem>
-                                                    <NavLink href={Routes.signin}>Sign In</NavLink>
+                                                    <NavLink href={Routes.signin}>Sign In </NavLink>
+                                                 
                                                 </NavItem>
+                                                
+                                                </div>
+                                                <div style={padding}>
                                                 <NavItem>
                                                     <NavLink href={Routes.signup}>Sign Up</NavLink>
                                                 </NavItem>
+                                                </div>
                                             </Nav>
                                         </section>
                                     )
