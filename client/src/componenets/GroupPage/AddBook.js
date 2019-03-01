@@ -5,45 +5,39 @@ import { BarLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { Button, Form, FormGroup, Label, Input, Card, CardImg, CardText, CardBody, CardTitle, } from "reactstrap";
-import { Row, Col } from "reactstrap";
-
-
+import { Col } from "reactstrap";
 
 //Using Swal to display messages when add book button is hit
 const Alert = withReactContent(Swal);
 
-const inputStyle = {
-  width: "50%",
-  height: "40px"
-};
 const labelStyle = {
-    marginBottom: '0px'
+  marginBottom: '0px'
 };
 
 const colStyle = {
-    margin: '0'
+  margin: '0'
 }
 
 const cardStyle = {
-    width: '400px',
-    height: '600px',
-    marginBottom: '10px'
+  width: '400px',
+  height: '600px',
+  marginBottom: '10px'
 };
 
 const cardImageStyle = {
-    paddingLeft: '2px',
-    paddingRight: '2px',
-    width: '200px',
-    margin: '0 auto'
+  paddingLeft: '2px',
+  paddingRight: '2px',
+  width: '200px',
+  margin: '0 auto'
 }
 
 const cardTitleStyle = {
-    fontSize: '25px',
+  fontSize: '25px',
 };
 
 const cardBodyStyle = {
-    fontSize: '15px',
-    margin: '0 auto'
+  fontSize: '15px',
+  margin: '0 auto'
 }
 
 const loaderStyle = `
@@ -116,37 +110,37 @@ class AddBookPage extends Component {
             loading={loading}
           />
         ) : (
-          <div>
-            
-            <Form style={formlabelStyle} onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label style={labelStyle} htmlFor="bookSearch" for="text">
-                  {" "}
-                  Book to Search:
+            <div>
+
+              <Form style={formlabelStyle} onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <Label style={labelStyle} htmlFor="bookSearch" for="text">
+                    {" "}
+                    Book to Search:
                 </Label>
-                <Input
-                  style={forminputsize}
-                  type="text"
-                  name="bookSearch"
-          
-                  placeholder="Enter a Book to Search"
-                  value={this.state.bookSearch}
-                  onChange={this.handleChange}
-                />
-              </FormGroup>
-              <Button
-                color="secondary"
-                size="lg"
-               
-                disabled={isInvalid}
-                type="submit"
-              >
-                Search Book
+                  <Input
+                    style={forminputsize}
+                    type="text"
+                    name="bookSearch"
+
+                    placeholder="Enter a Book to Search"
+                    value={this.state.bookSearch}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+                <Button
+                  color="secondary"
+                  size="lg"
+
+                  disabled={isInvalid}
+                  type="submit"
+                >
+                  Search Book
               </Button>
-            </Form>{" "}
-            
-          </div>
-        )}
+              </Form>{" "}
+
+            </div>
+          )}
         {bookArray &&
           bookArray.map((book, i) => (
             <SingleBook
@@ -246,50 +240,49 @@ class SingleBook extends Component {
           "Sending you back to the club page. Why not make a post about the new book?"
       });
 
-      this.props.updatePage(`main`); }}
-
-    // Taking out the book object to make displaying it easier
-    render() {
-        const { title, authors, description, image, pageCount, publishedDate } = this.props.book
-        return (
-            <Col sm='6' style={colStyle}>
-                <Card style={cardStyle}>
-                    <CardBody style={cardBodyStyle}>
-                        <CardTitle style={cardTitleStyle}>
-                            <strong>{title}</strong>
-                        </CardTitle>
-                    </CardBody>
-                    <CardImg style={cardImageStyle} top src={image} alt={title} />
-                    <CardBody style={cardBodyStyle}>
-                        <CardText >
-                            <div>
-                                <strong>
-                                    Author:
-                                </strong>
-                                <br />
-                                {authors[0]}
-                            </div>
-                  
-                            <br />
-                            <div>
-                                <strong>Pages:</strong> {pageCount}
-                            </div>
-                            <br />
-                            <div>
-                                <strong>Date Published:</strong> {publishedDate}
-                            </div>
-                            <br />
-                            <button  style={{ width: '100px' }} onClick={() => this.getChapterCount(title)}>Read this Book</button>
-                        </CardText>
-                    </CardBody>
-                </Card>
-            </Col>
-        )
+      this.props.updatePage(`main`);
     }
-  };
+  }
 
   // Taking out the book object to make displaying it easier
-  
-  
+  render() {
+    const { title, authors, image, pageCount, publishedDate } = this.props.book
+    return (
+      <Col sm='6' style={colStyle}>
+        <Card style={cardStyle}>
+          <CardBody style={cardBodyStyle}>
+            <CardTitle style={cardTitleStyle}>
+              <strong>{title}</strong>
+            </CardTitle>
+          </CardBody>
+          <CardImg style={cardImageStyle} top src={image} alt={title} />
+          <CardBody style={cardBodyStyle}>
+            <CardText >
+              <div>
+                <strong>Author:</strong>
+                <br />
+                {authors[0]}
+              </div>
+              <br />
+              <div>
+                <strong>Pages:</strong> {pageCount}
+              </div>
+              <br />
+              <div>
+                <strong>Date Published:</strong> {publishedDate}
+              </div>
+              <br />
+              <button style={{ width: '100px' }} onClick={() => this.getChapterCount(title)}>Read this Book</button>
+            </CardText>
+          </CardBody>
+        </Card>
+      </Col>
+    )
+  }
+};
+
+// Taking out the book object to make displaying it easier
+
+
 
 export default AddBookPage;

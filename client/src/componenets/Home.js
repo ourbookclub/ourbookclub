@@ -3,7 +3,7 @@ import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import axios from 'axios';
-import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Col } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Col, Button } from 'reactstrap';
 
 const cardStyle = {
     border: '1px solid darkgrey',
@@ -11,7 +11,9 @@ const cardStyle = {
     marginLeft: '5px',
     marginRight: '5px',
     height: 'auto',
-    overflow: 'auto'
+    overflow: 'auto',
+    height: '600px',
+    marginBottom: '10px'
 }
 const textsize = {
     fontSize: "25px"
@@ -21,7 +23,21 @@ const textsize2 = {
     fontSize: "25px"
 }
 
+const cardImageStyle = {
+    paddingLeft: '2px',
+    paddingRight: '2px',
+    width: '200px',
+    margin: '0 auto'
+}
 
+const cardTitleStyle = {
+    fontSize: '25px',
+};
+
+const cardBodyStyle = {
+    fontSize: '15px',
+    margin: '0 auto'
+}
 
 //Stateful component to allow the grouplist to properly populate
 class Home extends Component {
@@ -147,8 +163,8 @@ class GroupCard extends Component {
         return (
             <Col sm="3">
                 <Card style={cardStyle}>
-                    <CardBody>
-                        <CardTitle>
+                    <CardBody style={cardBodyStyle}>
+                        <CardTitle style={cardTitleStyle}>
                             <strong>{groupName}</strong>
                         </CardTitle>
                         <br />
@@ -156,15 +172,15 @@ class GroupCard extends Component {
                             <strong>Next Chapter:  </strong>{currentBenchmark}
                         </CardSubtitle>
                     </CardBody>
-                    <CardImg top width="150px" src={bookImage} alt={bookTitle} />
-                    <CardBody>
+                    <CardImg style={cardImageStyle} src={bookImage} alt={bookTitle} />
+                    <CardBody style={cardBodyStyle}>
                         <CardText>
                             {author && <PostAuthor author={author} />}
                             <br />
                             {date && postDate.toLocaleString()}
                         </CardText>
                         <Link to={`/group/${groupID}`}>
-                            <button className='btn btn-success'>Go to Club</button>
+                            <Button color='success'>Go to Club</Button>
                         </Link>
                     </CardBody>
                 </Card>
