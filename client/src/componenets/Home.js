@@ -3,7 +3,7 @@ import { withAuthorization } from './Session';
 import { Link } from 'react-router-dom';
 import * as Routes from '../constants/routes';
 import axios from 'axios';
-import {Card, CardImg, CardText, CardBody,CardTitle, CardSubtitle, Col, } from 'reactstrap';
+import { Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Col } from 'reactstrap';
 
 const cardStyle = {
     border: '1px solid darkgrey',
@@ -14,7 +14,7 @@ const cardStyle = {
     overflow: 'auto'
 }
 const textsize = {
-    fontSize:"25px"
+    fontSize: "25px"
 }
 
 
@@ -45,6 +45,10 @@ class Home extends Component {
     };
 
     checkIfGroups() {
+        if (!this.props.grouplist) {
+            this.props.history.push(`/signin`);
+        };
+
         if (this.props.grouplist.length > 0) {
             this.setState({ hasGroups: true })
         }
@@ -65,7 +69,7 @@ const Testing = () => {
     return (
         <div>
             <h1>Welcome to Bookworm!</h1>
-            <p>We are here to help you stay engaged with reading. Create a book club above, invite some friends and dive into a good book!</p>
+            <p style={{ margin: '0 auto' }}>You’ve taken your first step into being more engaged with reading! Why not create a club above? Once there be sure to add a book and invite some of your friends to join!</p>
         </div>
     )
 }

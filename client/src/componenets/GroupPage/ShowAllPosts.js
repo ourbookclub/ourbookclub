@@ -180,7 +180,6 @@ class ShowComment extends Component {
     };
 
     getUsername = async () => {
-        console.log(this.props.comment.user)
         const dbResponse = await axios.get(`/api/getuserbyid/${this.props.comment.user}`);
         if (dbResponse.status === 200) {
             this.setState({ username: dbResponse.data.local.username })
