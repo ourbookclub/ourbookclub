@@ -163,11 +163,11 @@ class GroupPage extends Component {
       addUser
     } = this.state;
 
-    // const { userID } = this.props;
+    const { userID } = this.props;
 
     return (
       <div>
-      <Row>
+        <Row>
           <Col xs="6">
             {error && <p>{error.message}</p>}
             {isAdmin &&
@@ -175,11 +175,6 @@ class GroupPage extends Component {
                 <GroupNav updatePage={this.updatePage} />
               </div>
             }
-
-
-              
-
-
             <div style={columnbackground}>
               {currentBook && (
                 <CurrentBook
@@ -205,7 +200,7 @@ class GroupPage extends Component {
 
             {showMainPage && (
               <Fragment>
-                <ShowAllPosts groupID={groupID} />
+                <ShowAllPosts groupID={groupID} userID={userID} />
               </Fragment>
             )}
 
@@ -213,7 +208,7 @@ class GroupPage extends Component {
 
             {updateBook && (
               <Fragment>
-                 <UpdateBenchmark
+                <UpdateBenchmark
                   isAdmin={isAdmin}
                   groupID={groupID}
                   updatePage={this.updatePage}
@@ -223,7 +218,7 @@ class GroupPage extends Component {
                   isAdmin={isAdmin}
                   updatePage={this.updatePage}
                 />
-               
+
               </Fragment>
             )}
             {addUser && (

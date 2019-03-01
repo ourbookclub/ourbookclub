@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-// import { Input, TextArea, FormBtn } from "./Form/index.js";
-// import TextareaAutosize from 'react-textarea-autosize';
 import { Button, Form, FormGroup, Label, Input, } from 'reactstrap';
-
-
-
 
 const labelStyle = {
     fontSize: '25px'
@@ -64,12 +59,12 @@ class AddPost extends Component {
 
                 <Form style={labelStyle} onSubmit={this.handleSubmit}>
                     <FormGroup>
-                        <Label  for="text">Post Title</Label>
+                        <Label for="text">Post Title</Label>
                         <Input style={forminputsize} type="text" name="title" id="exampleEmail" placeholder="Your Post's Title" value={this.state.title}
                             onChange={this.handleChange} />
                     </FormGroup>
                     <FormGroup>
-                        <Label  for="text">Post Body</Label>
+                        <Label for="text">Post Body</Label>
                         <Input style={forminputsize} type="textarea" name="text" id="exampleText" placeholder='Write your Post'
                             value={this.state.text}
                             onChange={this.handleChange} />

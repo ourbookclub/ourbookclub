@@ -80,48 +80,40 @@ class UpdateBenchmark extends Component {
         const totalIsInvalid = totalBenchmark === '' || totalBenchmark < 0;
 
         return (
+            <div>
+
                 <div>
-            
-             <div>
-            <br />
-            {/* If there's an error with sign in then display the error */}
-            {error && <p>{error.message}</p>}
-
-            <Form style={formlabelStyle} onSubmit={this.handleSubmit}>
-            <FormGroup>
-            <Label style={labelStyle} htmlFor='nextBenchmark' for="text"> Next Goal for Group:</Label>
-            <Input style={forminputsize} type='number' name='nextBenchmark' id="exampleEmail" placeholder='What is the next goal for the group?' value={this.state.nextBenchmark}
-                        onChange={this.handleChange} />     
-                         </FormGroup>  
-                         <Button color="secondary" size="lg" disabled={currentIsInvalid}
-
-type='submit'>Submit Post</Button>
+                    <br />
+                    {/* If there's an error with sign in then display the error */}
+                    {error && <p>{error.message}</p>}
+                    <Form style={formlabelStyle} onSubmit={this.handleCurrentSubmit}>
+                        <FormGroup>
+                            <Label style={labelStyle} htmlFor='nextBenchmark' for="text"> Next Goal for Group:</Label>
+                            <Input style={forminputsize} type='number' name='nextBenchmark' id="exampleEmail" placeholder='What is the next goal for the group?' value={this.state.nextBenchmark}
+                                onChange={this.handleChange} />
+                        </FormGroup>
+                        <Button color="secondary" size="lg" disabled={currentIsInvalid}
+                            type='submit'>Submit Post</Button>
+                    </Form>
+                </div>
 
 
-</Form> 
-</div>
+                <div>
+                    <br />
+                    {/* If there's an error with sign in then display the error */}
+                    {error && <p>{error.message}</p>}
 
-
-<div>
-<br />
-{/* If there's an error with sign in then display the error */}
-{error && <p>{error.message}</p>}
-
-<Form style={formlabelStyle} onSubmit={this.handleTotalSubmit}>
-<FormGroup>
-<Label style={labelStyle} htmlFor='totalBenchmark' for="text"> Update Total Benchmarks / Chapters:</Label>
-<Input style={forminputsize} type='number' name='totalBenchmark' id="exampleEmail"  placeholder='What is the total benchmarks or chapters of this book?'  value={this.state.totalBenchmark}
-            onChange={this.handleChange} />     
-             </FormGroup>  
-             <Button color="secondary" size="lg" disabled={currentIsInvalid}
-
-disabled={currentIsInvalid}
-type='submit'>Update Total</Button>
-
-
-</Form> 
-</div>
-</div>
+                    <Form style={formlabelStyle} onSubmit={this.handleTotalSubmit}>
+                        <FormGroup>
+                            <Label style={labelStyle} htmlFor='totalBenchmark' for="text"> Update Total Benchmarks / Chapters:</Label>
+                            <Input style={forminputsize} type='number' name='totalBenchmark' id="exampleEmail" placeholder='What is the total benchmarks or chapters of this book?' value={this.state.totalBenchmark}
+                                onChange={this.handleChange} />
+                        </FormGroup>
+                        <Button color="secondary" size="lg" disabled={totalIsInvalid}
+                            type='submit'>Update Total</Button>
+                    </Form>
+                </div>
+            </div>
 
         );
     };
