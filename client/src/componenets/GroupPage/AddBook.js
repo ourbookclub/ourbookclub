@@ -3,6 +3,7 @@ import axios from 'axios';
 import { BarLoader } from 'react-spinners';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { Card, CardImg, CardText, CardBody, CardTitle, Col, Row } from 'reactstrap';
 
 //Using Swal to display messages when add book button is hit
 const Alert = withReactContent(Swal);
@@ -13,6 +14,32 @@ const inputStyle = {
 }
 const labelStyle = {
     marginBottom: '0px'
+};
+
+const colStyle = {
+    margin: '0'
+}
+
+const cardStyle = {
+    width: '400px',
+    height: '600px',
+    marginBottom: '10px'
+};
+
+const cardImageStyle = {
+    paddingLeft: '2px',
+    paddingRight: '2px',
+    width: '200px',
+    margin: '0 auto'
+}
+
+const cardTitleStyle = {
+    fontSize: '25px',
+};
+
+const cardBodyStyle = {
+    fontSize: '15px',
+    margin: '0 auto'
 }
 
 const loaderStyle = `
@@ -182,15 +209,37 @@ class SingleBook extends Component {
     render() {
         const { title, authors, description, image, pageCount, publishedDate } = this.props.book
         return (
-            <div className="bookCard">
-                <div>{title}</div>
-                <div>{authors[0]}</div>
-                <div>{description}</div>
-                <img src={image} alt={`${title}`} />
-                <div>{pageCount}</div>
-                <div>{publishedDate}</div>
-                <button className="btn btn-primary col-1 col-mr-auto" onClick={() => this.getChapterCount(title)}>Add Book To Group</button>
-            </div>
+            <Col sm='6' style={colStyle}>
+                <Card style={cardStyle}>
+                    <CardBody style={cardBodyStyle}>
+                        <CardTitle style={cardTitleStyle}>
+                            <strong>{title}</strong>
+                        </CardTitle>
+                    </CardBody>
+                    <CardImg style={cardImageStyle} top src={image} alt={title} />
+                    <CardBody style={cardBodyStyle}>
+                        <CardText >
+                            <div>
+                                <strong>
+                                    Author:
+                                </strong>
+                                <br />
+                                {authors[0]}
+                            </div>
+                            <br />
+                            <div>
+                                <strong>Pages:</strong> {pageCount}
+                            </div>
+                            <br />
+                            <div>
+                                <strong>Date Published:</strong> {publishedDate}
+                            </div>
+                            <br />
+                            <button className="btn btn-primary" style={{ width: '100px' }} onClick={() => this.getChapterCount(title)}>Read this Book</button>
+                        </CardText>
+                    </CardBody>
+                </Card>
+            </Col>
         )
     }
 }
