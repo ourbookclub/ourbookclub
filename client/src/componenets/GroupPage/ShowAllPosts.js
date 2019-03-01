@@ -4,7 +4,7 @@ import Worm from './images/wormlong2.png'
 
 import { withAuthorization } from '../Session';
 import axios from 'axios';
-import {  Button } from 'reactstrap';
+import { Button } from 'reactstrap';
 // import Container from 'react-bootstrap/Container';
 import AddPost from './AddPost';
 import { Container, Row, Col } from 'reactstrap';
@@ -12,34 +12,34 @@ import { Container, Row, Col } from 'reactstrap';
 
 // import { url } from 'inspector';
 
-    const divider = {
-        height: '50px',
-        width: '100%',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'contain',
-        backgroundImage: `url(${Worm})`,
-        marginTop: '10px',
-        marginBottom: '-5px',
-        // borderBottom: '2px solid',
-        // borderLeft: '2px solid',
-        // borderRight: '2px solid',
-        
-        
-      
-        
-     
-      }
+const divider = {
+    height: '50px',
+    width: '100%',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
+    backgroundImage: `url(${Worm})`,
+    marginTop: '10px',
+    marginBottom: '-5px',
+    // borderBottom: '2px solid',
+    // borderLeft: '2px solid',
+    // borderRight: '2px solid',
 
-      const date = {
-        textAlign: 'center',
-          fontSize: '8px',
-          marginBottom:'10px',
-          marginTop:'-1px',
-      }
 
-      const buttonPosition = {
-          marginTop: '10px',
-      }
+
+
+
+}
+
+const date = {
+    textAlign: 'center',
+    fontSize: '8px',
+    marginBottom: '10px',
+    marginTop: '-1px',
+}
+
+const buttonPosition = {
+    marginTop: '10px',
+}
 
 
 
@@ -51,8 +51,8 @@ const commentContainer = {
     backgroundColor: '#e9ecef',
     marginTop: '10px',
     marginBottom: '20px',
-    
-  
+
+
 }
 
 const postTitle = {
@@ -153,47 +153,31 @@ class SinglePost extends Component {
         return (
             <span>
                 <div style={commentContainer}>
-                
-                    
-                        
-                        <div style ={postTitle}>
+                    <div style={postTitle}>
                         <Row>
-                        <Col xs="12">
-                        
-                        
-                           <strong> {title} </strong>
-                            
-                            
+                            <Col xs="12">
+                                <strong> {title} </strong>
                             </Col>
                         </Row>
-                        </div>
-                        
-                        <p style={postStyle}>
-                            <strong>{username} : </strong>
-                            
-                             {text}
-                        </p>
-                        <div style= {date}>
-                        <Row>
-                        <Col xs="12">
-                        {postDate.toLocaleString()}
-                        </Col>
-                        </Row>
-                        </div>
-                        <hr></hr>
-                        {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
-                 
-                    <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
-                    
-              
-                
-                   
-                <div style={divider}>
+                    </div>
 
+                    <p style={postStyle}>
+                        <strong>{username} : </strong>
+                        {text}
+                    </p>
+                    <div style={date}>
+                        <Row>
+                            <Col xs="12">
+                                {postDate.toLocaleString()}
+                            </Col>
+                        </Row>
+                    </div>
+                    <hr></hr>
+                    {comment.map(singleComment => <ShowComment key={singleComment._id} comment={singleComment} />)}
+                    <AddComment postID={_id} userID={userID} getAllPosts={this.props.getAllPosts} />
+                    <div style={divider}>
+                    </div>
                 </div>
-                </div>
-                
-                
             </span>
         )
     };
@@ -228,22 +212,22 @@ class ShowComment extends Component {
 
         return (
             <Container>
-               
-             
 
 
-               <p style={postStyle}>
-                    <strong>{username} : </strong> 
+
+
+                <p style={postStyle}>
+                    <strong>{username} : </strong>
                     {text}
                 </p>
-                <div style= {date}>
-                        <Row>
+                <div style={date}>
+                    <Row>
                         <Col xs="12">
-                 {commentDate.toLocaleString()}
-                 </Col>
-                        </Row>
-                        </div>
-                        <hr></hr>
+                            {commentDate.toLocaleString()}
+                        </Col>
+                    </Row>
+                </div>
+                <hr></hr>
             </Container>
         )
     }
@@ -282,22 +266,22 @@ class AddComment extends Component {
 
             <div>
                 <Row>
-                <Col sm={{ size: '5', offset: 2 }}>
-                
-                <input className='form-input'
-                    style={inputStyle}
-                    type='text'
-                    name='comment'
-                    placeholder='Add A Comment'
-                    value={comment}
-                    onChange={this.handleChange}></input>
+                    <Col sm={{ size: '5', offset: 2 }}>
+
+                        <input className='form-input'
+                            style={inputStyle}
+                            type='text'
+                            name='comment'
+                            placeholder='Add A Comment'
+                            value={comment}
+                            onChange={this.handleChange}></input>
                     </Col>
                     <Col sm={{ size: '2', offset: -3 }}>
-                <Button style={buttonPosition} color="primary"
-                    disabled={isInvalid}
-                    onClick={this.handleSubmit}>Add Comment</Button>
+                        <Button style={buttonPosition} color="primary"
+                            disabled={isInvalid}
+                            onClick={this.handleSubmit}>Add Comment</Button>
                     </Col>
-                    </Row>
+                </Row>
             </div>
         )
     }
