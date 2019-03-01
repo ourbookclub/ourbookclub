@@ -41,5 +41,4 @@ const GroupSchema = new Schema({
     pastBook: [String]
 });
 
-
 module.exports = mongoose.model(`Group`, GroupSchema);

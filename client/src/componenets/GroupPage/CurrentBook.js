@@ -6,7 +6,22 @@ const initialState = {
     image: '',
     authors: [],
     error: null
-}
+};
+
+const progressBarStyle = {
+    position: 'relative',
+    height: '20px',
+    width: '350px',
+    borderRadius: '50px',
+    border: '1px solid #333'
+};
+
+const fillerStyle = {
+    background: '#1DA598',
+    height: '100%',
+    borderRadius: 'inherit',
+    transition: 'width .2s ease-in'
+};
 
 
 
@@ -48,28 +63,51 @@ class CurrentBook extends Component {
     }
 
     render() {
+        const percentageComplete = (this.props.currentBenchmark / this.props.totalBenchmark) * 100;
+        const { currentBenchmark, totalBenchmark } = this.props;
+        const { title, image } = this.state;
+
         return (
             <div className='currentBook'>
                 <div ><strong>Current Book </strong>
                     <br></br>
-                {this.state.title}
-                <br></br>
-                <img width="auto" height="75%" src={this.state.image} alt={`${this.state.title}`} />
+                    {title}
+                    <br></br>
+                    <img width="auto" height="75%" src={image} alt={`${title}`} />
                 </div>
-               
+
                 <br></br>
                 <div ><strong> Current Progress </strong>
-                <br></br>
-                   {this.props.currentBenchmark} / {this.props.totalBenchmark} </div>
-                
-                    
-                          
-               
+                    <br></br>
+                    <ProgressBar percentage={percentageComplete} />
+                    {currentBenchmark} / {totalBenchmark} </div>
                 <br />
             </div>
 
         );
     };
+};
+
+const ProgressBar = (props) => {
+    return (
+        <div className='progressBar'
+            style={progressBarStyle}>
+            <BarFiller percentage={props.percentage} />
+        </div>
+    );
+};
+
+const BarFiller = (props) => {
+    return (
+        <div className='filler'
+            style={{
+                background: '#1DA598',
+                height: '100%',
+                borderRadius: 'inherit',
+                transition: 'width .2s ease-in',
+                width: `${props.percentage}%`
+            }} />
+    );
 };
 
 export default CurrentBook;

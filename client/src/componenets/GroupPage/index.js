@@ -9,20 +9,15 @@ import UpdateBenchmark from "./UpdateBenchmark";
 import UserSearch from "../UserSearch";
 import UserList from "./UserList";
 import GroupNav from "./GroupNav";
-import {  Row, Col } from 'reactstrap';
-
-// const background = {
-//     backgroundImage: `url(${Background})`,
-//               resizeMode: 'center,'
-//   }
+import { Row, Col } from 'reactstrap';
 
 //Initializes all the data we need for the group as well as what should display on the app
 const initialState = {
   groupID: 0,
-  groupName: "",
-  groupDescription: "",
+  groupName: '',
+  groupDescription: '',
   userlist: [],
-  currentBook: "",
+  currentBook: '',
   pastBook: [],
   currentBenchmark: 0,
   previousBenchmark: [],
@@ -36,151 +31,134 @@ const initialState = {
 
 const adminpanel = {
   textAlign: 'center',
-  fontSize:"25px",
-  border:'1px double #000000',
+  fontSize: "25px",
+  border: '1px double #000000',
   padding: '10px',
   marginBottom: '50px'
 }
 const groupinfopanel = {
   textAlign: 'center',
-  fontSize:"50px",
-  
+  fontSize: "50px",
+
   padding: '10px',
   marginBottom: '30px'
 }
 
 const columnbackground = {
-   fontSize: '30px',
-   padding: '10px',
+  fontSize: '30px',
+  padding: '10px',
   marginBottom: '50px',
   textAlign: 'center',
 }
 
 class GroupPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { ...initialState };
-    };
+  constructor(props) {
+    super(props);
+    this.state = { ...initialState };
+  };
 
-    componentDidMount() {
-        const groupIDFromURL = this.props.match.params.groupID;
-        if (typeof groupIDFromURL !== 'undefined') {
-            this.getGroupData(groupIDFromURL);
+  componentDidMount() {
+    const groupIDFromURL = this.props.match.params.groupID;
+    if (typeof groupIDFromURL !== 'undefined') {
+      this.getGroupData(groupIDFromURL);
+    };
+  };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.userID !== prevProps.userID) {
+      const groupID = this.props.match.params.groupID;
+      this.getGroupData(groupID);
+    };
+  };
+
+  getGroupData = async (groupID) => {
+    const dbResponse = await axios.get(`/api/getgroupdata/${groupID}`);
+    if (dbResponse.status === 200) {
+      this.setState({
+        groupID: dbResponse.data._id,
+        groupName: dbResponse.data.name,
+        groupDescription: dbResponse.data.description,
+        userlist: dbResponse.data.userlist,
+        currentBook: dbResponse.data.currentBook,
+        pastBook: dbResponse.data.pastBook,
+        currentBenchmark: dbResponse.data.currentBenchmark,
+        previousBenchmark: dbResponse.data.previousBenchmark,
+        totalBenchmark: dbResponse.data.totalBenchmark,
+      }, () => { //If statement incase the componentDidMount happens first
+        if (this.props.userID) {
+          this.checkAdmin();
         };
+      });
+    } else {
+      //TODO Check Error message
+      this.setState({
+        error: dbResponse.data.error
+      });
     };
+  };
 
-    componentDidUpdate(prevProps) {
-        if (this.props.userID !== prevProps.userID) {
-            const groupID = this.props.match.params.groupID;
-            this.getGroupData(groupID);
-        };
+  checkAdmin = () => {
+    const { userlist } = this.state;
+    const currentUserID = this.props.userID;
+
+    const currentUser = userlist.filter(user => user._id === currentUserID);
+    if (currentUser[0].isAdmin) {
+      this.setState({
+        isAdmin: true
+      });
     };
+  };
 
-    getGroupData = async (groupID) => {
-        const dbResponse = await axios.get(`/api/getgroupdata/${groupID}`);
-        if (dbResponse.status === 200) {
-            this.setState({
-                groupID: dbResponse.data._id,
-                groupName: dbResponse.data.name,
-                groupDescription: dbResponse.data.description,
-                userlist: dbResponse.data.userlist,
-                currentBook: dbResponse.data.currentBook,
-                pastBook: dbResponse.data.pastBook,
-                currentBenchmark: dbResponse.data.currentBenchmark,
-                previousBenchmark: dbResponse.data.previousBenchmark,
-                totalBenchmark: dbResponse.data.totalBenchmark,
-            }, () => { //If statement incase the componentDidMount happens first
-                if (this.props.userID) {
-                    this.checkAdmin();
-                };
-            });
-        } else {
-            //TODO Check Error message
-            this.setState({
-                error: dbResponse.data.error
-            });
-        };
-    };
+  //Toggles the page based on what the user chooses to see
+  updatePage = (showPage) => {
+    switch (showPage) {
+      case 'main':
+        this.setState({
+          showMainPage: true,
+          updateBook: false,
+          addUser: false
+        });
+        this.getGroupData(this.state.groupID);
+        break;
+      case 'updateBook':
+        this.setState({
+          showMainPage: false,
+          updateBook: true,
+          addUser: false
+        });
+        this.getGroupData(this.state.groupID);
+        break;
+      case 'addUser':
+        this.setState({
+          showMainPage: false,
+          updateBook: false,
+          addUser: true
+        });
+        this.getGroupData(this.state.groupID);
+        break;
+      default:
+        break;
+    }
+  };
 
-    checkAdmin = () => {
-        const { userlist } = this.state;
-        const currentUserID = this.props.userID;
-
-        const currentUser = userlist.filter(user => user._id === currentUserID);
-        if (currentUser[0].isAdmin) {
-            this.setState({
-                isAdmin: true
-            });
-        };
-    };
-
-    //Toggles the page based on what the user chooses to see
-    updatePage = (showPage) => {
-        switch (showPage) {
-            case 'main':
-                this.setState({
-                    showMainPage: true,
-                    updateBook: false,
-                    addUser: false
-                });
-                this.getGroupData(this.state.groupID);
-                break;
-            case 'updateBook':
-                this.setState({
-                    showMainPage: false,
-                    updateBook: true,
-                    addUser: false
-                });
-                this.getGroupData(this.state.groupID);
-                break;
-            case 'addUser':
-                this.setState({
-                    showMainPage: false,
-                    updateBook: false,
-                    addUser: true
-                });
-                this.getGroupData(this.state.groupID);
-                break;
-            default:
-                break;
-        }
-    };
-
-    render() {
-        const { groupID, groupName, groupDescription, userlist, currentBook,
-            currentBenchmark, totalBenchmark, error,
-            isAdmin, showMainPage, updateBook, addUser } = this.state;
-
-        // const { userID } = this.props;
-
-
+  render() {
+    const { groupID, groupName, groupDescription, userlist, currentBook,
+      currentBenchmark, totalBenchmark, error,
+      isAdmin, showMainPage, updateBook, addUser } = this.state;
 
     return (
       <div >
         <Row>
-               
-            <Col xs="6">
+
+          <Col xs="6">
 
             <div style={adminpanel}>
-            Admin Panel
+              Admin Panel
            <hr></hr>
               {error && <p>{error.message}</p>}
-
               {isAdmin && <GroupNav updatePage={this.updatePage} />}
-              
-              </div>
-              
-            
-             
-          
-            
-              <div style={columnbackground}>
-
-
-              
-             
-
-             
+            </div>
+            <div style={columnbackground}>
               {currentBook && (
                 <CurrentBook
                   currentBook={currentBook}
@@ -188,57 +166,46 @@ class GroupPage extends Component {
                   totalBenchmark={totalBenchmark}
                 />
               )}
-
               <div>
-               <UserList userlist={userlist} />
-               </div>
-               
-            
-          
-          </div>
+                <UserList userlist={userlist} />
+              </div>
+            </div>
           </Col>
-
           <Col xs="6">
-
-          <div style={groupinfopanel}>
-          <GroupInfo
+            <div style={groupinfopanel}>
+              <GroupInfo
                 groupName={groupName}
                 groupDescription={groupDescription}
               />
-          </div>
-            
-
+            </div>
             {
               showMainPage && (
-              <Fragment>
-                <ShowAllPosts groupID={groupID} />
-              </Fragment>
-            )
+                <Fragment>
+                  <ShowAllPosts groupID={groupID} />
+                </Fragment>
+              )
             }
-          
-          {/* </div> */}
-
-          {updateBook && (
-            <Fragment>
-              <AddBook
+            {updateBook && (
+              <Fragment>
+                <AddBook
+                  groupID={groupID}
+                  isAdmin={isAdmin}
+                  updatePage={this.updatePage}
+                />
+                <UpdateBenchmark
+                  isAdmin={isAdmin}
+                  groupID={groupID}
+                  updatePage={this.updatePage}
+                />
+              </Fragment>
+            )}
+            {addUser && (
+              <UserSearch
                 groupID={groupID}
                 isAdmin={isAdmin}
                 updatePage={this.updatePage}
               />
-              <UpdateBenchmark
-                isAdmin={isAdmin}
-                groupID={groupID}
-                updatePage={this.updatePage}
-              />
-            </Fragment>
-          )}
-          {addUser && (
-            <UserSearch
-              groupID={groupID}
-              isAdmin={isAdmin}
-              updatePage={this.updatePage}
-            />
-          )}
+            )}
           </Col>
         </Row>
       </div>
@@ -249,12 +216,9 @@ class GroupPage extends Component {
 const GroupInfo = props => {
   return (
     <Fragment>
-      
       <strong>{props.groupName}</strong>
-      
-        <br></br>
-        <h3>{props.groupDescription}</h3>
-        
+      <br></br>
+      <h3>{props.groupDescription}</h3>
     </Fragment>
   );
 };

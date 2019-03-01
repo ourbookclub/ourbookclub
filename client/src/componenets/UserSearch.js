@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
+//Using Swal to display messages when submit button is hit
+const Alert = withReactContent(Swal);
 
 const inputStyle = {
     width: '50%',
     height: '40px'
-}
+};
 const labelStyle = {
     marginBottom: '0px'
-}
+};
 
 class UserSearch extends Component {
     constructor(props) {
@@ -97,11 +102,16 @@ class SingleUser extends Component {
 
     addUserToGroup = async (event) => {
         const { isAdmin, groupID } = this.props;
-        const { userID } = this.props.user;
+        const { userID, username } = this.props.user;
 
         const dbResponse = await axios.put(`/api/addusertogroup`, { isAdmin, groupID, userID });
 
         if (dbResponse.status === 200) {
+            Alert.fire({
+                type: 'success',
+                title: `${username} Added!`,
+                text: 'Sending you back to the club page'
+            });
             this.props.updatePage(`main`);
         };
     };
