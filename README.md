@@ -1,29 +1,28 @@
-# Create React Express App
+# BookWorm
+<br />
+<strong>Deployed at:</strong> https://bookclubs.herokuapp.com/<br/>
+<strong>Title:</strong> BookWorm<br />
+<strong>Developers:</strong> Kevin Flerlage, Will McClung<br />
+<strong>Deployment Date:</strong> 03/02/2019<br />
+<strong>Developed With:</strong> MERN Stack<br/>
+<strong>Northwestern Coding Bootcamp Project #3</strong><br />
 
-## About This Boilerplate
+## **Demo Credentials**
 
-This setup allows for a Node/Express/React app which can be easily deployed to Heroku.
+<strong>Email:</strong> test1@test.test<br />
+<strong>Password:</strong> 123456
+<br />
 
-The front-end React app will auto-reload as it's updated via webpack dev server, and the backend Express app will auto-reload independently with nodemon.
+## **About This App**
 
-## Starting the app locally
+BookWorm is an app which connects users with others who want to engage in reading allowing them to form a club. This app was created when we found out that there were no web apps which were built to host bookclubs. While a Facebook group might excel in connecting users through posts and Good Reads allows users to pick which book they're using, there was nothing that could combine the two.<br />
 
-Start by installing front and backend dependencies. While in this directory, run the following command:
+## **Description**
 
-```
-yarn install
-```
+After the user signs into the app they will be greeted with a page that displays all of the groups they are apart of, a picture of the book they're reading along with the user that made the latest post, in case there is something new.<br />
 
-This should install node modules within the server and the client folder.
+From there the user can either create a new club or they can visit the page of one of their current clubs.
 
-After both installations complete, run the following command in your terminal:
+### **ClubPage**
 
-```
-yarn start
-```
-
-Your app should now be running on <http://localhost:3000>. The Express server should intercept any AJAX requests from the client.
-
-## Deployment (Heroku)
-
-To deploy, simply add and commit your changes, and push to Heroku. As is, the NPM scripts should take care of the rest.
+When inside a club users can chat with other users via a post and comment system. When the user makes a post the react updates
