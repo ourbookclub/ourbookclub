@@ -19,10 +19,22 @@ BookWorm is an app which connects users with others who want to engage in readin
 
 ## **Description**
 
-After the user signs into the app they will be greeted with a page that displays all of the groups they are apart of, a picture of the book they're reading along with the user that made the latest post, in case there is something new.<br />
+After the user signs into the app they will be greeted with a page that displays all of the groups they are a part of, a picture of the book they're reading along with the user that made the latest post, in case there is something new.<br />
 
 From there the user can either create a new club or they can visit the page of one of their current clubs.
 
 ### **ClubPage**
 
-When inside a club users can chat with other users via a post and comment system. When the user makes a post the react updates
+When inside a club, users can chat with other users via a post and comment system. When the user makes a post or comment the react updates and re-renders the post component. This allows for users to discuss the book which they are currently reading.<br />
+
+If the user that is currently logged in the admin of the group, they will have an extra panel which allows them to add users, assign new books for the group to read and update which chapter the group is currently on. This panel and these options are only available if the current user is signed in and is an admin to the group.
+
+## **Future Developments**
+
+Throughout this process we focused on having a slimmed down MVP to present as the final project for the Northwestern Coding Bootcamp. In the future we would like to add the following features
+- Book suggestion based on user / group genre preference
+- Promoting users to moderators to take some of the group maintenance burden off the admin
+- Adding email confirmation to the login
+- Adding a way for users to be requested into groups
+
+### **Thank you!**
